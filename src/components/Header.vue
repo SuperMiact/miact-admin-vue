@@ -1,16 +1,19 @@
 <template>
   <div class="header">
     <div class="left">
-      <!-- <span style="font-size: 20px">{{ name }}</span> -->
-      <el-tooltip
-            effect="dark"
-            content="展开与折叠"
-            placement="right">
+      <el-tooltip effect="dark" content="展开与折叠" placement="right">
         <i class="el-icon-s-grid" @click="isCollapseOper"> | </i>
       </el-tooltip>
-      <el-breadcrumb separator-class="el-icon-arrow-right" style="display: inline-block;margin-left: 10px">
-        <el-breadcrumb-item v-for="item in this.getBreadList()" :to="item.path" :key="item.path">
-            <span style="font-weight: bold">{{item.info}}</span>
+      <el-breadcrumb
+        separator-class="el-icon-arrow-right"
+        style="display: inline-block;margin-left: 10px"
+      >
+        <el-breadcrumb-item
+          v-for="item in this.getBreadList()"
+          :to="item.path"
+          :key="item.path"
+        >
+          <span style="font-weight: bold">{{ item.info }}</span>
         </el-breadcrumb-item>
       </el-breadcrumb>
     </div>
@@ -31,7 +34,6 @@
         <div class="nickname">
           <p>登录名：{{ (userInfo && userInfo.loginUserName) || "" }}</p>
           <p>昵称：{{ (userInfo && userInfo.nickName) || "" }}</p>
-          <!-- <el-tag size="small" effect="dark" class="logout" @click="logout">退出</el-tag> -->
         </div>
       </el-popover>
     </div>
@@ -40,48 +42,51 @@
 
 <script>
 export default {
-  name: 'Header',
-  data () {
+  name: "Header",
+  data() {
     return {
-      name: 'Home',
+      name: "Home",
       userInfo: {
-        loginUserName: 'miact',
-        nickName: 'mawei'},
+        loginUserName: "miact",
+        nickName: "mawei"
+      },
       breadList: [],
       isCollapse: false
-    }
+    };
   },
   methods: {
-    isCollapseOper () {
-      this.isCollapse = !this.isCollapse
-      this.$emit('isCollapseOper', this.isCollapse)
+    isCollapseOper() {
+      this.isCollapse = !this.isCollapse;
+      this.$emit("isCollapseOper", this.isCollapse);
     },
-    getBreadList () {
-      let currentPath = this.$route.path
-      let routes = this.$router.options.routes
-      return this.breadListSearch(routes, currentPath)
+    getBreadList() {
+      let currentPath = this.$route.path;
+      let routes = this.$router.options.routes;
+      return this.breadListSearch(routes, currentPath);
     },
-    breadListSearch (routes, currentPath) {
-      let breadList = this.breadList || []
-      breadList = [...this.breadList]
+    breadListSearch(routes, currentPath) {
+      let breadList = this.breadList || [];
+      breadList = [...this.breadList];
       for (let i = routes.length - 1; i >= 0; i--) {
         if (routes[i].path === currentPath) {
           if (routes[i].meta && routes[i].meta.info) {
-            breadList.push({'path': routes[i].path, 'info': routes[i].meta.info})
+            breadList.push({ path: routes[i].path, info: routes[i].meta.info });
           }
-          debugger
-          console.log(breadList)
-          return breadList
+          return breadList;
         } else {
           if (routes[i].children && currentPath.indexOf(routes[i].path) === 0) {
-            breadList.push({'path': routes[i].path, 'info': routes[i].meta.info})
-            return this.breadListSearch(routes[i].children, currentPath, breadList)
+            breadList.push({ path: routes[i].path, info: routes[i].meta.info });
+            return this.breadListSearch(
+              routes[i].children,
+              currentPath,
+              breadList
+            );
           }
         }
       }
     }
   }
-}
+};
 </script>
 
 <style scoped>
