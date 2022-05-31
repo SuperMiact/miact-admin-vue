@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Miact-Admin
 
 > A Vue.js project
@@ -28,3 +29,6 @@ npm test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+=======
+# miact-admin
+>>>>>>> bf8c71b57339301a54911c75b39778f993ec12cc
