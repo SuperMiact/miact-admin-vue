@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# Miact-Admin
+# miact-admin-vue
 
 > A Vue.js project
 

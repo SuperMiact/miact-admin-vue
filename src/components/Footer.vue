@@ -2,7 +2,7 @@
   <div class="footer">
     <div class="left">Copyright © 2022-2022 Miact. All rights reserved.</div>
     <div class="right">
-      <a href="#">miact-admin Version 2.0</a>
+      <a href="#">miact-admin-vue Version 2.0</a>
     </div>
   </div>
 </template>

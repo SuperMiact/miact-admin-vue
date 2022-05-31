@@ -5,7 +5,7 @@
         <div class="line" />
         <el-menu background-color="#222832" text-color="#fff" :collapse-transition="false" :router="true" :collapse="isCollapse">
           <div class="head" v-if="!isCollapse">
-            <span>Miact-Admin</span>
+            <span>miact-admin-vue</span>
           </div>
           <!--一级栏目-->
           <el-menu-item index="/">
