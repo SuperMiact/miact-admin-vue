@@ -16,7 +16,7 @@ export default {
 <style scoped>
   .footer {
     height: 50px;
-    border-top: 1px solid #e9e9e9;
+    border-top: 1px solid #c7c7c7;
     display: flex;
     justify-content: space-between;
     align-items: center;

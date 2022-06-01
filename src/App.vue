@@ -9,6 +9,8 @@
           :collapse-transition="false"
           :router="true"
           :collapse="isCollapse"
+          :show-timeout="50"
+          :hide-timeout="50"
         >
           <div class="head" v-if="!isCollapse">
             <span>miact-admin-vue</span>
@@ -48,8 +50,8 @@ export default {
       menuList: []
     };
   },
-  created(){
-    this.selectMainMenu()
+  created() {
+    this.selectMainMenu();
   },
   methods: {
     isCollapseChange(isCollapse) {

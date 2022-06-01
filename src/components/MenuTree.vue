@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <fragment>
     <template v-for="menu in menuList">
       <el-submenu
         v-if="menu.childNode && menu.childNode.length > 0"
@@ -8,16 +8,16 @@
       >
         <template slot="title">
           <i :class="menu.iconClass"></i>
-          {{ menu.name }}
+          <span slot="title">{{ menu.name }}</span>
         </template>
         <MenuTree :menuList="menu.childNode"></MenuTree>
       </el-submenu>
-      <el-menu-item v-else :index="menu.url + ''" :key="menu.id + 1">
+      <el-menu-item v-else :index="menu.url + ''" :key="menu.id + menu.pid">
         <i :class="menu.iconClass"></i>
-        {{ menu.name }}
+        <span slot="title">{{ menu.name }}</span>
       </el-menu-item>
     </template>
-  </div>
+  </fragment>
 </template>
 
 <script>
