@@ -1,37 +1,19 @@
 <template>
   <div class="layout">
     <el-container v-if="showMenu" class="container">
-      <el-aside class="aside" :width="isCollapse?'60px':'17%'">
+      <el-aside class="aside" :width="isCollapse ? '60px' : '17%'">
         <div class="line" />
-        <el-menu background-color="#222832" text-color="#fff" :collapse-transition="false" :router="true" :collapse="isCollapse">
+        <el-menu
+          background-color="#222832"
+          text-color="#fff"
+          :collapse-transition="false"
+          :router="true"
+          :collapse="isCollapse"
+        >
           <div class="head" v-if="!isCollapse">
             <span>miact-admin-vue</span>
           </div>
-          <!--一级栏目-->
-          <el-menu-item index="/">
-            <i class="el-icon-data-line"/>
-            <span slot="title">首页</span>
-          </el-menu-item>
-          <!--一级栏目-->
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-data-line" />
-              <span slot="title">ElementUI 学习</span>
-            </template>
-            <!--二级栏目-->
-            <el-menu-item-group>
-              <el-menu-item index="/inputStudy">
-                <i class="el-icon-data-line" />输入框学习
-              </el-menu-item>
-              <el-menu-item index="/dateStudy">
-                <i class="el-icon-data-line" />日期学习
-              </el-menu-item>
-              <el-menu-item index="/treeStudy">
-                <i class="el-icon-data-line" />树形组件学习
-              </el-menu-item>
-            </el-menu-item-group>
-          </el-submenu>
-
+          <MenuTree :menuList="menuList" />
         </el-menu>
       </el-aside>
       <!--右边内容布局-->
@@ -49,26 +31,42 @@
   </div>
 </template>
 <script>
-import Header from '@/components/Header.vue'
-import Footer from '@/components/Footer.vue'
+import Header from "@/components/Header.vue";
+import Footer from "@/components/Footer.vue";
+import MenuTree from "@/components/MenuTree.vue";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
-    Footer
+    Footer,
+    MenuTree
   },
-  data () {
+  data() {
     return {
       showMenu: true,
-      isCollapse: false
-    }
+      isCollapse: false,
+      menuList: []
+    };
+  },
+  created(){
+    this.selectMainMenu()
   },
   methods: {
-    isCollapseChange (isCollapse) {
-      this.isCollapse = isCollapse
+    isCollapseChange(isCollapse) {
+      this.isCollapse = isCollapse;
+    },
+    selectMainMenu() {
+      this.$axios
+        .get("/mainMenu/selectMainMenu")
+        .then(res => {
+          this.menuList = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
-}
+};
 </script>
 <style scoped>
 .layout {
@@ -123,6 +121,7 @@ body {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  font-family: Microsoft YaHei;
 }
 .el-menu {
   border-right: none !important;
