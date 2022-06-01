@@ -16,6 +16,7 @@ import messageStudy from '@/views/elementui/messageStudy'
 import loadingStudy from '@/views/elementui/loadingStudy'
 import tableStudy from '@/views/elementui/tableStudy'
 import home from '@/views/home'
+import login from '@/views/login'
 
 // 使用懒加载
 const routerStudy = () => import('@/views/elementui/routerStudy')
@@ -37,6 +38,11 @@ const router =  new Router({
       meta: {
         info: '首页'
       }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: login
     },
     {
       path: '/templateStudy',

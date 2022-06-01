@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <el-container v-if="showMenu" class="container">
+    <el-container v-if="this.global.showMenu" class="container">
       <el-aside class="aside" :width="isCollapse ? '60px' : '17%'">
         <div class="line" />
         <el-menu
@@ -45,7 +45,7 @@ export default {
   },
   data() {
     return {
-      showMenu: true,
+      // showMenu: false,
       isCollapse: false,
       menuList: []
     };
