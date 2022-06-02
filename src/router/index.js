@@ -42,7 +42,10 @@ const router =  new Router({
     {
       path: '/login',
       name: 'login',
-      component: login
+      component: login,
+      meta: {
+        showNav: true
+      }
     },
     {
       path: '/templateStudy',

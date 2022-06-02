@@ -7,7 +7,6 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import Fragment from 'vue-fragment'
-import global from '@/global/global.js'
 
 Vue.use(ElementUI)
 //把axios对象挂到Vue实例上面，使用axios的时候直接全局调用this.$axios就可以了 
@@ -15,8 +14,6 @@ Vue.prototype.$axios = axios
 axios.defaults.baseURL = '/api' // 设置跨域代理基本路径前缀
 
 Vue.config.productionTip = false
-
-Vue.prototype.global = global
 
 Vue.use(Fragment.Plugin)
 

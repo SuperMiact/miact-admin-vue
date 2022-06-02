@@ -1,6 +1,6 @@
 <template>
   <div class="layout">
-    <el-container v-if="this.global.showMenu" class="container">
+    <el-container v-if="!$route.meta.showNav" class="container">
       <el-aside class="aside" :width="isCollapse ? '60px' : '17%'">
         <div class="line" />
         <el-menu
@@ -13,18 +13,17 @@
           :hide-timeout="50"
         >
           <div class="head" v-if="!isCollapse">
-            <span>miact-admin-vue</span>
+            <span>Miact Admin</span>
           </div>
           <MenuTree :menuList="menuList" />
         </el-menu>
       </el-aside>
-      <!--右边内容布局-->
       <el-container class="content">
         <Header @isCollapseOper="isCollapseChange" />
         <div class="main">
           <router-view />
         </div>
-        <Footer />
+        <!-- <Footer /> -->
       </el-container>
     </el-container>
     <el-container v-else class="container">
@@ -34,18 +33,17 @@
 </template>
 <script>
 import Header from "@/components/Header.vue";
-import Footer from "@/components/Footer.vue";
+// import Footer from "@/components/Footer.vue";
 import MenuTree from "@/components/MenuTree.vue";
 export default {
   name: "App",
   components: {
     Header,
-    Footer,
+    // Footer,
     MenuTree
   },
   data() {
     return {
-      // showMenu: false,
       isCollapse: false,
       menuList: []
     };
@@ -59,12 +57,12 @@ export default {
     },
     selectMainMenu() {
       this.$axios
-        .get("/mainMenu/selectMainMenu")
+        .get("/mainMenu/getMenu")
         .then(res => {
           this.menuList = res.data;
         })
         .catch(err => {
-          console.log(err);
+          this.$message.error(err);
         });
     }
   }
@@ -112,7 +110,11 @@ export default {
   overflow: hidden;
 }
 .main {
-  height: calc(100vh - 100px);
+  /* 
+    存在Footer底部时
+    height: calc(100vh - 100px);
+  */
+  height: calc(100vh - 50px);
   overflow: auto;
   padding: 10px;
 }

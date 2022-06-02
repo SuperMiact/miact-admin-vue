@@ -13,6 +13,7 @@
         ref="loginForm"
         class="login-form"
         :rules="loginFormRules"
+        @keyup.enter.native="submitForm('loginForm')"
       >
         <el-form-item label="账号" prop="name">
           <el-input
@@ -73,14 +74,10 @@ export default {
               password: this.loginForm.password
             })
             .then(res => {
-              console.log(res);
-              if (res.data&&res.data!==''&&res.data!=undefined) {
+              if (res.data && res.data !== "" && res.data != undefined) {
                 this.$message.success("登录成功");
-                console.log(this.global.showMenu)
-                this.global.showMenu=true
-                // 使用 vue-router 路由到指定页面，该方式称之为编程式导航
-                this.$router.replace("/home");
-              }else{
+                this.$router.push("/home");
+              } else {
                 this.$message.error("登录失败");
               }
             });
