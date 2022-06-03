@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Miact Admin
 
 > A Vue.js project
