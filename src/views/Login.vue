@@ -7,48 +7,65 @@
           <div class="tips">Vue2.0 后台管理系统</div>
         </div>
       </div>
-      <el-form
-        label-position="top"
-        :model="loginForm"
-        ref="loginForm"
-        class="login-form"
-        :rules="loginFormRules"
-        @keyup.enter.native="submitForm('loginForm')"
+      <el-tabs
+        v-model="activeName"
+        @tab-click="handleClick"
+        type="border-card"
+        :stretch="true"
+        style="border: none;height: 80%;"
       >
-        <el-form-item label="账号" prop="name">
-          <el-input
-            type="text"
-            v-model.trim="loginForm.name"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input
-            type="password"
-            v-model.trim="loginForm.password"
-            autocomplete="off"
-          ></el-input>
-        </el-form-item>
-        <el-form-item>
-          <div style="color: #333">登录表示您已同意<a>《服务条款》</a></div>
-          <el-button
-            style="width: 100%"
-            type="primary"
-            @click="submitForm('loginForm')"
-            >立即登录</el-button
+        <el-tab-pane label="登录" name="first">
+          <el-form
+            label-position="top"
+            :model="loginForm"
+            ref="loginForm"
+            class="login-form"
+            :rules="loginFormRules"
+            @keyup.enter.native="submitForm('loginForm')"
           >
-          <el-checkbox v-model="checked" @change="!checked"
-            >下次自动登录</el-checkbox
-          >
-        </el-form-item>
-      </el-form>
+            <el-form-item label="邮箱" prop="name">
+              <el-input
+                type="text"
+                v-model.trim="loginForm.name"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+              <el-input
+                type="password"
+                v-model.trim="loginForm.password"
+                autocomplete="off"
+              ></el-input>
+            </el-form-item>
+            <el-form-item>
+              <div style="color: #333">登录表示您已同意<a>《服务条款》</a></div>
+              <el-button
+                style="width: 100%"
+                type="primary"
+                @click="submitForm('loginForm')"
+                >立即登录</el-button
+              >
+              <el-checkbox v-model="checked" @change="!checked"
+                >下次自动登录</el-checkbox
+              >
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="注册" name="second">
+          <register></register>
+        </el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
 
 <script>
+import register from "@/views/register";
 export default {
   name: "Login",
+  components: {
+    register
+  },
   data() {
     return {
       loginForm: {
@@ -60,10 +77,12 @@ export default {
         name: [{ required: true, message: "账号不可为空", trigger: "blur" }],
         password: [{ required: true, message: "密码不可为空", trigger: "blur" }]
       },
-      checked: []
+      checked: [],
+      activeName: "first"
     };
   },
   methods: {
+    handleClick() {},
     submitForm(formName) {
       // 为表单绑定验证功能
       this.$refs[formName].validate(valid => {

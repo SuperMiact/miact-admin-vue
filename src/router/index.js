@@ -1,140 +1,140 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+import Vue from "vue";
+import Router from "vue-router";
 
-import templateStudy from '@/views/elementui/templateStudy'
-import dateStudy from '@/views/elementui/dateStudy'
-import transferStudy from '@/views/elementui/transferStudy'
-import radioStudy from '@/views/elementui/radioStudy'
-import inputStudy from '@/views/elementui/inputStudy'
-import inputNumberStudy from '@/views/elementui/inputNumberStudy'
-import selectStudy from '@/views/elementui/selectStudy'
-import uploadStudy from '@/views/elementui/uploadStudy'
-import treeStudy from '@/views/elementui/treeStudy'
-import cardStudy from '@/views/elementui/cardStudy'
-import formStudy from '@/views/elementui/formStudy'
-import messageStudy from '@/views/elementui/messageStudy'
-import loadingStudy from '@/views/elementui/loadingStudy'
-import tableStudy from '@/views/elementui/tableStudy'
-import home from '@/views/home'
-import login from '@/views/login'
+import templateStudy from "@/views/elementui/templateStudy";
+import dateStudy from "@/views/elementui/dateStudy";
+import transferStudy from "@/views/elementui/transferStudy";
+import radioStudy from "@/views/elementui/radioStudy";
+import inputStudy from "@/views/elementui/inputStudy";
+import inputNumberStudy from "@/views/elementui/inputNumberStudy";
+import selectStudy from "@/views/elementui/selectStudy";
+import uploadStudy from "@/views/elementui/uploadStudy";
+import treeStudy from "@/views/elementui/treeStudy";
+import cardStudy from "@/views/elementui/cardStudy";
+import formStudy from "@/views/elementui/formStudy";
+import messageStudy from "@/views/elementui/messageStudy";
+import loadingStudy from "@/views/elementui/loadingStudy";
+import tableStudy from "@/views/elementui/tableStudy";
+import home from "@/views/home";
+import login from "@/views/login";
 
 // 使用懒加载
-const routerStudy = () => import('@/views/elementui/routerStudy')
+const routerStudy = () => import("@/views/elementui/routerStudy");
 
-Vue.use(Router)
+Vue.use(Router);
 
-const router =  new Router({
-  mode: 'history',
+const router = new Router({
+  mode: "history",
   routes: [
     {
-      path: '/',
-      name: 'index',
-      redirect: '/home'
+      path: "/",
+      name: "index",
+      redirect: "/home"
     },
     {
-      path: '/home',
-      name: 'home',
+      path: "/home",
+      name: "home",
       component: home,
       meta: {
-        info: '首页'
+        info: "首页"
       }
     },
     {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       component: login,
       meta: {
         showNav: true
       }
     },
     {
-      path: '/templateStudy',
-      name: 'templateStudy',
+      path: "/templateStudy",
+      name: "templateStudy",
       component: templateStudy,
       meta: {
-        info: '模板'
+        info: "模板"
       }
     },
     {
-      path: '/dateStudy',
-      name: 'dateStudy',
+      path: "/dateStudy",
+      name: "dateStudy",
       component: dateStudy,
       meta: {
-        info: '日期学习'
+        info: "日期学习"
       }
     },
     {
-      path: '/transferStudy',
-      name: 'transferStudy',
+      path: "/transferStudy",
+      name: "transferStudy",
       component: transferStudy
     },
     {
-      path: '/radioStudy',
-      name: 'radioStudy',
+      path: "/radioStudy",
+      name: "radioStudy",
       component: radioStudy
     },
     {
-      path: '/inputStudy',
-      name: 'inputStudy',
+      path: "/inputStudy",
+      name: "inputStudy",
       component: inputStudy,
       meta: {
-        info: '输入框学习'
+        info: "输入框学习"
       }
     },
     {
-      path: '/inputNumberStudy',
-      name: 'inputNumberStudy',
+      path: "/inputNumberStudy",
+      name: "inputNumberStudy",
       component: inputNumberStudy
     },
     {
-      path: '/selectStudy',
-      name: 'selectStudy',
+      path: "/selectStudy",
+      name: "selectStudy",
       component: selectStudy
     },
     {
-      path: '/uploadStudy',
-      name: 'uploadStudy',
+      path: "/uploadStudy",
+      name: "uploadStudy",
       component: uploadStudy
     },
     {
-      path: '/treeStudy',
-      name: 'treeStudy',
+      path: "/treeStudy",
+      name: "treeStudy",
       component: treeStudy,
       meta: {
-        info: '树形组件学习'
+        info: "树形组件学习"
       }
     },
     {
-      path: '/cardStudy',
-      name: 'cardStudy',
+      path: "/cardStudy",
+      name: "cardStudy",
       component: cardStudy
     },
     {
-      path: '/formStudy',
-      name: 'formStudy',
+      path: "/formStudy",
+      name: "formStudy",
       component: formStudy
     },
     {
-      path: '/messageStudy',
-      name: 'messageStudy',
+      path: "/messageStudy",
+      name: "messageStudy",
       component: messageStudy
     },
     {
-      path: '/routerStudy',
-      name: 'routerStudy',
+      path: "/routerStudy",
+      name: "routerStudy",
       component: routerStudy
     },
     {
-      path: '/loadingStudy',
-      name: 'loadingStudy',
+      path: "/loadingStudy",
+      name: "loadingStudy",
       component: loadingStudy
     },
     {
-      path: '/tableStudy',
-      name: 'tableStudy',
+      path: "/tableStudy",
+      name: "tableStudy",
       component: tableStudy
     }
   ]
-})
+});
 
-export default router
+export default router;
