@@ -17,6 +17,7 @@ import loadingStudy from "@/views/elementui/loadingStudy";
 import tableStudy from "@/views/elementui/tableStudy";
 import home from "@/views/home";
 import login from "@/views/login";
+import menu from "@/views/menu";
 
 // 使用懒加载
 const routerStudy = () => import("@/views/elementui/routerStudy");
@@ -133,6 +134,14 @@ const router = new Router({
       path: "/tableStudy",
       name: "tableStudy",
       component: tableStudy
+    },
+    {
+      path: "/menu",
+      name: "menu",
+      component: menu,
+      meta: {
+        info: "菜单"
+      }
     }
   ]
 });

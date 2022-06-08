@@ -40,12 +40,12 @@ export default {
   components: {
     Header,
     // Footer,
-    MenuTree
+    MenuTree,
   },
   data() {
     return {
       isCollapse: false,
-      menuList: []
+      menuList: [],
     };
   },
   created() {
@@ -58,14 +58,14 @@ export default {
     selectMainMenu() {
       this.$axios
         .get("/mainMenu/getMenu")
-        .then(res => {
+        .then((res) => {
           this.menuList = res.data;
         })
-        .catch(err => {
+        .catch((err) => {
           this.$message.error(err);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

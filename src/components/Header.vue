@@ -2,11 +2,11 @@
   <div class="header">
     <div class="left">
       <el-tooltip effect="dark" content="展开与折叠" placement="right">
-        <i class="el-icon-s-grid" @click="isCollapseOper"> | </i>
+        <i :class="iconClassSelect()" @click="isCollapseOper"></i>
       </el-tooltip>
       <el-breadcrumb
         separator-class="el-icon-arrow-right"
-        style="display: inline-block;margin-left: 10px"
+        style="display: inline-block; margin-left: 10px"
       >
         <el-breadcrumb-item
           v-for="item in this.getBreadList()"
@@ -48,16 +48,23 @@ export default {
       name: "Home",
       userInfo: {
         loginUserName: "miact",
-        nickName: "mawei"
+        nickName: "mawei",
       },
       breadList: [],
-      isCollapse: false
+      isCollapse: false,
     };
   },
   methods: {
     isCollapseOper() {
       this.isCollapse = !this.isCollapse;
       this.$emit("isCollapseOper", this.isCollapse);
+    },
+    iconClassSelect() {
+      if (this.isCollapse == true) {
+        return "el-icon-s-unfold";
+      } else {
+        return "el-icon-s-fold";
+      }
     },
     getBreadList() {
       let currentPath = this.$route.path;
@@ -84,8 +91,8 @@ export default {
           }
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
