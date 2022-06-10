@@ -146,4 +146,17 @@ const router = new Router({
   ]
 });
 
+// 拦截请求
+router.beforeEach((to, from, next) => {
+   // 如果访问的是登录界面则直接放行 
+  if (to.path === '/login') return next() 
+  //获取用户页面token信息 
+  let token = window.sessionStorage.getItem('token') 
+  //如果token数据为null则跳转到指定路径 
+  if (!token) return next("/login")
+
+  return next()
+})
+
+
 export default router;

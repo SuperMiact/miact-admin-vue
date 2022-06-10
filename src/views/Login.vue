@@ -15,7 +15,7 @@
         :rules="loginFormRules"
         @keyup.enter.native="submitForm('loginForm')"
       >
-        <el-form-item label="邮箱" prop="name">
+        <el-form-item label="账号" prop="name">
           <el-input
             type="text"
             v-model.trim="loginForm.name"
@@ -79,6 +79,7 @@ export default {
             .then((res) => {
               if (res.data && res.data !== "" && res.data != undefined) {
                 this.$message.success("登录成功");
+                window.sessionStorage.setItem("token",res.data)
                 this.$router.push("/home");
               } else {
                 this.$message.error("登录失败");
