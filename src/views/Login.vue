@@ -72,10 +72,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post("/user/selectUserByLogin", {
-              name: this.loginForm.name,
-              password: this.loginForm.password,
-            })
+            .post("/user/selectUserByLogin", this.loginForm)
             .then((res) => {
               if (res.data && res.data !== "" && res.data != undefined) {
                 this.$message.success("登录成功");

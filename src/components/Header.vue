@@ -20,11 +20,11 @@
     <div class="right">
       <el-popover
         placement="bottom"
-        :width="320"
+        :width="30"
         trigger="click"
         popper-class="popper-user-box"
       >
-        <template #reference>
+        <template slot="reference">
           <div class="author">
             <i class="icon el-icon-s-custom" />
             {{ (userInfo && userInfo.nickName) || "" }}
@@ -32,8 +32,15 @@
           </div>
         </template>
         <div class="nickname">
-          <p>登录名：{{ (userInfo && userInfo.loginUserName) || "" }}</p>
-          <p>昵称：{{ (userInfo && userInfo.nickName) || "" }}</p>
+          <p style="text-align: center">
+            登录名：{{ (userInfo && userInfo.loginUserName) || "" }}
+          </p>
+          <p style="text-align: center">
+            昵称：{{ (userInfo && userInfo.nickName) || "" }}
+          </p>
+        </div>
+        <div class="logout">
+          <el-button @click="userLogout">退出</el-button>
         </div>
       </el-popover>
     </div>
@@ -92,6 +99,11 @@ export default {
         }
       }
     },
+    userLogout() {
+      window.sessionStorage.removeItem("token");
+      this.$message.success("用户已登出");
+      this.$router.push("/login");
+    },
   },
 };
 </script>
@@ -110,11 +122,8 @@ export default {
   margin-right: 6px;
 }
 .author {
-  margin-left: 10px;
   cursor: pointer;
 }
-</style>
-<style>
 .popper-user-box {
   background: url("https://s.yezgea02.com/lingling-h5/static/account-banner-bg.png")
     50% 50% no-repeat !important;
@@ -123,7 +132,7 @@ export default {
 }
 .popper-user-box .nickname {
   position: relative;
-  color: #ffffff;
+  color: #222832;
 }
 .popper-user-box .nickname .logout {
   position: absolute;
