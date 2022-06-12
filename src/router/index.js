@@ -139,7 +139,10 @@ const router = new Router({
     {
       path: "/messageStudy",
       name: "messageStudy",
-      component: messageStudy
+      component: messageStudy,
+      meta:{
+        infl:"消息组件"
+      }
     },
     {
       path: "/routerStudy",

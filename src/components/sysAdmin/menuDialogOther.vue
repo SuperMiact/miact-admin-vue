@@ -1,8 +1,8 @@
 <template>
   <div style="display: inline-block">
     <el-dialog
-      ref="menuDig"
-      title="添加主菜单"
+      ref="menuDigOther"
+      title="添加菜单"
       :visible.sync="centerDialogVisible"
       width="20%"
       center
@@ -46,7 +46,7 @@
 </template>
 <script>
 export default {
-  name: "menuDialog",
+  name: "menuDialogOther",
   data() {
     return {
       centerDialogVisible: false,
@@ -57,6 +57,7 @@ export default {
         iconClass: "",
         pid: 0,
       },
+      menuType: 1,
       iconList: [
         { label: "el-icon-platform-eleme", value: "el-icon-platform-eleme" },
         { label: "el-icon-eleme", value: "el-icon-eleme" },
@@ -386,11 +387,19 @@ export default {
   methods: {
     submitForm() {
       this.centerDialogVisible = false;
-      this.$axios
-        .post("/mainMenu/postMenu", this.formLabelAlign)
-        .then((res) => {
-          this.$message.success("成功，有" + res.data + "条数据被处理！");
-        });
+      if (this.menuType == 1) {
+        this.$axios
+          .post("/mainMenu/addMenu", this.formLabelAlign)
+          .then((res) => {
+            this.$message.success("插入成功，有" + res.data + "条数据被处理！");
+          });
+      } else {
+        this.$axios
+          .post("/mainMenu/updateMenu", this.formLabelAlign)
+          .then((res) => {
+            this.$message.success("修改成功，有" + res.data + "条数据被处理！");
+          });
+      }
     },
     cancelForm() {
       this.centerDialogVisible = false;

@@ -6,9 +6,8 @@
         type="primary"
         plain
         @click="openMenuDialog"
-        >添加父菜单</el-button
+        >添加主菜单</el-button
       >
-      <menuDialog ref="menuDig"></menuDialog>
     </div>
     <div>
       <el-table
@@ -35,14 +34,18 @@
         </el-table-column>
       </el-table>
     </div>
+    <menuDialog ref="menuDig"></menuDialog>
+    <menuDialogOther ref="menuDigOther"></menuDialogOther>
   </div>
 </template>
 <script>
 import menuDialog from "@/components/sysAdmin/menuDialog";
+import menuDialogOther from "@/components/sysAdmin/menuDialogOther";
 export default {
   name: "menuModel",
   components: {
     menuDialog,
+    menuDialogOther,
   },
   data() {
     return {
@@ -68,10 +71,13 @@ export default {
       this.$refs.menuDig.centerDialogVisible = true;
     },
     addMenu(row) {
-      console.log(row);
+      this.$refs.menuDigOther.centerDialogVisible = true;
+      this.$refs.menuDigOther.formLabelAlign.pid = row.id;
     },
     editMenu(row) {
-      console.log(row);
+      this.$refs.menuDigOther.centerDialogVisible = true;
+      this.$refs.menuDigOther.formLabelAlign = row;
+      this.$refs.menuDigOther.menuType = 2
     },
     delMenu(row) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {

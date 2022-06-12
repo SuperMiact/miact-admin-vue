@@ -15,10 +15,10 @@
         :rules="loginFormRules"
         @keyup.enter.native="submitForm('loginForm')"
       >
-        <el-form-item label="账号" prop="name">
+        <el-form-item label="账号" prop="username">
           <el-input
             type="text"
-            v-model.trim="loginForm.name"
+            v-model.trim="loginForm.username"
             autocomplete="off"
           ></el-input>
         </el-form-item>
@@ -31,7 +31,7 @@
         </el-form-item>
         <el-form-item>
           <el-button
-            style="width: 100%;margin-top: 30px;"
+            style="width: 100%; margin-top: 30px"
             type="primary"
             @click="submitForm('loginForm')"
             >立即登录</el-button
@@ -48,17 +48,18 @@
 <script>
 export default {
   name: "Login",
-  components: {
-  },
+  components: {},
   data() {
     return {
       loginForm: {
-        name: "",
+        username: "",
         password: "",
       },
       // 表单验证，需要在 el-form-item 元素中增加 prop 属性
       loginFormRules: {
-        name: [{ required: true, message: "账号不可为空", trigger: "blur" }],
+        username: [
+          { required: true, message: "账号不可为空", trigger: "blur" },
+        ],
         password: [
           { required: true, message: "密码不可为空", trigger: "blur" },
         ],
@@ -72,14 +73,18 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post("/user/selectUserByLogin", this.loginForm)
+            .post("/api/users/queryLoginUser", this.loginForm)
             .then((res) => {
-              if (res.data && res.data !== "" && res.data != undefined) {
-                this.$message.success("登录成功");
-                window.sessionStorage.setItem("token",res.data)
+              console.log(res);
+
+              debugger;
+
+              if (res.data.code === "200") {
+                this.$message.success(res.data.message);
+                window.sessionStorage.setItem("token", res.data);
                 this.$router.push("/home");
               } else {
-                this.$message.error("登录失败");
+                this.$message.error(res.data.message);
               }
             });
         } else {
