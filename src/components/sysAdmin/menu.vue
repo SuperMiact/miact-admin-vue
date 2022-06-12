@@ -34,8 +34,11 @@
         </el-table-column>
       </el-table>
     </div>
-    <menuDialog ref="menuDig"></menuDialog>
-    <menuDialogOther ref="menuDigOther"></menuDialogOther>
+    <menuDialog @submitForm="subFormReload" ref="menuDig"></menuDialog>
+    <menuDialogOther
+      @submitFormOther="subFormOtherReload"
+      ref="menuDigOther"
+    ></menuDialogOther>
   </div>
 </template>
 <script>
@@ -47,6 +50,7 @@ export default {
     menuDialog,
     menuDialogOther,
   },
+  inject: ["reload"],
   data() {
     return {
       tableData: [],
@@ -57,6 +61,12 @@ export default {
     this.selectMainMenu();
   },
   methods: {
+    subFormReload() {
+      this.reload();
+    },
+    subFormOtherReload() {
+      this.reload();
+    },
     dialogCheck: function (selection, row) {
       this.$refs.tableF.clearSelection();
       if (selection.length === 0) {
@@ -77,7 +87,7 @@ export default {
     editMenu(row) {
       this.$refs.menuDigOther.centerDialogVisible = true;
       this.$refs.menuDigOther.formLabelAlign = row;
-      this.$refs.menuDigOther.menuType = 2
+      this.$refs.menuDigOther.menuType = 2;
     },
     delMenu(row) {
       this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
@@ -89,6 +99,7 @@ export default {
           this.$axios.post("/mainMenu/delMenu", row).then((res) => {
             this.$message.success("删除" + res.data + "条数据成功");
           });
+          this.reload();
         })
         .catch(() => {
           this.$message({

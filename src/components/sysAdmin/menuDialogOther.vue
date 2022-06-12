@@ -39,7 +39,7 @@
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelForm">取 消</el-button>
-        <el-button type="primary" @click="submitForm">确 定</el-button>
+        <el-button type="primary" @click="submitFormOther">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -385,7 +385,7 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    submitFormOther() {
       this.centerDialogVisible = false;
       if (this.menuType == 1) {
         this.$axios
@@ -400,6 +400,7 @@ export default {
             this.$message.success("修改成功，有" + res.data + "条数据被处理！");
           });
       }
+      this.$emit("submitFormOther")
     },
     cancelForm() {
       this.centerDialogVisible = false;

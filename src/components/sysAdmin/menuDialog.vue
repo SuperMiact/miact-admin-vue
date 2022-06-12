@@ -386,11 +386,10 @@ export default {
   methods: {
     submitForm() {
       this.centerDialogVisible = false;
-      this.$axios
-        .post("/mainMenu/postMenu", this.formLabelAlign)
-        .then((res) => {
-          this.$message.success("成功，有" + res.data + "条数据被处理！");
-        });
+      this.$axios.post("/mainMenu/addMenu", this.formLabelAlign).then((res) => {
+        this.$message.success("成功，有" + res.data + "条数据被处理！");
+      });
+      this.$emit("submitForm")
     },
     cancelForm() {
       this.centerDialogVisible = false;

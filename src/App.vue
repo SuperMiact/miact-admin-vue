@@ -21,7 +21,7 @@
       <el-container class="content">
         <Header @isCollapseOper="isCollapseChange" />
         <div class="main">
-          <router-view />
+          <router-view v-if="isRouterAlive"/>
         </div>
         <!-- <Footer /> -->
       </el-container>
@@ -42,16 +42,28 @@ export default {
     // Footer,
     MenuTree,
   },
+  provide(){
+    return{
+      reload: this.reload
+    }
+  },
   data() {
     return {
       isCollapse: false,
       menuList: [],
+      isRouterAlive: true,
     };
   },
   created() {
     this.selectMainMenu();
   },
   methods: {
+    reload(){
+      this.isRouterAlive = false
+      this.$nextTick(()=>{
+        this.isRouterAlive = true
+      })
+    },
     isCollapseChange(isCollapse) {
       this.isCollapse = isCollapse;
     },
