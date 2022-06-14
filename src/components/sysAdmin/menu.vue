@@ -81,7 +81,9 @@ export default {
       this.$refs.menuDig.centerDialogVisible = true;
     },
     addMenu(row) {
+      this.$refs.menuDigOther.formLabelAlign = {};
       this.$refs.menuDigOther.centerDialogVisible = true;
+      this.$refs.menuDigOther.menuType = 1;
       this.$refs.menuDigOther.formLabelAlign.pid = row.id;
     },
     editMenu(row) {
