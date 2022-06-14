@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
+import { Message } from "element-ui";
 
 import templateStudy from "@/views/elementui/templateStudy";
 import dateStudy from "@/views/elementui/dateStudy";
@@ -183,7 +184,10 @@ router.beforeEach((to, from, next) => {
   //获取用户页面token信息 
   let token = window.sessionStorage.getItem('token') 
   //如果token数据为null则跳转到指定路径 
-  if (!token) return next("/login")
+  if (!token) {
+    Message.error("请重新登录！")
+    return next("/login")
+  }
 
   return next()
 })

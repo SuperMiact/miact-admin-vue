@@ -73,15 +73,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post("/api/users/queryLoginUser", this.loginForm)
+            .post("/api/users/login", this.loginForm)
             .then((res) => {
-              console.log(res);
-
-              debugger;
-
               if (res.data.code === "200") {
                 this.$message.success(res.data.message);
-                window.sessionStorage.setItem("token", res.data);
+                window.sessionStorage.setItem("token", res.data.results);
                 this.$router.push("/home");
               } else {
                 this.$message.error(res.data.message);

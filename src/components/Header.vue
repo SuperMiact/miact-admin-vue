@@ -100,9 +100,15 @@ export default {
       }
     },
     userLogout() {
-      window.sessionStorage.removeItem("token");
-      this.$message.success("用户已登出");
-      this.$router.push("/login");
+      this.$axios
+        .get("/api/users/logout?token="+window.sessionStorage.getItem("token"))
+        .then((res) => {
+          if (res.data.code == 200) {
+            window.sessionStorage.removeItem("token");
+            this.$message.success(res.data.message);
+            this.$router.push("/login");
+          }
+        });
     },
   },
 };
