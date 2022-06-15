@@ -42,6 +42,13 @@ export default {
     // Footer,
     MenuTree,
   },
+  watch: {
+    $route() {
+      if (this.$route) {
+        this.selectMainMenu();
+      }
+    }
+  },
   provide(){
     return{
       reload: this.reload
@@ -55,7 +62,6 @@ export default {
     };
   },
   created() {
-    this.selectMainMenu();
   },
   methods: {
     reload(){

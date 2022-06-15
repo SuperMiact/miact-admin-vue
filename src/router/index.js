@@ -93,7 +93,7 @@ const router = new Router({
       path: "/inputNumberStudy",
       name: "inputNumberStudy",
       component: inputNumberStudy,
-      meta : {
+      meta: {
         info: "数字输入框组件"
       }
     },
@@ -101,8 +101,8 @@ const router = new Router({
       path: "/selectStudy",
       name: "selectStudy",
       component: selectStudy,
-      meta:{
-        info:"下拉选择框组件"
+      meta: {
+        info: "下拉选择框组件"
       }
     },
     {
@@ -110,7 +110,7 @@ const router = new Router({
       name: "uploadStudy",
       component: uploadStudy,
       meta: {
-        info:"上传组件"
+        info: "上传组件"
       }
     },
     {
@@ -125,24 +125,24 @@ const router = new Router({
       path: "/cardStudy",
       name: "cardStudy",
       component: cardStudy,
-      meta:{
-        info:"卡片组件"
+      meta: {
+        info: "卡片组件"
       }
     },
     {
       path: "/formStudy",
       name: "formStudy",
       component: formStudy,
-      meta:{
-        info:"表单组件"
+      meta: {
+        info: "表单组件"
       }
     },
     {
       path: "/messageStudy",
       name: "messageStudy",
       component: messageStudy,
-      meta:{
-        infl:"消息组件"
+      meta: {
+        infl: "消息组件"
       }
     },
     {
@@ -154,16 +154,16 @@ const router = new Router({
       path: "/loadingStudy",
       name: "loadingStudy",
       component: loadingStudy,
-      meta:{
-        info:"加载组件"
+      meta: {
+        info: "加载组件"
       }
     },
     {
       path: "/tableStudy",
       name: "tableStudy",
       component: tableStudy,
-      meta:{
-        info:"表格组件"
+      meta: {
+        info: "表格组件"
       }
     },
     {
@@ -179,18 +179,19 @@ const router = new Router({
 
 // 拦截请求
 router.beforeEach((to, from, next) => {
-   // 如果访问的是登录界面则直接放行 
-  if (to.path === '/login') return next() 
-  //获取用户页面token信息 
-  let token = window.sessionStorage.getItem('token') 
-  //如果token数据为null则跳转到指定路径 
+  // 如果访问的是登录界面则直接放行
+  if (to.path === "/login") return next();
+  //获取用户页面token信息
+  let token = window.sessionStorage.getItem("token");
+  
   if (!token) {
-    Message.error("请重新登录！")
-    return next("/login")
+    if(to.path !== "/home"){
+      Message.error("请重新登录！");
+    }
+    return next("/login");
   }
 
-  return next()
-})
-
+  return next();
+});
 
 export default router;
