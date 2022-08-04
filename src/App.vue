@@ -91,7 +91,7 @@ export default {
 }
 .aside {
   background-color: #122b3f;
-  box-shadow: 0 0 8px 6px rgba(0,0,0,0.3);
+  box-shadow: 0 0 8px 3px rgba(0,0,0,0.3);
   width: 100%;
 }
 .aside::-webkit-scrollbar{
