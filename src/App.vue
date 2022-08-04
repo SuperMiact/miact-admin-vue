@@ -4,7 +4,7 @@
         <el-aside class="aside" :width="isCollapse ? '60px' : '17%'">
           <div class="line" />
           <el-menu
-            background-color="#222832"
+            background-color="#122b3f"
             text-color="#fff"
             :collapse-transition="false"
             :router="true"
@@ -90,7 +90,7 @@ export default {
   height: 100vh;
 }
 .aside {
-  background-color: #222832;
+  background-color: #122b3f;
   width: 100%;
 }
 .aside::-webkit-scrollbar{

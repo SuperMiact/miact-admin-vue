@@ -171,7 +171,7 @@ const router = new Router({
       name: 'menuModel',
       component: menu,
       meta: {
-        info: '菜单'
+        info: '菜单配置'
       }
     }
   ]

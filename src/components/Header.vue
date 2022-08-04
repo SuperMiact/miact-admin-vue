@@ -26,21 +26,16 @@
       >
         <template slot="reference">
           <div class="author">
-            <i class="icon el-icon-s-custom" />
-            {{ (userInfo && userInfo.nickName) || "" }}
-            <i class="el-icon-caret-bottom" />
+            <el-avatar :size="33" :src="userInfo.headPortraitUrl"></el-avatar>
           </div>
         </template>
-        <div class="nickname">
-          <p>
-            登录名：{{ (userInfo && userInfo.loginUserName) || "" }}
-          </p>
-          <p>
-            昵称：{{ (userInfo && userInfo.nickName) || "" }}
-          </p>
+        <div class="personal-page">
+          <el-button class="head_button">
+            个人页面
+          </el-button>
         </div>
         <div class="logout">
-          <el-button @click="userLogout">退出</el-button>
+          <el-button class="head_button" @click="userLogout">注销登录</el-button>
         </div>
       </el-popover>
     </div>
@@ -55,7 +50,8 @@ export default {
       name: 'Home',
       userInfo: {
         loginUserName: '',
-        nickName: ''
+        nickName: '',
+        headPortraitUrl: ''
       },
       breadList: [],
       isCollapse: false
@@ -65,6 +61,7 @@ export default {
     let data = JSON.parse(window.sessionStorage.getItem('userInfo'))
     this.userInfo.loginUserName = data.data[0].username
     this.userInfo.nickName = data.data[0].username
+    this.userInfo.headPortraitUrl = data.data[0].headPortraitUrl || 'https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png'
   },
   methods: {
     isCollapseOper () {
@@ -129,7 +126,7 @@ export default {
   padding: 0 20px;
 }
 .right {
-  margin-right: 10px;
+  margin-right: 20px;
 }
 .right > div > .icon {
   font-size: 18px;
@@ -144,10 +141,15 @@ export default {
   background-size: cover !important;
   border-radius: 5px !important;
 }
-.popper-user-box .nickname {
+.popper-user-box .personal-page {
   color: #222832;
 }
-.popper-user-box .nickname .logout {
+.popper-user-box .personal-page .logout {
   cursor: pointer;
+}
+.head_button {
+  width: 100%;
+  border-left: none;
+  border-right: none;
 }
 </style>

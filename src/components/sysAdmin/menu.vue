@@ -42,84 +42,84 @@
   </div>
 </template>
 <script>
-import menuDialog from "@/components/sysAdmin/menuDialog";
-import menuDialogOther from "@/components/sysAdmin/menuDialogOther";
+import menuDialog from '@/components/sysAdmin/menuDialog'
+import menuDialogOther from '@/components/sysAdmin/menuDialogOther'
 export default {
-  name: "menuModel",
+  name: 'menuModel',
   components: {
     menuDialog,
-    menuDialogOther,
+    menuDialogOther
   },
-  inject: ["reload"],
-  data() {
+  inject: ['reload'],
+  data () {
     return {
       tableData: [],
-      radioData: {},
-    };
+      radioData: {}
+    }
   },
-  created() {
-    this.selectMainMenu();
+  created () {
+    this.selectMainMenu()
   },
   methods: {
-    subFormReload() {
-      this.reload();
+    subFormReload () {
+      this.reload()
     },
-    subFormOtherReload() {
-      this.reload();
+    subFormOtherReload () {
+      this.reload()
     },
     dialogCheck: function (selection, row) {
-      this.$refs.tableF.clearSelection();
+      this.$refs.tableF.clearSelection()
       if (selection.length === 0) {
-        return;
+        return
       }
-      this.radioData = row;
+      this.radioData = row
       if (row) {
-        this.$refs.tableF.toggleRowSelection(row, true);
+        this.$refs.tableF.toggleRowSelection(row, true)
       }
     },
-    openMenuDialog() {
-      this.$refs.menuDig.centerDialogVisible = true;
+    openMenuDialog () {
+      this.$refs.menuDig.centerDialogVisible = true
     },
-    addMenu(row) {
-      this.$refs.menuDigOther.formLabelAlign = {};
-      this.$refs.menuDigOther.centerDialogVisible = true;
-      this.$refs.menuDigOther.menuType = 1;
-      this.$refs.menuDigOther.formLabelAlign.pid = row.id;
+    addMenu (row) {
+      this.$refs.menuDigOther.formLabelAlign = {}
+      this.$refs.menuDigOther.centerDialogVisible = true
+      this.$refs.menuDigOther.menuType = 1
+      this.$refs.menuDigOther.formLabelAlign.pid = row.id
     },
-    editMenu(row) {
-      this.$refs.menuDigOther.centerDialogVisible = true;
-      this.$refs.menuDigOther.formLabelAlign = row;
-      this.$refs.menuDigOther.menuType = 2;
+    editMenu (row) {
+      this.$refs.menuDigOther.centerDialogVisible = true
+      this.$refs.menuDigOther.formLabelAlign = row
+      this.$refs.menuDigOther.menuType = 2
     },
-    delMenu(row) {
-      this.$confirm("此操作将永久删除该文件, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
+    delMenu (row) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
-          this.$axios.post("/mainMenu/delMenu", row).then((res) => {
-            this.$message.success("删除" + res.data + "条数据成功");
-          });
-          this.reload();
+          this.$axios.post('/mainMenu/delMenu', row).then((res) => {
+            this.$message.success('删除' + res.data + '条数据成功')
+          })
+          this.reload()
         })
         .catch(() => {
           this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
+            type: 'info',
+            message: '已取消删除'
+          })
+        })
     },
-    selectMainMenu() {
+    selectMainMenu () {
       this.$axios
-        .get("/mainMenu/getMenu")
+        .get('/mainMenu/getMenu')
         .then((res) => {
-          this.tableData = res.data;
+          this.tableData = res.data
         })
         .catch((err) => {
-          this.$message.error(err);
-        });
-    },
-  },
-};
+          this.$message.error(err)
+        })
+    }
+  }
+}
 </script>
