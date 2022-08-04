@@ -175,4 +175,8 @@ a {
 .el-popper__arrow {
   display: none;
 }
+.el-menu--popup-right-start {
+  margin-left: 0;
+  margin-right: 5px;
+}
 </style>
