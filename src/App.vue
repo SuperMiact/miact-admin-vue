@@ -92,10 +92,29 @@ export default {
 .aside {
   background-color: #222832;
   width: 100%;
-  overflow-x: scroll;
+  /*overflow-x: scroll;*/
 }
+/*.aside::-webkit-scrollbar{*/
+/*  display: none;*/
+/*}*/
 .aside::-webkit-scrollbar{
-  display: none;
+  /*滚动条整体样式*/
+  /*高宽分别对应横竖滚动条的尺寸*/
+  width: 6px;
+  height: 6px;
+}
+.aside::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(220, 217, 236, 0.5);
+}
+
+.aside::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(99, 88, 140, 0.5);
 }
 .head {
   display: flex;
@@ -172,5 +191,28 @@ a {
 .el-menu--popup-right-start {
   margin-left: 0;
   margin-right: 5px;
+}
+.el-menu--vertical>.el-menu--popup {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+.el-menu--vertical>.el-menu--popup::-webkit-scrollbar{
+  /*滚动条整体样式*/
+  /*高宽分别对应横竖滚动条的尺寸*/
+  width: 6px;
+  height: 6px;
+}
+.el-menu--vertical>.el-menu--popup::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(220, 217, 236, 0.5);
+}
+
+.el-menu--vertical>.el-menu--popup::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(99, 88, 140, 0.5);
 }
 </style>
