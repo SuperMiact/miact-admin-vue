@@ -1,23 +1,23 @@
 <template>
   <div class="layout">
     <el-container v-if="!$route.meta.showNav" class="container">
-      <el-aside class="aside" :width="isCollapse ? '60px' : '17%'">
-        <div class="line" />
-        <el-menu
-          background-color="#222832"
-          text-color="#fff"
-          :collapse-transition="false"
-          :router="true"
-          :collapse="isCollapse"
-          :show-timeout="50"
-          :hide-timeout="50"
-        >
-          <div class="head" v-if="!isCollapse">
-            <span>Miact Admin</span>
-          </div>
-          <MenuTree :menuList="menuList" />
-        </el-menu>
-      </el-aside>
+        <el-aside class="aside" :width="isCollapse ? '60px' : '17%'">
+          <div class="line" />
+          <el-menu
+            background-color="#222832"
+            text-color="#fff"
+            :collapse-transition="false"
+            :router="true"
+            :collapse="isCollapse"
+            :show-timeout="50"
+            :hide-timeout="50"
+          >
+            <div class="head" v-if="!isCollapse">
+              <span>Miact Admin</span>
+            </div>
+              <MenuTree :menuList="menuList" />
+          </el-menu>
+        </el-aside>
       <el-container class="content">
         <Header @isCollapseOper="isCollapseChange" />
         <div class="main">
@@ -45,7 +45,7 @@ export default {
   watch: {
     $route() {
       if (this.$route) {
-        this.selectMainMenu();
+        this.selectMainMenu()
       }
     }
   },
@@ -62,6 +62,7 @@ export default {
     };
   },
   created() {
+    this.selectMainMenu()
   },
   methods: {
     reload(){
@@ -96,6 +97,11 @@ export default {
 }
 .aside {
   background-color: #222832;
+  width: 100%;
+  overflow-x: scroll;
+}
+.aside::-webkit-scrollbar{
+  display: none;
 }
 .head {
   display: flex;
@@ -128,7 +134,7 @@ export default {
   overflow: hidden;
 }
 .main {
-  /* 
+  /*
     存在Footer底部时
     height: calc(100vh - 100px);
   */
