@@ -92,11 +92,7 @@ export default {
 .aside {
   background-color: #222832;
   width: 100%;
-  /*overflow-x: scroll;*/
 }
-/*.aside::-webkit-scrollbar{*/
-/*  display: none;*/
-/*}*/
 .aside::-webkit-scrollbar{
   /*滚动条整体样式*/
   /*高宽分别对应横竖滚动条的尺寸*/
@@ -154,6 +150,24 @@ export default {
   height: calc(100vh - 50px);
   overflow: auto;
   padding: 10px;
+}
+.main::-webkit-scrollbar{
+  /*滚动条整体样式*/
+  /*高宽分别对应横竖滚动条的尺寸*/
+  width: 10px;
+  height: 10px;
+}
+.main::-webkit-scrollbar-thumb {
+  /*滚动条里面小方块*/
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  background: rgba(43, 36, 77, 0.5);
+}
+.main::-webkit-scrollbar-track {
+  /*滚动条里面轨道*/
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 0;
+  background: rgba(144, 139, 164, 0.5);
 }
 </style>
 
