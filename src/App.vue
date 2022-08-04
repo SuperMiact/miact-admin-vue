@@ -13,9 +13,9 @@
             :hide-timeout="50"
           >
             <div class="head" v-if="!isCollapse">
-              <span>Miact Admin</span>
+              <span>Miact</span>
             </div>
-              <MenuTree :menuList="this.selectMainMenu()" />
+              <MenuTree :menuList="menuList.length === 0?this.selectMainMenu():menuList" />
           </el-menu>
         </el-aside>
       <el-container class="content">

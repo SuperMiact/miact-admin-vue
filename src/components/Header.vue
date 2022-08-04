@@ -32,10 +32,10 @@
           </div>
         </template>
         <div class="nickname">
-          <p style="text-align: center">
+          <p>
             登录名：{{ (userInfo && userInfo.loginUserName) || "" }}
           </p>
-          <p style="text-align: center">
+          <p>
             昵称：{{ (userInfo && userInfo.nickName) || "" }}
           </p>
         </div>
@@ -128,6 +128,9 @@ export default {
   align-items: center;
   padding: 0 20px;
 }
+.right {
+  margin-right: 10px;
+}
 .right > div > .icon {
   font-size: 18px;
   margin-right: 6px;
@@ -139,16 +142,12 @@ export default {
   background: url("https://s.yezgea02.com/lingling-h5/static/account-banner-bg.png")
     50% 50% no-repeat !important;
   background-size: cover !important;
-  border-radius: 0 !important;
+  border-radius: 5px !important;
 }
 .popper-user-box .nickname {
-  position: relative;
   color: #222832;
 }
 .popper-user-box .nickname .logout {
-  position: absolute;
-  right: 0;
-  top: 0;
   cursor: pointer;
 }
 </style>
