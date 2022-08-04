@@ -47,50 +47,65 @@
 
 <script>
 export default {
-  name: "Login",
+  name: 'Login',
   components: {},
-  data() {
+  data () {
     return {
       loginForm: {
-        username: "",
-        password: "",
+        username: '',
+        password: ''
       },
       // 表单验证，需要在 el-form-item 元素中增加 prop 属性
       loginFormRules: {
         username: [
-          { required: true, message: "账号不可为空", trigger: "blur" },
+          { required: true, message: '账号不可为空', trigger: 'blur' }
         ],
         password: [
-          { required: true, message: "密码不可为空", trigger: "blur" },
-        ],
+          { required: true, message: '密码不可为空', trigger: 'blur' }
+        ]
       },
-      checked: [],
-    };
+      checked: []
+    }
   },
   methods: {
-    submitForm(formName) {
+    submitForm (formName) {
       // 为表单绑定验证功能
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post("/api/users/login", this.loginForm)
+            .post('/api/users/login', this.loginForm)
             .then((res) => {
-              if (res.data.code === "200") {
-                this.$message.success(res.data.message);
-                window.sessionStorage.setItem("token", res.data.results);
-                this.$router.push("/home");
+              if (res.data.code === '200') {
+                this.$message.success(res.data.message)
+                window.sessionStorage.setItem('token', res.data.results)
+
+                this.$axios({
+                  method: 'get',
+                  url: '/api/users',
+                  params: {
+                    username: this.loginForm.username,
+                    pageSize: 1,
+                    pageNo: 1
+                  }
+                }).then((res) => {
+                  if (res.data.code === '200') {
+                    window.sessionStorage.setItem('userInfo', JSON.stringify(res.data.results))
+                  }
+                })
+
+                this.$router.push('/home')
               } else {
-                this.$message.error(res.data.message);
+                this.$message.error(res.data.message)
               }
-            });
+            })
         } else {
-          this.$message.error("登录失败");
-          return false;
+          this.$message.error('登录失败')
+          return false
         }
-      });
-    },
-  },
-};
+      })
+    }
+  }
+}
 </script>
 
 <style scoped>

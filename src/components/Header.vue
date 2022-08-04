@@ -49,69 +49,74 @@
 
 <script>
 export default {
-  name: "Header",
-  data() {
+  name: 'Header',
+  data () {
     return {
-      name: "Home",
+      name: 'Home',
       userInfo: {
-        loginUserName: "miact",
-        nickName: "mawei",
+        loginUserName: '',
+        nickName: ''
       },
       breadList: [],
-      isCollapse: false,
-    };
+      isCollapse: false
+    }
+  },
+  created () {
+    let data = JSON.parse(window.sessionStorage.getItem('userInfo'))
+    this.userInfo.loginUserName = data.data[0].username
+    this.userInfo.nickName = data.data[0].username
   },
   methods: {
-    isCollapseOper() {
-      this.isCollapse = !this.isCollapse;
-      this.$emit("isCollapseOper", this.isCollapse);
+    isCollapseOper () {
+      this.isCollapse = !this.isCollapse
+      this.$emit('isCollapseOper', this.isCollapse)
     },
-    iconClassSelect() {
-      if (this.isCollapse == true) {
-        return "el-icon-s-unfold";
+    iconClassSelect () {
+      if (this.isCollapse === true) {
+        return 'el-icon-s-unfold'
       } else {
-        return "el-icon-s-fold";
+        return 'el-icon-s-fold'
       }
     },
-    getBreadList() {
-      let currentPath = this.$route.path;
-      let routes = this.$router.options.routes;
-      return this.breadListSearch(routes, currentPath);
+    getBreadList () {
+      let currentPath = this.$route.path
+      let routes = this.$router.options.routes
+      return this.breadListSearch(routes, currentPath)
     },
-    breadListSearch(routes, currentPath) {
-      let breadList = this.breadList || [];
-      breadList = [...this.breadList];
+    breadListSearch (routes, currentPath) {
+      let breadList = this.breadList || []
+      breadList = [...this.breadList]
       for (let i = routes.length - 1; i >= 0; i--) {
         if (routes[i].path === currentPath) {
           if (routes[i].meta && routes[i].meta.info) {
-            breadList.push({ path: routes[i].path, info: routes[i].meta.info });
+            breadList.push({ path: routes[i].path, info: routes[i].meta.info })
           }
-          return breadList;
+          return breadList
         } else {
           if (routes[i].children && currentPath.indexOf(routes[i].path) === 0) {
-            breadList.push({ path: routes[i].path, info: routes[i].meta.info });
+            breadList.push({ path: routes[i].path, info: routes[i].meta.info })
             return this.breadListSearch(
               routes[i].children,
               currentPath,
               breadList
-            );
+            )
           }
         }
       }
     },
-    userLogout() {
+    userLogout () {
       this.$axios
-        .get("/api/users/logout?token="+window.sessionStorage.getItem("token"))
+        .get('/api/users/logout?token=' + window.sessionStorage.getItem('token'))
         .then((res) => {
-          if (res.data.code == 200) {
-            window.sessionStorage.removeItem("token");
-            this.$message.success(res.data.message);
-            this.$router.push("/login");
+          if (res.data.code === '200') {
+            window.sessionStorage.removeItem('token')
+            this.$message.success(res.data.message)
+            this.$router.push('/login')
           }
-        });
-    },
-  },
-};
+        })
+    }
+  }
+}
 </script>
 
 <style scoped>

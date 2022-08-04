@@ -15,7 +15,7 @@
             <div class="head" v-if="!isCollapse">
               <span>Miact Admin</span>
             </div>
-              <MenuTree :menuList="menuList" />
+              <MenuTree :menuList="this.selectMainMenu()" />
           </el-menu>
         </el-aside>
       <el-container class="content">
@@ -32,60 +32,54 @@
   </div>
 </template>
 <script>
-import Header from "@/components/Header.vue";
+import Header from '@/components/Header.vue'
 // import Footer from "@/components/Footer.vue";
-import MenuTree from "@/components/MenuTree.vue";
+import MenuTree from '@/components/MenuTree.vue'
 export default {
-  name: "App",
+  name: 'App',
   components: {
     Header,
     // Footer,
-    MenuTree,
+    MenuTree
   },
-  watch: {
-    $route() {
-      if (this.$route) {
-        this.selectMainMenu()
-      }
-    }
-  },
-  provide(){
-    return{
+  provide () {
+    return {
       reload: this.reload
     }
   },
-  data() {
+  data () {
     return {
       isCollapse: false,
       menuList: [],
-      isRouterAlive: true,
-    };
+      isRouterAlive: true
+    }
   },
-  created() {
-    this.selectMainMenu()
+  created () {
   },
   methods: {
-    reload(){
+    reload () {
       this.isRouterAlive = false
-      this.$nextTick(()=>{
+      this.$nextTick(() => {
         this.isRouterAlive = true
       })
     },
-    isCollapseChange(isCollapse) {
-      this.isCollapse = isCollapse;
+    isCollapseChange (isCollapse) {
+      this.isCollapse = isCollapse
     },
-    selectMainMenu() {
+    selectMainMenu () {
       this.$axios
-        .get("/mainMenu/getMenu")
+        .get('/mainMenu/getMenu')
         .then((res) => {
-          this.menuList = res.data;
+          this.menuList = res.data
         })
         .catch((err) => {
-          this.$message.error(err);
-        });
-    },
-  },
-};
+          this.$message.error(err.data.message)
+          // this.$router.push('/login')
+        })
+      return this.menuList
+    }
+  }
+}
 </script>
 <style scoped>
 .layout {
