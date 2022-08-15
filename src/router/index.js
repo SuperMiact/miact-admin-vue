@@ -16,6 +16,7 @@ import formStudy from '@/views/elementui/formStudy'
 import messageStudy from '@/views/elementui/messageStudy'
 import loadingStudy from '@/views/elementui/loadingStudy'
 import tableStudy from '@/views/elementui/tableStudy'
+import timeLineStudy from '@/views/elementui/timeLineStudy'
 import home from '@/views/home'
 import login from '@/views/login'
 import menu from '@/components/sysAdmin/menu'
@@ -164,6 +165,14 @@ const router = new Router({
       component: tableStudy,
       meta: {
         info: '表格组件'
+      }
+    },
+    {
+      path: '/timeLineStudy',
+      name: 'timeLineStudy',
+      component: timeLineStudy,
+      meta: {
+        info: '时间线组件'
       }
     },
     {

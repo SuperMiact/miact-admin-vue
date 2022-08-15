@@ -104,7 +104,7 @@ export default {
   /*滚动条里面小方块*/
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: rgba(220, 217, 236, 0.5);
+  background: rgba(251, 251, 252, 0.5);
 }
 
 .aside::-webkit-scrollbar-track {
@@ -162,13 +162,13 @@ export default {
   /*滚动条里面小方块*/
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: rgba(43, 36, 77, 0.5);
+  background: rgba(95, 95, 98, 0.5);
 }
 .main::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 0;
-  background: rgba(144, 139, 164, 0.5);
+  background: rgba(248, 247, 247, 0.5);
 }
 </style>
 
@@ -221,7 +221,7 @@ a {
   /*滚动条里面小方块*/
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-  background: rgba(220, 217, 236, 0.5);
+  background: rgba(251, 251, 252, 0.5);
 }
 
 .el-menu--vertical>.el-menu--popup::-webkit-scrollbar-track {
