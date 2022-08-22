@@ -42,8 +42,8 @@
   </div>
 </template>
 <script>
-import menuDialog from '@/components/sysAdmin/menuDialog'
-import menuDialogOther from '@/components/sysAdmin/menuDialogOther'
+import menuDialog from './menuDialog'
+import menuDialogOther from './menuDialogOther'
 export default {
   name: 'menuModel',
   components: {

@@ -19,7 +19,8 @@ import tableStudy from '@/views/elementui/tableStudy'
 import timeLineStudy from '@/views/elementui/timeLineStudy'
 import home from '@/views/home'
 import login from '@/views/login'
-import menu from '@/components/sysAdmin/menu'
+import menu from '@/views/system/menu/index'
+import personInfo from '@/views/system/personInfo/index'
 
 // 使用懒加载
 const routerStudy = () => import('@/views/elementui/routerStudy')
@@ -48,6 +49,14 @@ const router = new Router({
       component: login,
       meta: {
         showNav: true
+      }
+    },
+    {
+      path: '/personInfo',
+      name: 'personInfo',
+      component: personInfo,
+      meta: {
+        info: '个人信息'
       }
     },
     {

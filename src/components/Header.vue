@@ -29,10 +29,11 @@
             <el-avatar :size="33" :src="userInfo.headPortraitUrl"></el-avatar>
           </div>
         </template>
-        <div class="personal-page">
-          <el-button class="head_button">
-            个人页面
-          </el-button>
+        <div class="personal-info">
+          <el-button class="head_button" @click="personInfoClick">个人信息</el-button>
+        </div>
+        <div class="edit-passwd">
+          <el-button class="head_button">修改密码</el-button>
         </div>
         <div class="logout">
           <el-button class="head_button" @click="userLogout">注销登录</el-button>
@@ -101,6 +102,9 @@ export default {
         }
       }
     },
+    personInfoClick(){
+      this.$router.push('/personInfo')
+    },
     userLogout () {
       this.$axios
         .get('/api/users/logout?token=' + window.sessionStorage.getItem('token'))
@@ -140,12 +144,6 @@ export default {
     50% 50% no-repeat !important;
   background-size: cover !important;
   border-radius: 5px !important;
-}
-.popper-user-box .personal-page {
-  color: #222832;
-}
-.popper-user-box .personal-page .logout {
-  cursor: pointer;
 }
 .head_button {
   width: 100%;
