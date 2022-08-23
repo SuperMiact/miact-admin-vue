@@ -1,4 +1,5 @@
 <template>
+<div>
   <div class="header">
     <div class="left">
       <el-tooltip effect="dark" content="展开与折叠" placement="right">
@@ -36,7 +37,7 @@
           <el-button class="head_button" @click="personInfoClick">个人信息</el-button>
         </div>
         <div class="edit-passwd">
-          <el-button class="head_button">修改密码</el-button>
+          <el-button class="head_button" @click="editPasswd">修改密码</el-button>
         </div>
         <div class="logout">
           <el-button class="head_button" @click="userLogout">注销登录</el-button>
@@ -44,6 +45,22 @@
       </el-popover>
     </div>
   </div>
+  <div>
+    <el-dialog  :visible.sync="editPasswdOpen" title="修改密码" width="350px">
+        <div>
+          <span style="font-size:16px">旧密码：</span>
+          <el-input style="width:70%"></el-input>
+        </div>
+        <div>
+          <span style="font-size:16px">新密码：</span>
+          <el-input style="width:70%;margin-top: 20px;"></el-input>
+        </div>
+        <div class="edit-passwd-center">
+          <el-button el-button style="margin-top:20px;width: 35%;" type="primary" plain>修改密码</el-button>
+        </div>
+    </el-dialog>
+  </div>
+</div>
 </template>
 
 <script>
@@ -57,7 +74,8 @@ export default {
         headPortraitUrl: ''
       },
       breadList: [],
-      isCollapse: false
+      isCollapse: false,
+      editPasswdOpen: false,
     }
   },
   created () {
@@ -105,6 +123,9 @@ export default {
     },
     personInfoClick(){
       this.$router.push('/personInfo')
+    },
+    editPasswd(){
+      this.editPasswdOpen = true
     },
     userLogout () {
       this.$axios
@@ -156,5 +177,13 @@ export default {
 }
 .avatarBG{
   background-color:#122b3f;
+}
+.edit-passwd-center{
+    display: flex;
+    display: -webkit-flex;
+    justify-content: center;
+    -webkit-justify-content:center;
+    align-items: center;
+    -webkit-align-items:center;
 }
 </style>
