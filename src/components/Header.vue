@@ -26,7 +26,10 @@
       >
         <template slot="reference">
           <div class="author">
-            <el-avatar :size="33" :src="userInfo.headPortraitUrl"></el-avatar>
+            <el-avatar v-if="userInfo.headPortraitUrl&&userInfo.headPortraitUrl!=undefined&&userInfo.headPortraitUrl!=''" :size="33" :src="userInfo.headPortraitUrl"/>
+            <el-avatar v-else class="avatarBG">
+              <span class="nickNameColor">{{userInfo.loginUserName}}</span>
+            </el-avatar>
           </div>
         </template>
         <div class="personal-info">
@@ -51,7 +54,6 @@ export default {
       name: 'Home',
       userInfo: {
         loginUserName: '',
-        nickName: '',
         headPortraitUrl: ''
       },
       breadList: [],
@@ -61,8 +63,7 @@ export default {
   created () {
     let data = JSON.parse(window.sessionStorage.getItem('userInfo'))
     this.userInfo.loginUserName = data.data[0].username
-    this.userInfo.nickName = data.data[0].username
-    this.userInfo.headPortraitUrl = data.data[0].headPortraitUrl || 'https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png'
+    this.userInfo.headPortraitUrl = data.data[0].headPortraitUrl
   },
   methods: {
     isCollapseOper () {
@@ -149,5 +150,11 @@ export default {
   width: 100%;
   border-left: none;
   border-right: none;
+}
+.nickNameColor {
+  color: white;
+}
+.avatarBG{
+  background-color:#122b3f;
 }
 </style>
