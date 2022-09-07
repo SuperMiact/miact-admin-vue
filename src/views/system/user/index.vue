@@ -88,7 +88,7 @@
     },
     methods: {
         openAddUser(){
-            this.showRole = true
+            this.showUser = true
         },
         getUserList(){
             this.$axios({
