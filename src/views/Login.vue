@@ -78,21 +78,7 @@ export default {
               if (res.data.code === '200') {
                 this.$message.success(res.data.message)
                 window.sessionStorage.setItem('token', res.data.results)
-
-                this.$axios({
-                  method: 'get',
-                  url: '/api/users',
-                  params: {
-                    username: this.loginForm.username,
-                    pageSize: 1,
-                    pageNo: 1
-                  }
-                }).then((res) => {
-                  if (res.data.code === '200') {
-                    window.sessionStorage.setItem('userInfo', JSON.stringify(res.data.results))
-                  }
-                })
-
+                // this.getUserInfo()
                 this.$router.push('/home')
               } else {
                 this.$message.error(res.data.message)
@@ -103,7 +89,22 @@ export default {
           return false
         }
       })
-    }
+    },
+    // getUserInfo(){
+    //   this.$axios({
+    //     method: 'get',
+    //     url: '/api/users',
+    //     params: {
+    //       username: this.loginForm.username,
+    //       pageSize: 1,
+    //       pageNo: 1
+    //     }
+    //   }).then((res) => {
+    //     if (res.data.code === '200') {
+    //       window.sessionStorage.setItem('userInfo', JSON.stringify(res.data.results))
+    //     }
+    //   })
+    // }
   }
 }
 </script>

@@ -79,9 +79,10 @@ export default {
     }
   },
   created () {
-    let data = JSON.parse(window.sessionStorage.getItem('userInfo'))
-    this.userInfo.loginUserName = data.data[0].username
-    this.userInfo.headPortraitUrl = data.data[0].headPortraitUrl
+    this.getUserInfo()
+  },
+  watch:{
+    '$route':'getUserInfo'
   },
   methods: {
     isCollapseOper () {
@@ -94,6 +95,18 @@ export default {
       } else {
         return 'el-icon-s-fold'
       }
+    },
+    getUserInfo () {
+      this.$axios({
+        method: 'get',
+        url: '/api/users/userInfo'
+      }).then((res) => {
+        if (res.data.code === '200') {
+          window.sessionStorage.setItem('userInfo', JSON.stringify(res.data.results))
+          this.$set(this.userInfo,"loginUserName",res.data.results.username)
+          this.$set(this.userInfo,"headPortraitUrl",res.data.results.headPortraitUrl)
+        }
+      })
     },
     getBreadList () {
       let currentPath = this.$route.path
@@ -132,7 +145,7 @@ export default {
         .get('/api/users/logout?token=' + window.sessionStorage.getItem('token'))
         .then((res) => {
           if (res.data.code === '200') {
-            window.sessionStorage.removeItem('token')
+            window.sessionStorage.clear();
             this.$message.success(res.data.message)
             this.$router.push('/login')
           }
