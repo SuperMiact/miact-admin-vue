@@ -6,6 +6,7 @@
         type="primary"
         plain
         @click="openMenuDialog"
+        size="small"
         >添加主菜单</el-button
       >
     </div>

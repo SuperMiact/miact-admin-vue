@@ -1,29 +1,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import { Message } from 'element-ui'
+import NProcess from 'nprogress'
+import 'nprogress/nprogress.css'
 
-import templateStudy from '@/views/elementui/templateStudy'
-import dateStudy from '@/views/elementui/dateStudy'
-import transferStudy from '@/views/elementui/transferStudy'
-import radioStudy from '@/views/elementui/radioStudy'
-import inputStudy from '@/views/elementui/inputStudy'
-import inputNumberStudy from '@/views/elementui/inputNumberStudy'
-import selectStudy from '@/views/elementui/selectStudy'
-import uploadStudy from '@/views/elementui/uploadStudy'
-import treeStudy from '@/views/elementui/treeStudy'
-import cardStudy from '@/views/elementui/cardStudy'
-import formStudy from '@/views/elementui/formStudy'
-import messageStudy from '@/views/elementui/messageStudy'
-import loadingStudy from '@/views/elementui/loadingStudy'
-import tableStudy from '@/views/elementui/tableStudy'
-import timeLineStudy from '@/views/elementui/timeLineStudy'
 import home from '@/views/home'
 import login from '@/views/login'
-import menu from '@/views/system/menu/index'
-import personInfo from '@/views/system/personInfo/index'
 
-// 使用懒加载
-const routerStudy = () => import('@/views/elementui/routerStudy')
+// 去掉右上角的圆圈
+NProcess.configure({showSpinner:false})
 
 Vue.use(Router)
 
@@ -54,7 +39,7 @@ const router = new Router({
     {
       path: '/personInfo',
       name: 'personInfo',
-      component: personInfo,
+      component: () => import('@/views/system/personInfo/index'),
       meta: {
         info: '个人信息'
       }
@@ -62,7 +47,7 @@ const router = new Router({
     {
       path: '/templateStudy',
       name: 'templateStudy',
-      component: templateStudy,
+      component: () => import('@/views/elementui/templateStudy'),
       meta: {
         info: '模板组件'
       }
@@ -70,7 +55,7 @@ const router = new Router({
     {
       path: '/dateStudy',
       name: 'dateStudy',
-      component: dateStudy,
+      component: () => import('@/views/elementui/dateStudy'),
       meta: {
         info: '日期组件'
       }
@@ -78,7 +63,7 @@ const router = new Router({
     {
       path: '/transferStudy',
       name: 'transferStudy',
-      component: transferStudy,
+      component: () => import('@/views/elementui/transferStudy'),
       meta: {
         info: '穿梭框组件'
       }
@@ -86,7 +71,7 @@ const router = new Router({
     {
       path: '/radioStudy',
       name: 'radioStudy',
-      component: radioStudy,
+      component: () => import('@/views/elementui/radioStudy'),
       meta: {
         info: '单选框组件'
       }
@@ -94,7 +79,7 @@ const router = new Router({
     {
       path: '/inputStudy',
       name: 'inputStudy',
-      component: inputStudy,
+      component: () => import('@/views/elementui/inputStudy'),
       meta: {
         info: '输入框组件'
       }
@@ -102,7 +87,7 @@ const router = new Router({
     {
       path: '/inputNumberStudy',
       name: 'inputNumberStudy',
-      component: inputNumberStudy,
+      component: () => import('@/views/elementui/inputNumberStudy'),
       meta: {
         info: '数字输入框组件'
       }
@@ -110,7 +95,7 @@ const router = new Router({
     {
       path: '/selectStudy',
       name: 'selectStudy',
-      component: selectStudy,
+      component: () => import('@/views/elementui/selectStudy'),
       meta: {
         info: '下拉选择框组件'
       }
@@ -118,7 +103,7 @@ const router = new Router({
     {
       path: '/uploadStudy',
       name: 'uploadStudy',
-      component: uploadStudy,
+      component: () => import('@/views/elementui/uploadStudy'),
       meta: {
         info: '上传组件'
       }
@@ -126,7 +111,7 @@ const router = new Router({
     {
       path: '/treeStudy',
       name: 'treeStudy',
-      component: treeStudy,
+      component: () => import('@/views/elementui/treeStudy'),
       meta: {
         info: '树形组件'
       }
@@ -134,7 +119,7 @@ const router = new Router({
     {
       path: '/cardStudy',
       name: 'cardStudy',
-      component: cardStudy,
+      component: () => import('@/views/elementui/cardStudy'),
       meta: {
         info: '卡片组件'
       }
@@ -142,7 +127,7 @@ const router = new Router({
     {
       path: '/formStudy',
       name: 'formStudy',
-      component: formStudy,
+      component: () => import('@/views/elementui/formStudy'),
       meta: {
         info: '表单组件'
       }
@@ -150,7 +135,7 @@ const router = new Router({
     {
       path: '/messageStudy',
       name: 'messageStudy',
-      component: messageStudy,
+      component: () => import('@/views/elementui/messageStudy'),
       meta: {
         infl: '消息组件'
       }
@@ -158,12 +143,12 @@ const router = new Router({
     {
       path: '/routerStudy',
       name: 'routerStudy',
-      component: routerStudy
+      component: () => import('@/views/elementui/routerStudy')
     },
     {
       path: '/loadingStudy',
       name: 'loadingStudy',
-      component: loadingStudy,
+      component: () => import('@/views/elementui/loadingStudy'),
       meta: {
         info: '加载组件'
       }
@@ -171,7 +156,7 @@ const router = new Router({
     {
       path: '/tableStudy',
       name: 'tableStudy',
-      component: tableStudy,
+      component: () => import('@/views/elementui/tableStudy'),
       meta: {
         info: '表格组件'
       }
@@ -179,17 +164,33 @@ const router = new Router({
     {
       path: '/timeLineStudy',
       name: 'timeLineStudy',
-      component: timeLineStudy,
+      component: () => import('@/views/elementui/timeLineStudy'),
       meta: {
         info: '时间线组件'
       }
     },
     {
       path: '/menu',
-      name: 'menuModel',
-      component: menu,
+      name: 'menu',
+      component: () => import('@/views/system/menu/index'),
       meta: {
         info: '菜单配置'
+      }
+    },
+    {
+      path: '/role',
+      name: 'role',
+      component: () => import('@/views/system/role/index'),
+      meta: {
+        info: '角色配置'
+      }
+    },
+    {
+      path: '/user',
+      name: 'user',
+      component: () => import('@/views/system/user/index'),
+      meta: {
+        info: '用户配置'
       }
     }
   ]
@@ -197,6 +198,7 @@ const router = new Router({
 
 // 拦截请求
 router.beforeEach((to, from, next) => {
+  NProcess.start(); //进度条开始
   // 如果访问的是登录界面则直接放行
   if (to.path === '/login') return next()
   // 获取用户页面token信息
@@ -210,6 +212,9 @@ router.beforeEach((to, from, next) => {
   }
 
   return next()
+})
+router.afterEach((to,from)=>{
+  NProcess.done();//页面跳转完成，关闭进度条
 })
 
 export default router

@@ -81,9 +81,6 @@ export default {
   created () {
     this.getUserInfo()
   },
-  watch:{
-    '$route':'getUserInfo'
-  },
   methods: {
     isCollapseOper () {
       this.isCollapse = !this.isCollapse
@@ -166,6 +163,7 @@ export default {
 }
 .right {
   margin-right: 20px;
+  margin-top: 3px;
 }
 .right > div > .icon {
   font-size: 18px;
