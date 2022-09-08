@@ -74,6 +74,8 @@ export default {
       // 为表单绑定验证功能
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          let loginResult = login(this.loginForm)
+          console.log(loginResult)
           login(this.loginForm).then((res)=>{
           if (res.code === '200') {
                 this.$message.success(res.message)

@@ -24,6 +24,11 @@
           <el-table-column prop="age" label="年龄"></el-table-column>
           <el-table-column prop="phone" label="手机号"> </el-table-column>
           <el-table-column prop="email" label="邮箱"> </el-table-column>
+          <el-table-column label="状态">
+            <template slot-scope="scope">
+              {{scope.status==0?'未启用':'启用'}}
+            </template>
+          </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
               <el-button type="text" @click="editUser('update',scope.row)">修改</el-button>
@@ -95,7 +100,8 @@
             phone: "",
             email: "",
             password: "123456",
-            age: ""
+            age: "",
+            status:0
         },
         tableData:[],
         modify:'',
@@ -128,6 +134,7 @@
               phone: "",
               email: "",
               password: "123456",
+              status:0
             }
           } else if (type=="update"){
             this.userTable = {
@@ -136,7 +143,8 @@
               email: data.email,
               id: data.id,
               age: data.age,
-              version: data.version
+              version: data.version,
+              status:data.status
             }
           }
           this.showUserModel = true
@@ -167,6 +175,7 @@
             email: "",
             age:"",
             password: "123456",
+            status:0
           },
           this.showUserModel = false
         },

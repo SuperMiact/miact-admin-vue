@@ -1,4 +1,6 @@
 import axios from 'axios'
+import { MessageBox } from 'element-ui'
+import router from '../router'
 
 // 创建axios实例
 const service = axios.create({
@@ -35,12 +37,27 @@ service.interceptors.response.use(
    * You can also judge the status by HTTP Status Code
    */
   response => {
-    let res = response.data;
-    if(res.code != 200){
-        return Promise.reject(res.data);
-    }else{
-        return res;
-    }
+    let res = response.data
+    // let resJson = JSON.parse(response.data);
+    // if(resJson.code == "2004"){
+    //   MessageBox.confirm('用户登录过期请重新登录, 是否继续?', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'warning'
+    //   })
+    //   .then(() => {
+    //     router.push('/login')
+    //   })
+    //   .catch(() => {
+    //     MessageBox.message({
+    //       type: 'info',
+    //       // message: ''
+    //     })
+    //   })
+    // }
+
+
+    return res;
   },
   error => {
     return Promise.reject(error)
