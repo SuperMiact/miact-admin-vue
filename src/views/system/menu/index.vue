@@ -96,14 +96,14 @@ export default {
       this.$refs.menuDigOther.menuType = 2
     },
     delMenu (row) {
-      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+      this.$confirm('此操作将删除该条数据, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
       .then(() => {
         delMenu(row).then(res => {
-          this.$message.success('删除' + res.data + '条数据成功')
+          this.$message.success('删除' + res.message + '条数据成功')
         })
         this.selectMainMenu()
         this.reload()
@@ -117,7 +117,7 @@ export default {
     },
     selectMainMenu () {
       getMenu().then((res) => {
-        this.tableData = res.results
+        this.tableData = res.message
       })
       .catch((err) => {
         this.$message.error(err)

@@ -83,6 +83,12 @@
     methods: {
         openAddRole(){
             this.showRole = true
+        },
+        cancelForm(){
+
+        },
+        submitForm(){
+          
         }
     }
   }
