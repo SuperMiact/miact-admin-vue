@@ -45,6 +45,8 @@
   </div>
 </template>
 <script>
+import {addMenu} from '@/api/system/menu/index'
+
 export default {
   name: "menuDialog",
   data() {
@@ -386,8 +388,8 @@ export default {
   methods: {
     submitForm() {
       this.centerDialogVisible = false;
-      this.$axios.post("/mainMenu/addMenu", this.formLabelAlign).then((res) => {
-        this.$message.success("成功，有" + res.data + "条数据被处理！");
+      addMenu(this.formLabelAlign).then((res) => {
+        this.$message.success("成功，有" + res.results + "条数据被处理！");
       });
       this.$emit("submitForm")
     },

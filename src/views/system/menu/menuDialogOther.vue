@@ -45,6 +45,7 @@
   </div>
 </template>
 <script>
+  import {addMenu,updateMenu} from '@/api/system/menu/index'
 export default {
   name: "menuDialogOther",
   data() {
@@ -388,16 +389,14 @@ export default {
     submitFormOther() {
       this.centerDialogVisible = false;
       if (this.menuType == 1) {
-        this.$axios
-          .post("/mainMenu/addMenu", this.formLabelAlign)
+        addMenu(this.formLabelAlign)
           .then((res) => {
-            this.$message.success("插入成功，有" + res.data + "条数据被处理！");
+            this.$message.success("插入成功，有" + res.results + "条数据被处理！");
           });
       } else {
-        this.$axios
-          .post("/mainMenu/updateMenu", this.formLabelAlign)
+        updateMenu(this.formLabelAlign)
           .then((res) => {
-            this.$message.success("修改成功，有" + res.data + "条数据被处理！");
+            this.$message.success("修改成功，有" + res.results + "条数据被处理！");
           });
       }
       this.$emit("submitFormOther")

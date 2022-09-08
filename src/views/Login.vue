@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import { login } from '@/api/login'
+
 export default {
   name: 'Login',
   components: {},
@@ -72,17 +74,17 @@ export default {
       // 为表单绑定验证功能
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.$axios
-            .post('/api/users/login', this.loginForm)
-            .then((res) => {
-              if (res.data.code === '200') {
-                this.$message.success(res.data.message)
-                window.sessionStorage.setItem('token', res.data.results)
+          login(this.loginForm).then((res)=>{
+          if (res.code === '200') {
+                this.$message.success(res.message)
+                window.sessionStorage.setItem('token', res.results)
                 this.$router.push('/home')
-              } else {
-                this.$message.error(res.data.message)
-              }
-            })
+             }else {
+              this.$message.error(res.message)
+            }
+          }).catch(res=>{
+            console.log(res)
+          })
         } else {
           this.$message.error('登录失败')
           return false

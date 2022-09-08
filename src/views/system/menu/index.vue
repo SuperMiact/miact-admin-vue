@@ -45,6 +45,7 @@
 <script>
 import menuDialog from './menuDialog'
 import menuDialogOther from './menuDialogOther'
+import {getMenu,delMenu} from '@/api/system/menu/index'
 export default {
   name: 'menuModel',
   components: {
@@ -63,9 +64,11 @@ export default {
   },
   methods: {
     subFormReload () {
+      this.selectMainMenu()
       this.reload()
     },
     subFormOtherReload () {
+      this.selectMainMenu()
       this.reload()
     },
     dialogCheck: function (selection, row) {
@@ -98,28 +101,27 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       })
-        .then(() => {
-          this.$axios.post('/mainMenu/delMenu', row).then((res) => {
-            this.$message.success('删除' + res.data + '条数据成功')
-          })
-          this.reload()
+      .then(() => {
+        delMenu(row).then(res => {
+          this.$message.success('删除' + res.data + '条数据成功')
         })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
+        this.selectMainMenu()
+        this.reload()
+      })
+      .catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
         })
+      })
     },
     selectMainMenu () {
-      this.$axios
-        .get('/mainMenu/getMenu')
-        .then((res) => {
-          this.tableData = res.data
-        })
-        .catch((err) => {
-          this.$message.error(err)
-        })
+      getMenu().then((res) => {
+        this.tableData = res.results
+      })
+      .catch((err) => {
+        this.$message.error(err)
+      })
     }
   }
 }

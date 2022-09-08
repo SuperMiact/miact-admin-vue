@@ -64,6 +64,9 @@
 </template>
 
 <script>
+import { userInfo } from '@/api/system/user/index'
+import { logout } from '@/api/login'
+
 export default {
   name: 'Header',
   data () {
@@ -94,14 +97,11 @@ export default {
       }
     },
     getUserInfo () {
-      this.$axios({
-        method: 'get',
-        url: '/api/users/userInfo'
-      }).then((res) => {
-        if (res.data.code === '200') {
-          window.sessionStorage.setItem('userInfo', JSON.stringify(res.data.results))
-          this.$set(this.userInfo,"loginUserName",res.data.results.username)
-          this.$set(this.userInfo,"headPortraitUrl",res.data.results.headPortraitUrl)
+      userInfo().then((res) => {
+        if (res.code === '200') {
+          window.sessionStorage.setItem('userInfo', JSON.stringify(res.results))
+          this.$set(this.userInfo,"loginUserName",res.results.username)
+          this.$set(this.userInfo,"headPortraitUrl",res.results.headPortraitUrl)
         }
       })
     },
@@ -138,15 +138,15 @@ export default {
       this.editPasswdOpen = true
     },
     userLogout () {
-      this.$axios
-        .get('/api/users/logout?token=' + window.sessionStorage.getItem('token'))
-        .then((res) => {
-          if (res.data.code === '200') {
-            window.sessionStorage.clear();
-            this.$message.success(res.data.message)
-            this.$router.push('/login')
-          }
-        })
+      logout().then((res) => {
+        if (res.code === '200') {
+          window.sessionStorage.clear();
+          this.$message.success(res.message)
+          this.$router.push('/login')
+        }else{
+          this.$router.push('/login')
+        }
+      })
     }
   }
 }

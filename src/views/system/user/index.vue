@@ -66,6 +66,7 @@
   </template>
   
   <script>
+  import { queryUsers } from '@/api/system/user/index'
 
   export default {
     name: 'role',
@@ -91,18 +92,16 @@
             this.showUser = true
         },
         getUserList(){
-            this.$axios({
-                method: 'get',
-                url: '/api/users/',
-                params:{
-                    'pageNo':1,
-                    'pageSize':5,
-                }
-            }).then((res) => {
-                if (res.data.code === '200') {
-                    this.tableData = res.data.results.data
-                }
-            })
+          let params = {
+            'pageNo':1,
+            'pageSize':5,
+          }
+          queryUsers(params).then((res) => {
+            console.log(res)
+            if (res.code === '200') {
+                this.tableData = res.results.data
+            }
+          })
         }
     }
   }

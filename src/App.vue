@@ -15,7 +15,7 @@
             <div class="head" v-if="!isCollapse">
               <span>Miact</span>
             </div>
-              <MenuTree :menuList="menuList.length === 0?this.selectMainMenu():menuList" />
+              <MenuTree :menuList="menuList.length === 0?selectMainMenu():menuList" />
           </el-menu>
         </el-aside>
       <el-container class="content">
@@ -32,9 +32,11 @@
   </div>
 </template>
 <script>
-import Header from '@/components/Header.vue'
-// import Footer from "@/components/Footer.vue";
-import MenuTree from '@/components/MenuTree.vue'
+import Header from '@/views/header.vue'
+// import Footer from '@/views/footer.vue';
+import MenuTree from '@/views/system/menu/menuTree.vue'
+import { getMenu } from '@/api/system/menu/index'
+
 export default {
   name: 'App',
   components: {
@@ -67,17 +69,15 @@ export default {
       this.isCollapse = isCollapse
     },
     selectMainMenu () {
-      this.$axios
-        .get('/mainMenu/getMenu')
-        .then((res) => {
-          this.menuList = res.data
-        })
-        .catch((err) => {
-          this.$message.error(err.data.message)
-          // this.$router.push('/login')
-        })
+      getMenu().then(res => {
+        this.menuList = res.results
+      })
+      .catch(err => {
+        console.log(err)
+        // this.$message.error(err.message)
+      })
       return this.menuList
-    }
+    },
   }
 }
 </script>
@@ -171,7 +171,6 @@ export default {
   background: rgba(248, 247, 247, 0.5);
 }
 </style>
-
 <style>
 body {
   padding: 0;

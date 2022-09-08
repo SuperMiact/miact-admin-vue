@@ -6,20 +6,20 @@ const path = require('path')
 
 module.exports = {
   dev: {
-
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
       // proxy all requests starting with /api to jsonplaceholder
-      '/api/**': {
+      '/api': {
         target: 'http://localhost:8090',
         changeOrigin: true,
         pathRewrite: {
+          // 这里是追加链接,比如真是接口里包含了 /api,就需要这样配置.
           '^/api': ''
         }
       },
-      '/api2/**': {
+      '/api2': {
         target: 'http://80.92.11.24:80',  //
         changeOrigin: true,
         pathRewrite: {
