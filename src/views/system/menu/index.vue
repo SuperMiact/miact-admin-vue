@@ -22,11 +22,16 @@
         @select-all="dialogCheck"
         @select="dialogCheck"
       >
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="name" label="名称"> </el-table-column>
-        <el-table-column prop="url" label="地址"> </el-table-column>
-        <el-table-column prop="sortOrder" label="排序"> </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column type="selection" align="center"></el-table-column>
+        <el-table-column prop="name" label="名称" align="left"> </el-table-column>
+        <el-table-column prop="url" label="地址" align="center"> </el-table-column>
+        <el-table-column prop="sortOrder" label="排序" align="center"> </el-table-column>
+        <el-table-column label="状态" align="center">
+          <template slot-scope="scope">
+             {{scope.row.status==1?'已启用':'未启用'}}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="addMenu(scope.row)">添加</el-button>
             <el-button type="text" @click="editMenu(scope.row)">修改</el-button>
@@ -117,7 +122,7 @@ export default {
     },
     selectMainMenu () {
       getMenu().then((res) => {
-        this.tableData = res.message
+        this.tableData = res.results
       })
       .catch((err) => {
         this.$message.error(err)

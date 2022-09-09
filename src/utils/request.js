@@ -5,7 +5,7 @@ import router from '../router'
 // 创建axios实例
 const service = axios.create({
   baseURL: '/api', // 接口请求地址 设置跨域代理基本路径前缀
-  timeout: 5000, // 请求超时时间
+  timeout: 10000, // 请求超时时间
 })
 
 // 添加请求拦截器

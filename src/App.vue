@@ -70,11 +70,16 @@ export default {
     },
     selectMainMenu () {
       getMenu().then(res => {
+        let resData = res.results.filter(item => {
+          return item['status'] > 0;
+        })
+        console.log(resData)
+
+
+        
         this.menuList = res.results
-      })
-      .catch(err => {
+      }).catch(err => {
         console.log(err)
-        // this.$message.error(err.message)
       })
       return this.menuList
     },
