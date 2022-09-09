@@ -73,11 +73,7 @@ export default {
         let resData = res.results.filter(item => {
           return item['status'] > 0;
         })
-        console.log(resData)
-
-
-        
-        this.menuList = res.results
+        this.menuList = resData
       }).catch(err => {
         console.log(err)
       })
