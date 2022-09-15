@@ -42,7 +42,7 @@
     </div>
     <el-dialog
       ref="menuDig"
-      title="添加主菜单"
+      title="编辑菜单"
       :visible.sync="showMenuModel"
       width="20%"
       center

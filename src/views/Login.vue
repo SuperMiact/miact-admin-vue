@@ -74,14 +74,12 @@ export default {
       // 为表单绑定验证功能
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let loginResult = login(this.loginForm)
-          console.log(loginResult)
           login(this.loginForm).then((res)=>{
-          if (res.code === '200') {
-                this.$message.success(res.message)
-                window.sessionStorage.setItem('token', res.results)
-                this.$router.push('/home')
-             }else {
+            if (res.code === '200') {
+              this.$message.success(res.message)
+              window.sessionStorage.setItem('token', res.results)
+              this.$router.push('/home')
+            }else {
               this.$message.error(res.message)
             }
           }).catch(res=>{

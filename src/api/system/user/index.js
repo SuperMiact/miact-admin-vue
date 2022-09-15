@@ -30,6 +30,15 @@ export function updateUser(data){
     })
 }
 
-
 // 删除用户
 export const delUser = (data) => request.delete('/api/users/'+data)
+
+// 导出用户数据
+// export const exportUser = (data) => request.get('/api/users/export',data)
+export function exportUser(data){
+    return request({
+        url: '/api/users/export',
+        method: 'get',
+        params: data
+    })
+}

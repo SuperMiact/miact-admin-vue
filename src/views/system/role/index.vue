@@ -33,7 +33,7 @@
 
     <el-dialog
         ref="roleDig"
-        title="创建角色"
+        title="编辑角色"
         :visible.sync="showRoleModel"
         width="20%"
         center
