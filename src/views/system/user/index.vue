@@ -1,246 +1,255 @@
 <template>
-  <div>
     <div>
-      <el-button
-        style="margin-bottom: 10px"
-        type="primary"
-        plain
-        @click="editUser('add')"
-        size="small"
-        >添加用户</el-button
-      >
-    </div>
-    <div>
-      <el-table
-        ref="tableF"
-        :data="tableData"
-        style="width: 100%"
-        row-key="id"
-        border
-        lazy
-      >
-        <el-table-column type="selection" align="center"></el-table-column>
-        <el-table-column
-          prop="username"
-          label="用户名称"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="age"
-          label="年龄"
-          align="center"
-        ></el-table-column>
-        <el-table-column prop="phone" label="手机号" align="center">
-        </el-table-column>
-        <el-table-column prop="email" label="邮箱" align="center">
-        </el-table-column>
-        <el-table-column label="状态" align="center">
-          <template slot-scope="scope">
-            {{ scope.row.status == 0 ? "未启用" : "启用" }}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button type="text" @click="editUser('update', scope.row)"
-              >修改</el-button
-            >
-            <el-button type="text" @click="delUser(scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-    <div class="block">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-size="10"
-        layout="prev, pager, next, jumper"
-        :total="pageTotal"
-      >
-      </el-pagination>
-    </div>
+      <div>
+        <el-button style="margin-bottom: 10px" type="success" plain @click="editUser('add')" size="small">新增用户</el-button>
+        <el-button style="margin-bottom: 10px" type="primary" plain :disabled="updateStatus" @click="editUser('update')" size="small">修改</el-button>
+        <el-button style="margin-bottom: 10px" type="danger" plain :disabled="delStatus" @click="delUser(selectAllUser)" size="small">删除</el-button>
+        <el-button style="margin-bottom: 10px" type="success" plain @click="bindRole()" size="small">分配角色</el-button>
+        <el-button style="margin-bottom: 10px" type="warning" plain @click="exportUsers()" size="small">导出</el-button>
+      </div>
+      <div>
+        <el-table
+          ref="tableF"
+          :data="tableData"
+          @select="userSelect"
+          style="width: 100%"
+          row-key="id"
+          border
+          lazy
+        >
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column prop="username" label="用户名称" align="center"> </el-table-column>
+          <el-table-column prop="age" label="年龄" align="center"></el-table-column>
+          <el-table-column prop="phone" label="手机号" align="center"> </el-table-column>
+          <el-table-column prop="email" label="邮箱" align="center"> </el-table-column>
+          <el-table-column label="状态" align="center">
+            <template slot-scope="scope">
+              {{scope.row.status===0?'未启用':'启用'}}
+            </template>
+          </el-table-column>
+          <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+              <el-button type="text" @click="editUser('update',scope.row)">修改</el-button>
+              <el-button type="text" @click="delUser(scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="currentPage"
+          :page-size="5"
+          layout="prev, pager, next, jumper"
+          :total="pageTotal">
+        </el-pagination>
+      </div>
 
     <el-dialog
-      ref="roleDig"
-      title="添加用户"
-      :visible.sync="showUserModel"
-      width="20%"
-      center
-    >
-      <el-form
-        label-position="right"
-        label-width="80px"
-        :model="userTable"
-        style="margin: 20px"
-      >
-        <div align="left">
-          <el-form-item label="用户名称">
-            <el-input v-model="userTable.username"></el-input>
-          </el-form-item>
-          <el-form-item label="年龄">
-            <el-input v-model="userTable.age"></el-input>
-          </el-form-item>
-          <el-form-item label="手机号">
-            <el-input v-model="userTable.phone"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱">
-            <el-input v-model="userTable.email"></el-input>
-          </el-form-item>
-          <el-form-item label="状态">
-            <el-switch
-              @change="userStatusChange"
-              v-model="userStatus"
-              active-color="#13ce66"
-              inactive-color="#ff4949"
-            >
-            </el-switch>
-          </el-form-item>
-        </div>
-      </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="closeUserForm">取 消</el-button>
-        <el-button type="primary" @click="submitUserForm">确 定</el-button>
-      </span>
-    </el-dialog>
-  </div>
-</template>
+        ref="roleDig"
+        title="编辑用户"
+        :visible.sync="showUserModel"
+        width="20%"
+        center
+        >
+        <el-form
+            label-position="right"
+            label-width="80px"
+            :model="userTable"
+            style="margin: 20px"
+        >
+            <div align="left">
+                <el-form-item label="用户名称">
+                    <el-input v-model="userTable.username"></el-input>
+                </el-form-item>
+                <el-form-item label="年龄">
+                    <el-input v-model="userTable.age"></el-input>
+                </el-form-item>
+                <el-form-item label="手机号">
+                    <el-input v-model="userTable.phone"></el-input>
+                </el-form-item>
+                <el-form-item label="邮箱">
+                    <el-input v-model="userTable.email"></el-input>
+                </el-form-item>
+                <el-form-item label="状态">
+                  <el-switch
+                    @change="userStatusChange"
+                    v-model="userStatus"
+                    active-color="#13ce66"
+                    inactive-color="#ff4949">
+                  </el-switch>
+                </el-form-item>
+            </div>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button @click="closeUserForm">取 消</el-button>
+            <el-button type="primary" @click="submitUserForm">确 定</el-button>
+        </span>
+        </el-dialog>
+    </div>
+  </template>
   
   <script>
-import {
-  queryUsers,
-  addUser,
-  updateUser,
-  delUser,
-} from "@/api/system/user/index";
+  import { queryUsers,addUser,updateUser,delUser,exportUser } from '@/api/system/user/index'
 
-export default {
-  name: "role",
-  components: {},
-  inject: ["reload"],
-  data() {
-    return {
-      showUserModel: false,
-      userTable: {
-        username: "",
-        phone: "",
-        email: "",
-        password: "123456",
-        age: "",
-        status: 0,
-      },
-      tableData: [],
-      modify: "",
-      currentPage: 1,
-      pageTotal: 0,
-      userStatus: false,
-    };
-  },
-  created() {
-    this.getUserList();
-  },
-  methods: {
-    getUserList() {
-      let params = {
-        pageNo: this.currentPage,
-        pageSize: 10,
-      };
-      queryUsers(params).then((res) => {
-        if (res.code === "200") {
-          this.tableData = res.results.data;
-          this.pageTotal = res.results.total;
-        }
-      });
+  export default {
+    name: 'role',
+    components: {
     },
-    editUser(type, data) {
-      this.modify = type;
-      if (type == "add") {
-        this.userTable = {
-          username: "",
-          age: "",
-          phone: "",
-          email: "",
-          password: "123456",
-          status: 0,
-        };
-      } else if (type == "update") {
-        this.userTable = {
-          username: data.username,
-          phone: data.phone,
-          email: data.email,
-          id: data.id,
-          age: data.age,
-          version: data.version,
-          status: data.status,
-        };
-        this.userStatus = data.status == 0 ? false : true;
+    inject: ['reload'],
+    data () {
+      return {
+        showUserModel:false,
+        userTable: {
+            username: "",
+            phone: "",
+            email: "",
+            password: "123456",
+            age: "",
+            status:0
+        },
+        tableData:[],
+        selectAllUser:[],
+        modify:'',
+        currentPage:1,
+        pageTotal:0,
+        updateStatus:true,
+        delStatus:true,
+        userStatus:false
       }
-      this.showUserModel = true;
     },
-    delUser(data) {
-      this.$confirm("此操作将删除该条数据, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-      })
-        .then(() => {
-          delUser(data.id).then((res) => {
-            this.$message.success(res.message);
-          });
-          this.reload();
-        })
-        .catch(() => {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-        });
+    created () {
+        this.getUserList()
     },
-    closeUserForm() {
-      (this.userTable = {
-        username: "",
-        phone: "",
-        email: "",
-        age: "",
-        password: "123456",
-        status: 0,
-      }),
-        (this.showUserModel = false);
-    },
-    submitUserForm() {
-      let modifyVal = this.modify;
-      if (modifyVal == "add") {
-        addUser(this.userTable).then((res) => {
-          console.log(res);
-          if (res.code == "200") {
-            this.$message.success(res.message);
-            this.reload();
+    methods: {
+        getUserList(){
+          let params = {
+            'pageNo':this.currentPage,
+            'pageSize':5,
           }
-        });
-      } else if (modifyVal == "update") {
-        updateUser(this.userTable).then((res) => {
-          if (res.code == "200") {
-            this.$message.success(res.message);
-            this.reload();
+          queryUsers(params).then((res) => {
+            if (res.code === '200') {
+                this.tableData = res.results.data
+                this.pageTotal = res.results.total
+            }
+          })
+        },
+        editUser(type,data){
+          this.userStatus = false
+          if(type&&type!=undefined&&type!=""){
+            this.modify = type
           }
-        });
-      }
-      this.showUserModel = false;
-      this.closeUserForm();
-    },
-    userStatusChange(data) {
-      if (data && data != undefined && data != "") {
-        this.$set(this.userTable, "status", data == true ? 1 : 0);
-      }
-    },
-    handleSizeChange(data) {
-      console.log("size:" + data);
-    },
-    handleCurrentChange(data) {
-      this.getUserList();
-      // console.log(this.currentPage)
-    },
-  },
-};
-</script>
+          if(type=="add"){
+            this.userTable = {
+              username: "",
+              age:"",
+              phone: "",
+              email: "",
+              password: "123456",
+              status:0
+            }
+          } else if (type=="update"){
+            let userData = data&&data!=undefined&&data!=""?data:this.selectAllUser[0]
+            this.userTable = {
+              username: userData.username,
+              phone: userData.phone,
+              email: userData.email,
+              id: userData.id,
+              age: userData.age,
+              version: userData.version,
+              status:userData.status
+            }
+            this.userStatus = userData.status==1?true:false
+          }
+          this.showUserModel = true
+        },
+        delUser(data){
+          let ids = []
+          this.$confirm('此操作将删除该条数据, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+          })
+          .then(() => {
+            data.forEach(item => {ids.push(item.id)});
+            delUser(ids).then(res => {
+              this.$message.success(res.message)
+            })
+            this.reload()
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            })
+          })
+        },
+        closeUserForm(){
+          this.userTable = {
+            username: "",
+            phone: "",
+            email: "",
+            age:"",
+            password: "123456",
+            status:0
+          },
+          this.showUserModel = false
+        },
+        submitUserForm(){
+          let modifyVal = this.modify
+          if(modifyVal == "add"){
+            addUser(this.userTable).then((res=>{
+              console.log(res)
+              if(res.code=="200"){
+                this.$message.success(res.message)
+                this.reload()
+              }
+            }))
+          }else if (modifyVal == "update"){
+            updateUser(this.userTable).then(res=>{
+              if(res.code=="200"){
+                this.$message.success(res.message)
+                this.reload()
+              }
+            })
+          }
+          this.showUserModel = false
+          this.closeUserForm()
+        },
+        handleSizeChange(data){
+          console.log('size:'+data)
+        },
+        handleCurrentChange(data){
+          this.getUserList()
+          // console.log(this.currentPage)
+        },
+        // 上方按钮
+        userSelect(selection,row){
+          if(selection.length > 1){
+            this.updateStatus = true
+          }else if (selection.length == 0){
+            this.delStatus = true
+          }else{
+            this.updateStatus = false
+            this.delStatus = false
+          }
+          this.selectAllUser = selection
+        },
+        bindRole(){
+          
+        },
+        exportUsers(){
+          exportUser({query:{},filename:'11'}).then(res=>{
+            console.log(res)
+          }).catch(res=>{
+            console.log(res)
+          })
+        },
+        userStatusChange(data){
+          this.userTable.status = data===true?1:0
+        },
+    }
+  }
+  </script>
   

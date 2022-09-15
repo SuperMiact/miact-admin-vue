@@ -23,7 +23,7 @@
         <div class="main">
           <router-view v-if="isRouterAlive"/>
         </div>
-        <!-- <Footer /> -->
+        // <Footer />
       </el-container>
     </el-container>
     <el-container v-else class="container">
@@ -70,11 +70,12 @@ export default {
     },
     selectMainMenu () {
       getMenu().then(res => {
-        this.menuList = res.results
-      })
-      .catch(err => {
+        let resData = res.results.filter(item => {
+          return item['status'] > 0;
+        })
+        this.menuList = resData
+      }).catch(err => {
         console.log(err)
-        // this.$message.error(err.message)
       })
       return this.menuList
     },
@@ -104,12 +105,14 @@ export default {
   /*滚动条里面小方块*/
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: rgba(251, 251, 252, 0.5);
 }
 
 .aside::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 0;
   background: rgba(99, 88, 140, 0.5);
 }
@@ -162,11 +165,13 @@ export default {
   /*滚动条里面小方块*/
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: rgba(95, 95, 98, 0.5);
 }
 .main::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 0;
   background: rgba(248, 247, 247, 0.5);
 }
@@ -220,12 +225,14 @@ a {
   /*滚动条里面小方块*/
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   background: rgba(251, 251, 252, 0.5);
 }
 
 .el-menu--vertical>.el-menu--popup::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 0;
   background: rgba(99, 88, 140, 0.5);
 }
