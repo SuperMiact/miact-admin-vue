@@ -36,9 +36,8 @@ export const delUser = (data) => request.delete('/api/users/'+data)
 // 绑定角色
 export function bindRole(data,roleId){
     return request({
-        url: '/api/users/bindRole/'+roleId,
+        url: '/api/users/bindRole/'+data+'/'+roleId,
         method:'post',
-        data:data
     })
 }
 

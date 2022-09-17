@@ -31,8 +31,9 @@
         style="margin-bottom: 10px"
         type="success"
         plain
-        @click="bindRoles(selectAllUser)"
+        @click="bindRoles(selectAllUser,'selectData')"
         size="small"
+        :disabled="bindStatus"
         >分配角色</el-button
       >
       <el-button
@@ -66,6 +67,8 @@
         </el-table-column>
         <el-table-column prop="email" label="邮箱" align="center">
         </el-table-column>
+        <el-table-column prop="roleName" label="角色" align="center">
+        </el-table-column>
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
             {{ scope.row.status === 0 ? "未启用" : "启用" }}
@@ -76,7 +79,7 @@
             <el-button type="text" @click="editUser('update', scope.row)"
               >修改</el-button
             >
-            <el-button type="text" @click="bindRoles(scope.row)"
+            <el-button type="text" @click="bindRoles(scope.row,'clickData')"
               >分配角色</el-button
             >
             <el-button type="text" @click="delUser(scope.row)">删除</el-button>
@@ -146,13 +149,29 @@
       width="20%"
       center
     >
-      <el-form-item label="选择角色">
-        <el-input v-model="userTable.username"></el-input>
-      </el-form-item>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="closeRoleForm">取 消</el-button>
-        <el-button type="primary" @click="submitRoleForm">确 定</el-button>
-      </span>
+      <el-form
+          label-position="right"
+          label-width="70px"
+          :model="userTable"
+          style="margin: 20px"
+        >
+        <div align="left">
+          <el-form-item label="角色类型">
+            <el-select v-model="userTable.roleId">
+              <el-option 
+              v-for="item in roleData"
+              :key="item.roleId"
+              :label="item.roleName"
+              :value="item.roleId"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <div slot="footer" class="dialog-role" style="margin-top:50px">
+            <el-button @click="closeRoleForm">取 消</el-button>
+            <el-button type="primary" style="margin-left:50px" @click="submitRoleForm">确 定</el-button>
+          </div>
+        </div>
+      </el-form>
     </el-dialog>
   </div>
 </template>
@@ -166,6 +185,10 @@ import {
   exportUser,
   bindRole,
 } from "@/api/system/user/index";
+
+import {
+  queryRoles,
+} from "@/api/system/role/index"
 
 export default {
   name: "role",
@@ -184,12 +207,15 @@ export default {
       },
       tableData: [],
       selectAllUser: [],
+      roleData:[],
       modify: "",
       currentPage: 1,
       pageTotal: 0,
+      roleId:"",
       updateStatus: true,
       delStatus: true,
       userStatus: false,
+      bindStatus:true,
       showRoleModel: false,
     };
   },
@@ -208,6 +234,15 @@ export default {
           this.pageTotal = res.results.total;
         }
       });
+      let roleParams = {
+        pageNo: this.currentPage,
+        pageSize: 100,
+      };
+      queryRoles(roleParams).then(res=>{
+        if(res.code==="200"){
+          this.roleData = res.results.data
+        }
+      })
     },
     editUser(type, data) {
       this.userStatus = false;
@@ -296,24 +331,6 @@ export default {
       this.showUserModel = false;
       this.closeUserForm();
     },
-    closeRoleForm() {
-      this.showRoleModel = false;
-    },
-    submitRoleForm() {
-      if (data && data != undefined && data != "") {
-        let ids = [];
-        data.forEach((item) => {
-          ids.push(item.id);
-        });
-        // bindRole(data, this.userTable.roleId)
-        //   .then((res) => {
-        //     console.log(res);
-        //   })
-        //   .catch((res) => {
-        //     console.log(res);
-        //   });
-      }
-    },
     handleSizeChange(data) {
       console.log("size:" + data);
     },
@@ -326,14 +343,38 @@ export default {
         this.updateStatus = true;
       } else if (selection.length == 0) {
         this.delStatus = true;
+        this.bindStatus = true;
       } else {
         this.updateStatus = false;
         this.delStatus = false;
+        this.bindStatus = false;
       }
       this.selectAllUser = selection;
     },
-    bindRoles(data) {
+    bindRoles(data,selectType) {
+      let ids = []
+      if(selectType=="selectData"){
+        this.selectAllUser.forEach((item)=>{ids.push(item.id)})
+        this.userTable = {roleId: "",id: ids,}
+      }else if(selectType=="clickData"){
+        ids.push(data.id)
+        this.userTable = {roleId: data['roleId'],id: ids,}
+      }
       this.showRoleModel = true;
+    },
+    submitRoleForm() {
+      let userTable = this.userTable
+        bindRole(userTable.id,userTable.roleId)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((res) => {
+            console.log(res);
+          });
+    },
+    closeRoleForm() {
+      this.roleId = ""
+      this.showRoleModel = false;
     },
     exportUsers() {
       exportUser({ query: {}, filename: "11" })
@@ -350,4 +391,3 @@ export default {
   },
 };
 </script>
-  
