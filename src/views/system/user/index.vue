@@ -383,10 +383,10 @@ export default {
       let userTable = this.userTable;
       bindRole(userTable.id, userTable.roleId)
         .then((res) => {
-          console.log(res);
+          this.$message.success(res.message);
         })
         .catch((res) => {
-          console.log(res);
+          this.$message.error(res.message);
         });
     },
     closeRoleForm() {
