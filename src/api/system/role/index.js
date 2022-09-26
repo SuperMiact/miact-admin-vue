@@ -36,5 +36,14 @@ export function queryRoleByRoleName(roleName){
     })
 }
 
+// 给角色分配权限
+export function allotRolePerms(data){
+    return request({
+        url:'/api/roles/allotRolePerms',
+        method:'post',
+        data
+    })
+}
+
 // 删除角色
 export const delRole = (data) => request.delete('/api/roles/delete'+data)

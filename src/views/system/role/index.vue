@@ -65,11 +65,29 @@
         <el-button type="primary" @click="submitForm">确 定</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog title="权限分配" :visible.sync="dialogPermsVisible">
+      <el-tree
+        :data="menuList"
+        show-checkbox
+        default-expand-all
+        node-key="id"
+        ref="tree"
+        highlight-current
+        :props="defaultProps"
+        @check="currentChecked">
+      </el-tree>
+      <div>
+        <el-button @click="dialogPermsVisible=false" style="margin-left:200px;margin-right: 50px;">取 消</el-button>
+        <el-button type="primary" @click="submitPermsSelect" style="margin-right:50px">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
   
   <script>
-import { addRole, queryRoles, updateRole } from "@/api/system/role/index";
+import { addRole, queryRoles, updateRole,allotRolePerms } from "@/api/system/role/index";
+import { getMenu } from "@/api/system/menu/index"
 
 export default {
   name: "role",
@@ -84,6 +102,14 @@ export default {
       },
       tableData: [],
       modify: "",
+      dialogPermsVisible:false,
+      menuList:[],
+      defaultProps: {
+          children: 'childNode',
+          label: 'name'
+      },
+      checkPermsList:[],
+      roleId:"",
     };
   },
   created() {
@@ -125,7 +151,38 @@ export default {
       });
     },
     allotRole(data) {
-      console.log(data);
+      this.dialogPermsVisible = true
+      getMenu().then(res=>{
+        this.menuList = res.results
+      })
+      this.roleId = data.roleId
+    },
+    submitPermsSelect(){
+      let checkPermsList = this.checkPermsList
+      if(checkPermsList.length > 0){
+        let ids = []
+        checkPermsList.forEach(item=>{
+          ids.push(JSON.stringify(item.id))
+        })
+        let query = {
+          ids,
+          roleId:this.roleId
+        }
+        allotRolePerms(query).then((res)=>{
+          console.log(res)
+        }).catch(res=>{
+          console.log(res)
+        })
+
+
+
+
+      }else{
+        this.$message.error("未选中节点")
+      }
+    },
+    currentChecked (currentObj, treeStatus) {
+      this.checkPermsList= this.$refs.tree.getCheckedNodes(false,true)
     },
     submitForm() {
       let modify = this.modify;

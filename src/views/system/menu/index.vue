@@ -24,6 +24,12 @@
       >
         <el-table-column type="selection" align="center"></el-table-column>
         <el-table-column prop="name" label="名称" align="left"> </el-table-column>
+        <el-table-column prop="perms" label="菜单权限" align="center"></el-table-column>
+        <el-table-column label="菜单类型" align="center">
+          <template slot-scope="scope">
+            {{scope.row.type==0?'目录':'菜单'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="url" label="地址" align="center"> </el-table-column>
         <el-table-column prop="sortOrder" label="排序" align="center"> </el-table-column>
         <el-table-column label="状态" align="center">
@@ -44,7 +50,7 @@
       ref="menuDig"
       title="编辑菜单"
       :visible.sync="showMenuModel"
-      width="20%"
+      width="360px"
       center
     >
       <el-form
@@ -59,6 +65,19 @@
           </el-form-item>
           <el-form-item label="地址">
             <el-input v-model="formData.url"></el-input>
+          </el-form-item>
+          <el-form-item label="菜单权限">
+            <el-input v-model="formData.perms"></el-input>
+          </el-form-item>
+          <el-form-item label="菜单类型">
+            <el-select placeholder="请选择" v-model="menuType" @change="changeMenuType">
+                <el-option 
+                v-for="mt in menuTypeList"
+                :key="mt.menuValue"
+                :label="mt.menuLabel"
+                :value="mt.menuValue"
+                ></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="图标" prop="icon">
             <el-select placeholder="请选择" v-model="formData.iconClass">
@@ -112,6 +131,8 @@ export default {
         iconClass: "",
         status:0,
         pid: 0,
+        type:'',
+        perms:"",
       },
       iconList: [
         { label: "el-icon-platform-eleme", value: "el-icon-platform-eleme" },
@@ -437,6 +458,11 @@ export default {
         },
         { label: "el-icon-ice-cream-round", value: "el-icon-ice-cream-round" },
       ],
+      menuType:'',
+      menuTypeList:[
+        {menuLabel:'目录',menuValue:'0'},
+        {menuLabel:'菜单',menuValue:'1'},
+      ],
       menuStatus:false
     }
   },
@@ -464,6 +490,7 @@ export default {
     },
     editMenu (type,row) {
       this.menuStatus = false
+      this.menuType = ''
       if(type&&type!=undefined&&type!=""){
         this.modify = type
       }
@@ -483,6 +510,7 @@ export default {
         }
       }else if (modify == "update"){
         this.menuStatus = row.status===1?true:false
+        this.menuType = row.type===0?'目录':'菜单'
         this.formData = row
       }
       this.showMenuModel = true
@@ -535,6 +563,11 @@ export default {
         }
       this.menuStatus = false  
       this.showMenuModel = false  
+    },
+    changeMenuType(data){
+      if(data&&data!=undefined&&data!=""){
+        this.formData.type = data
+      }
     },
   }
 }

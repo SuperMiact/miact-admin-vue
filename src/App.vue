@@ -23,7 +23,7 @@
         <div class="main">
           <router-view v-if="isRouterAlive"/>
         </div>
-        // <Footer />
+        <Footer />
       </el-container>
     </el-container>
     <el-container v-else class="container">
