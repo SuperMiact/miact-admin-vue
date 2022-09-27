@@ -6,6 +6,7 @@
         type="success"
         plain
         @click="editUser('add')"
+        v-if="isPerms('user:add')"
         size="small"
         >新增用户</el-button
       >
@@ -193,8 +194,7 @@ import {
 } from "@/api/system/user/index";
 
 import { queryRoles } from "@/api/system/role/index";
-
-import { getButtonPerms } from "@/utils/perms"
+import { getButtonPerms } from "@/utils/perms";
 
 export default {
   name: "role",
@@ -229,6 +229,9 @@ export default {
     this.getUserList();
   },
   methods: {
+    isPerms(permsValue) {
+      return getButtonPerms(permsValue);
+    },
     getUserList() {
       let params = {
         pageNo: this.currentPage,
@@ -249,14 +252,6 @@ export default {
           this.roleData = res.results.data;
         }
       });
-
-
-
-      let result = getButtonPerms('user:add')
-      console.log(result)
-
-
-      
     },
     editUser(type, data) {
       this.userStatus = false;
