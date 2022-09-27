@@ -1,7 +1,14 @@
 import request from '@/utils/request'
 
 // 获取菜单
-export const getMenu = () => request.get('/mainMenu/getMenu')
+// export const getMenu = () => request.get('/mainMenu/getMenu')
+export function getMenu(data){
+    return request({
+        url:'/mainMenu/getMenu',
+        method:'get',
+        params:data
+    })
+}
 
 // 添加菜单
 export function addMenu(data){

@@ -143,6 +143,7 @@ export default {
           window.sessionStorage.clear();
           this.$message.success(res.message)
           this.$router.push('/login')
+          this.$emit('clearMenuCache')
         }else{
           this.$router.push('/login')
         }

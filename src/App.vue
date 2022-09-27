@@ -19,7 +19,7 @@
           </el-menu>
         </el-aside>
       <el-container class="content">
-        <Header @isCollapseOper="isCollapseChange" />
+        <Header @isCollapseOper="isCollapseChange" @clearMenuCache="clearMenuCache" />
         <div class="main">
           <router-view v-if="isRouterAlive"/>
         </div>
@@ -67,18 +67,20 @@ export default {
     },
     isCollapseChange (isCollapse) {
       this.isCollapse = isCollapse
+      console.log(this.menuList)
     },
     selectMainMenu () {
-      getMenu().then(res => {
-        let resData = res.results.filter(item => {
-          return item['status'] > 0;
-        })
-        this.menuList = resData
-      }).catch(err => {
-        console.log(err)
+      let query = {
+        menuType:'global'
+      }
+      getMenu(query).then(res=>{
+        this.menuList = res.results
       })
       return this.menuList
     },
+    clearMenuCache(){
+      this.menuList = []
+    }
   }
 }
 </script>

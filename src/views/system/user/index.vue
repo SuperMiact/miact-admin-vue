@@ -194,6 +194,8 @@ import {
 
 import { queryRoles } from "@/api/system/role/index";
 
+import { getButtonPerms } from "@/utils/perms"
+
 export default {
   name: "role",
   components: {},
@@ -247,6 +249,14 @@ export default {
           this.roleData = res.results.data;
         }
       });
+
+
+
+      let result = getButtonPerms('user:add')
+      console.log(result)
+
+
+      
     },
     editUser(type, data) {
       this.userStatus = false;

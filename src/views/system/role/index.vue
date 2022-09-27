@@ -157,19 +157,22 @@ export default {
       })
       allotRolePermsByRoleId(data.roleId).then(res=>{
         let data = res.results
-        if(data.length>0){
-          this.$nextTick(()=>{
-            const nodes = []
-            data.forEach((item)=>{
-                const node = this.$refs.tree.getNode(item)
-                // 过滤掉不是叶子节点的
-                if(node.isLeaf){
-                  nodes.push(item)
-                }
-            })
-            this.$refs.tree.setCheckedKeys(nodes,true) 
-          })
-        }
+        this.$nextTick(()=>{
+          if(data&&data!=undefined&&data!=""){
+              if(data.length==0) this.$refs.tree.setCheckedKeys([]) 
+              const nodes = []
+              data.forEach((item)=>{
+                  const node = this.$refs.tree.getNode(item)
+                  // 过滤掉不是叶子节点的
+                  if(node.isLeaf){
+                    nodes.push(item)
+                  }
+              })
+              this.$refs.tree.setCheckedKeys(nodes,true) 
+          }else{
+            this.$refs.tree.setCheckedKeys([]) 
+          }
+      })
       })
       this.roleId = data.roleId
     },
