@@ -86,7 +86,7 @@
 </template>
   
   <script>
-import { addRole, queryRoles, updateRole,allotRolePerms } from "@/api/system/role/index";
+import { addRole, queryRoles, updateRole,allotRolePerms,allotRolePermsByRoleId } from "@/api/system/role/index";
 import { getMenu } from "@/api/system/menu/index"
 
 export default {
@@ -155,28 +155,38 @@ export default {
       getMenu().then(res=>{
         this.menuList = res.results
       })
+      allotRolePermsByRoleId(data.roleId).then(res=>{
+        let data = res.results
+        if(data.length>0){
+          this.$nextTick(()=>{
+            const nodes = []
+            data.forEach((item)=>{
+                const node = this.$refs.tree.getNode(item)
+                // 过滤掉不是叶子节点的
+                if(node.isLeaf){
+                  nodes.push(item)
+                }
+            })
+            this.$refs.tree.setCheckedKeys(nodes,true) 
+          })
+        }
+      })
       this.roleId = data.roleId
     },
     submitPermsSelect(){
       let checkPermsList = this.checkPermsList
       if(checkPermsList.length > 0){
-        let ids = []
+        let menuIds = []
         checkPermsList.forEach(item=>{
-          ids.push(JSON.stringify(item.id))
+          menuIds.push(item.id)
         })
         let query = {
-          ids,
+          menuIds,
           roleId:this.roleId
         }
         allotRolePerms(query).then((res)=>{
-          console.log(res)
-        }).catch(res=>{
-          console.log(res)
+          this.$message.success(res.message)
         })
-
-
-
-
       }else{
         this.$message.error("未选中节点")
       }

@@ -27,7 +27,9 @@
         <el-table-column prop="perms" label="菜单权限" align="center"></el-table-column>
         <el-table-column label="菜单类型" align="center">
           <template slot-scope="scope">
-            {{scope.row.type==0?'目录':'菜单'}}
+            <span v-if="scope.row.type==0">目录</span>
+            <span v-if="scope.row.type==1">菜单</span>
+            <span v-if="scope.row.type==2">按钮</span>
           </template>
         </el-table-column>
         <el-table-column prop="url" label="地址" align="center"> </el-table-column>
@@ -462,6 +464,7 @@ export default {
       menuTypeList:[
         {menuLabel:'目录',menuValue:'0'},
         {menuLabel:'菜单',menuValue:'1'},
+        {menuLabel:'按钮',menuValue:'2'},
       ],
       menuStatus:false
     }
@@ -510,7 +513,10 @@ export default {
         }
       }else if (modify == "update"){
         this.menuStatus = row.status===1?true:false
-        this.menuType = row.type===0?'目录':'菜单'
+        if(row.type===0)this.menuType='目录'
+        if(row.type===1)this.menuType='菜单'
+        if(row.type===2)this.menuType='按钮'
+
         this.formData = row
       }
       this.showMenuModel = true

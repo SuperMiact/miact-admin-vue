@@ -45,5 +45,21 @@ export function allotRolePerms(data){
     })
 }
 
+// 通过用户id查询角色权限
+export function allotRolePermsByUserId(data){
+    return request({
+        url:'/api/roles/allotRolePermsByUserId/'+data,
+        method:'get',
+    })
+}
+
+// 通过角色id查询角色权限
+export function allotRolePermsByRoleId(data){
+    return request({
+        url:'/api/roles/allotRolePermsByRoleId/'+data,
+        method:'get',
+    })
+}
+
 // 删除角色
 export const delRole = (data) => request.delete('/api/roles/delete'+data)
