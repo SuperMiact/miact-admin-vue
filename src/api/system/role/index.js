@@ -62,4 +62,4 @@ export function allotRolePermsByRoleId(data){
 }
 
 // 删除角色
-export const delRole = (data) => request.delete('/api/roles/delete'+data)
+export const delRole = (data) => request.delete('/api/roles/'+data)

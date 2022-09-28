@@ -32,7 +32,7 @@
             <el-button type="text" @click="allotRole(scope.row)"
               >权限</el-button
             >
-            <el-button type="text" @click="delRole(scope.row)">删除</el-button>
+            <el-button type="text" @click="deleteRole(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -86,7 +86,7 @@
 </template>
   
   <script>
-import { addRole, queryRoles, updateRole,allotRolePerms,allotRolePermsByRoleId } from "@/api/system/role/index";
+import { addRole, delRole, queryRoles, updateRole,allotRolePerms,allotRolePermsByRoleId } from "@/api/system/role/index";
 import { getMenu } from "@/api/system/menu/index"
 
 export default {
@@ -139,15 +139,21 @@ export default {
         };
       } else if (modify == "update") {
         this.roleTable = {
+          roleId: data.roleId,
           roleName: data.roleName,
           remark: data.remark,
         };
       }
       this.showRoleModel = true;
     },
-    delRole(data) {
-      delRole(data).then((res) => {
-        console.log(res);
+    deleteRole(data) {
+      delRole(data.roleId).then((res) => {
+        if(res.success == true){
+          this.$message.success(res.message)
+          this.reload()
+        }else{
+          this.$message.error(res.message)
+        }
       });
     },
     allotRole(data) {
@@ -190,6 +196,7 @@ export default {
         allotRolePerms(query).then((res)=>{
           this.$message.success(res.message)
         })
+        this.dialogPermsVisible = false
       }else{
         this.$message.error("未选中节点")
       }
@@ -211,9 +218,15 @@ export default {
             console.log(res);
           });
       } else if (modify == "update") {
+        console.log(this.roleTable)
         updateRole(this.roleTable)
           .then((res) => {
-            console.log(res);
+            if(res.success==true){
+              this.$message.success(res.message)
+              this.reload();
+            }else{
+              this.$message.error(res.message)
+            }
           })
           .catch((res) => {
             console.log(res);

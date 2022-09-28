@@ -528,10 +528,18 @@ export default {
         type: 'warning'
       })
       .then(() => {
-        delMenu(row).then(res => {
-          this.$message.success('删除' + res.message + '条数据成功')
-          this.reload()
-        })
+        if(row.childNode.length==0){
+          delMenu(row).then(res => {
+            if(res.success==true){
+              this.$message.success('删除' + res.results + '条数据成功')
+              this.reload()
+            }else{
+              this.$message.error(res.message)
+            }
+          })
+        }else{
+          this.$message.error('该节点下有子节点，请先删除子节点')
+        }
       })
       .catch(() => {
         this.$message({
@@ -547,13 +555,21 @@ export default {
       let modify = this.modify
       if(modify == "add"){
         addMenu(this.formData).then((res) => {
-          this.$message.success("成功，有" + res.results + "条数据被处理！");
-          this.reload()
+          if(res.success==true){
+            this.$message.success("成功，有" + res.results + "条数据被处理！");
+            this.reload()
+          }else{
+            this.$message.error(res.message)
+          }
         });
       }else if("update"){
         updateMenu(this.formData).then((res) => {
-          this.$message.success("修改成功，有" + res.results + "条数据被处理！");
-          this.reload()
+          if(res.success==true){
+            this.$message.success("修改成功，有" + res.results + "条数据被处理！");
+            this.reload()
+          }else{
+            this.$message.error(res.message)
+          }
         });
       }
       this.cancelForm()
