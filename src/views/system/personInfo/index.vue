@@ -1,29 +1,29 @@
 <template>
 <div>
     <div class="personInfoPage" >
-        <el-form ref="form" class="pipForm" :model="form" label-width="80px">
+        <el-form ref="form" class="pipForm" :model="userInfo" label-width="80px">
         <el-form-item label="头像">
             <a href="#"  @click="subAvatar">
-                <el-avatar v-if="userInfo.headPortraitUrl&&userInfo.headPortraitUrl!=undefined&&userInfo.headPortraitUrl!=''" :size="33" :src="userInfo.headPortraitUrl"/>
+                <el-avatar v-if="userInfo.headPortraitUrl&&userInfo.headPortraitUrl!=undefined&&userInfo.headPortraitUrl!=''" class="avatarBG" :size="50" :src="userInfo.headPortraitUrl"/>
                 <el-avatar v-else class="avatarBG" :size="50">
-                    <span class="nickNameColor">{{userInfo.username}}</span>
+                    <span class="nickNameColor">{{userInfo.nickName}}</span>
                 </el-avatar>
             </a>
         </el-form-item>
-        <el-form-item label="名称">
-            <el-input v-model="form.name"></el-input>
+        <el-form-item label="昵称">
+            <el-input v-model="userInfo.nickName"></el-input>
         </el-form-item>
         <el-form-item label="邮箱">
-            <el-input v-model="form.email"></el-input>
+            <el-input v-model="userInfo.email"></el-input>
         </el-form-item>
         <el-form-item label="手机">
-            <el-input v-model="form.phone"></el-input>
+            <el-input v-model="userInfo.phone"></el-input>
         </el-form-item>
         <el-form-item label="个人简介">
-            <el-input type="textarea" :rows="5" v-model="form.personIntro"></el-input>
+            <el-input type="textarea" :rows="5" v-model="userInfo.personInfo"></el-input>
         </el-form-item>
         <el-form-item>
-            <el-button type="primary" @click="onSubmit">修改信息</el-button>
+            <el-button type="primary" @click="submitPersonInfo">修改信息</el-button>
             <el-button>取消</el-button>
         </el-form-item>
         </el-form>
@@ -37,12 +37,12 @@
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
-                    <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                    <img v-if="userInfo.headPortraitUrl" :src="userInfo.headPortraitUrl" class="avatar">
                     <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                 </el-upload>
             </div>
             <div class="avatar-center">
-                <el-button style="margin-top:20px;width: 60%;" type="primary" plain>完成</el-button>
+                <el-button style="margin-top:20px;width: 60%;" type="primary" @click="avatarOpen = false" plain>完成</el-button>
             </div>
         </el-dialog>
     </div>
@@ -50,24 +50,23 @@
 
 </template>
 <script>
+import {updateUser,userInfo} from '@/api/system/user/index'
+
   export default {
+    name:'pagesonInfo',
+    inject: ["reload"],
     data() {
       return {
-        form: {
-          name: '',
-        },
         avatarOpen:false,
         userInfo:{},
-        imageUrl:''
       }
     },
     created(){
-        this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo')).data[0]
+      this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
     },
     methods: {
       handleAvatarSuccess(res, file) {
-        console.log(file)
-        this.imageUrl = URL.createObjectURL(file.raw);
+        this.userInfo.headPortraitUrl = URL.createObjectURL(file.raw);
       },
       beforeAvatarUpload(file) {
         const isJPG = file.type === 'image/jpeg';
@@ -81,8 +80,23 @@
         }
         return isJPG && isLt2M;
       },
-      onSubmit() {
-        alert('submit!');
+      submitPersonInfo() {
+        updateUser(this.userInfo).then(res=>{
+          if(res.success==true){
+            this.$message.success(res.message)
+            this.getUserInfo()
+          }else{
+            this.$message.error(res.message)
+          }
+        })
+      },
+      getUserInfo(){
+        userInfo().then(res=>{
+          if(res.success==true){
+            window.sessionStorage.setItem('userInfo', JSON.stringify(res.results))
+            this.userInfo = res.results
+          }
+        })
       },
       subAvatar(){
         this.$set(this,"avatarOpen",true)

@@ -100,7 +100,7 @@ export default {
       userInfo().then((res) => {
         if (res.code === '200') {
           window.sessionStorage.setItem('userInfo', JSON.stringify(res.results))
-          this.$set(this.userInfo,"loginUserName",res.results.username)
+          this.$set(this.userInfo,"loginUserName",res.results.nickName)
           this.$set(this.userInfo,"headPortraitUrl",res.results.headPortraitUrl)
         }
       })

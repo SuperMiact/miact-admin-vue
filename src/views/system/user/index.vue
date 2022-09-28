@@ -16,6 +16,7 @@
         plain
         :disabled="updateStatus"
         @click="editUser('update')"
+        v-if="isPerms('user:update')"
         size="small"
         >修改</el-button
       >
@@ -25,6 +26,7 @@
         plain
         :disabled="delStatus"
         @click="delUser(selectAllUser)"
+        v-if="isPerms('user:delete')"
         size="small"
         >删除</el-button
       >
@@ -35,6 +37,7 @@
         @click="bindRoles(selectAllUser, 'selectData')"
         size="small"
         :disabled="bindStatus"
+        v-if="isPerms('user:bind')"
         >分配角色</el-button
       >
       <el-button
@@ -43,6 +46,7 @@
         plain
         @click="exportUsers()"
         size="small"
+        v-if="isPerms('user:export')"
         >导出</el-button
       >
     </div>
@@ -78,13 +82,13 @@
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" @click="editUser('update', scope.row)"
+            <el-button type="text" v-if="isPerms('user:update')" @click="editUser('update', scope.row)"
               >修改</el-button
             >
-            <el-button type="text" @click="bindRoles(scope.row, 'clickData')"
+            <el-button type="text" v-if="isPerms('user:bind')" @click="bindRoles(scope.row, 'clickData')"
               >分配角色</el-button
             >
-            <el-button type="text" @click="delUser(scope.row)">删除</el-button>
+            <el-button type="text" v-if="isPerms('user:delete')" @click="delUser(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
