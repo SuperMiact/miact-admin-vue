@@ -199,6 +199,7 @@ import {
 
 import { queryRoles } from "@/api/system/role/index";
 import { getButtonPerms } from "@/utils/perms";
+import { download,getRemoteFile } from "@/utils/download"
 
 export default {
   name: "role",
@@ -403,9 +404,16 @@ export default {
       this.showRoleModel = false;
     },
     exportUsers() {
-      exportUser({ query: {}, filename: "11" })
+      let filename = 'user-data.xlsx'
+      exportUser({ query: {}, filename: filename })
         .then((res) => {
-          console.log(res);
+          if(res.success == true){
+            getRemoteFile(filename).then(res=>{
+              download(res,filename)
+            }).catch(res=>{
+              this.$message.error("下载失败")
+            })
+          }
         })
         .catch((res) => {
           console.log(res);
