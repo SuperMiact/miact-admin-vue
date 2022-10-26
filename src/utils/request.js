@@ -38,27 +38,27 @@ service.interceptors.response.use(
    */
   response => {
     let res = response.data
-    console.log(res)
+
+    // 沒有操作权限
     if (res.code === '2005') {
       Message.error(res.message)
     }
-    // let resJson = JSON.parse(response.data);
-    // if(resJson.code == "2004"){
-    //   MessageBox.confirm('用户登录过期请重新登录, 是否继续?', '提示', {
-    //     confirmButtonText: '确定',
-    //     cancelButtonText: '取消',
-    //     type: 'warning'
-    //   })
-    //   .then(() => {
-    //     router.push('/login')
-    //   })
-    //   .catch(() => {
-    //     MessageBox.message({
-    //       type: 'info',
-    //       // message: ''
-    //     })
-    //   })
-    // }
+
+    // token过期
+    if(res.code === '2004'){
+      MessageBox.confirm('用户登录过期请重新登录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      })
+      .then(() => {
+        // router.push('/login')
+        window.location.href = '/login'
+      })
+      .catch(() => {
+        Message.error('操作失败')
+      })
+    }
 
 
     return res;

@@ -73,7 +73,7 @@
           </el-form-item>
           <el-form-item label="菜单类型">
             <el-select placeholder="请选择" v-model="menuType" @change="changeMenuType">
-                <el-option 
+                <el-option
                 v-for="mt in menuTypeList"
                 :key="mt.menuValue"
                 :label="mt.menuLabel"
@@ -485,7 +485,9 @@ export default {
     },
     selectMainMenu () {
       getMenu().then((res) => {
-        this.tableData = res.results
+        if (res.success == true){
+          this.tableData = res.results
+        }
       })
       .catch((err) => {
         this.$message.error(err)
@@ -583,8 +585,8 @@ export default {
           status:0,
           pid: 0,
         }
-      this.menuStatus = false  
-      this.showMenuModel = false  
+      this.menuStatus = false
+      this.showMenuModel = false
     },
     changeMenuType(data){
       if(data&&data!=undefined&&data!=""){

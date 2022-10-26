@@ -74,7 +74,9 @@ export default {
         menuType:'global'
       }
       getMenu(query).then(res=>{
-        this.menuList = res.results
+        if (res.success == true){
+          this.menuList = res.results
+        }
       })
       return this.menuList
     },
