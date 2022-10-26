@@ -84,7 +84,7 @@
     </el-dialog>
   </div>
 </template>
-  
+
   <script>
 import { addRole, delRole, queryRoles, updateRole,allotRolePerms,allotRolePermsByRoleId } from "@/api/system/role/index";
 import { getMenu } from "@/api/system/menu/index"
@@ -165,7 +165,7 @@ export default {
         let data = res.results
         this.$nextTick(()=>{
           if(data&&data!=undefined&&data!=""){
-              if(data.length==0) this.$refs.tree.setCheckedKeys([]) 
+              if(data.length==0) this.$refs.tree.setCheckedKeys([])
               const nodes = []
               data.forEach((item)=>{
                   const node = this.$refs.tree.getNode(item)
@@ -174,32 +174,29 @@ export default {
                     nodes.push(item)
                   }
               })
-              this.$refs.tree.setCheckedKeys(nodes,true) 
+              this.$refs.tree.setCheckedKeys(nodes,true)
           }else{
-            this.$refs.tree.setCheckedKeys([]) 
+            this.$refs.tree.setCheckedKeys([])
           }
+          this.checkPermsList= this.$refs.tree.getCheckedNodes(false,true)
       })
       })
       this.roleId = data.roleId
     },
     submitPermsSelect(){
       let checkPermsList = this.checkPermsList
-      if(checkPermsList.length > 0){
-        let menuIds = []
-        checkPermsList.forEach(item=>{
-          menuIds.push(item.id)
-        })
-        let query = {
-          menuIds,
-          roleId:this.roleId
-        }
-        allotRolePerms(query).then((res)=>{
-          this.$message.success(res.message)
-        })
-        this.dialogPermsVisible = false
-      }else{
-        this.$message.error("未选中节点")
+      let menuIds = []
+      checkPermsList.forEach(item=>{
+        menuIds.push(item.id)
+      })
+      let query = {
+        menuIds,
+        roleId:this.roleId
       }
+      allotRolePerms(query).then((res)=>{
+        this.$message.success(res.message)
+      })
+      this.dialogPermsVisible = false
     },
     currentChecked (currentObj, treeStatus) {
       this.checkPermsList= this.$refs.tree.getCheckedNodes(false,true)
@@ -244,4 +241,3 @@ export default {
   },
 };
 </script>
-  

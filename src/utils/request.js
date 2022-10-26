@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { MessageBox } from 'element-ui'
+import {Message, MessageBox} from 'element-ui'
 import router from '../router'
 
 // 创建axios实例
@@ -18,9 +18,9 @@ service.interceptors.request.use(
             config.headers.common['token'] = sessionStorage.getItem('token')
         }
         return config
-  }, 
+  },
   error => {
-        return Promise.reject(error) 
+        return Promise.reject(error)
   }
 )
 
@@ -38,6 +38,10 @@ service.interceptors.response.use(
    */
   response => {
     let res = response.data
+    console.log(res)
+    if (res.code === '2005') {
+      Message.error(res.message)
+    }
     // let resJson = JSON.parse(response.data);
     // if(resJson.code == "2004"){
     //   MessageBox.confirm('用户登录过期请重新登录, 是否继续?', '提示', {
