@@ -36,9 +36,6 @@
             @click="submitForm('loginForm')"
             >立即登录</el-button
           >
-          <!-- <el-checkbox v-model="checked" @change="!checked"
-            >下次自动登录</el-checkbox
-          > -->
         </el-form-item>
       </el-form>
     </div>
@@ -66,7 +63,6 @@ export default {
           { required: true, message: '密码不可为空', trigger: 'blur' }
         ]
       },
-      checked: []
     }
   },
   methods: {
