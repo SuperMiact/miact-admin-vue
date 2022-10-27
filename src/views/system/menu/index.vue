@@ -28,8 +28,8 @@
         <el-table-column label="菜单类型" align="center">
           <template slot-scope="scope">
             <span v-if="scope.row.type===0">目录</span>
-            <span v-if="scope.row.type===1">菜单</span>
-            <span v-if="scope.row.type===2">按钮</span>
+            <span v-else-if="scope.row.type===1">菜单</span>
+            <span v-else-if="scope.row.type===2">按钮</span>
           </template>
         </el-table-column>
         <el-table-column prop="url" label="地址" align="center"> </el-table-column>
@@ -41,7 +41,10 @@
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" @click="editMenu('add',scope.row)">添加{{scope.row.type===0?'菜单':'按钮'}}</el-button>
+            <el-button type="text" @click="editMenu('add',scope.row)">
+              <span v-if="scope.row.type===0">添加菜单</span>
+              <span v-else-if="scope.row.type===1">添加按钮</span>
+            </el-button>
             <el-button type="text" @click="editMenu('update',scope.row)">修改</el-button>
             <el-button type="text" @click="delMenu(scope.row)">删除</el-button>
           </template>
@@ -63,7 +66,7 @@
       >
         <div align="center">
           <el-form-item label="菜单类型">
-            <el-select placeholder="请选择" v-model="menuType" @change="changeMenuType">
+            <el-select placeholder="请选择" v-model="menuType" :disabled="true" @change="changeMenuType">
               <el-option
                 v-for="mt in menuTypeList"
                 :key="mt.menuValue"
@@ -75,13 +78,13 @@
           <el-form-item label="名称">
             <el-input v-model="formData.name"></el-input>
           </el-form-item>
-          <el-form-item label="地址">
+          <el-form-item label="地址" v-show="showAddr">
             <el-input v-model="formData.url"></el-input>
           </el-form-item>
-          <el-form-item label="权限">
+          <el-form-item label="权限" v-show="showPerms">
             <el-input v-model="formData.perms"></el-input>
           </el-form-item>
-          <el-form-item label="图标" prop="icon">
+          <el-form-item label="图标" prop="icon" v-show="showIcons">
             <el-select placeholder="请选择" v-model="formData.iconClass">
               <el-option
                 v-for="item in iconList"
@@ -93,7 +96,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="排序">
+          <el-form-item label="排序" >
             <el-input v-model="formData.sortOrder"></el-input>
           </el-form-item>
           <el-form-item label="状态">
@@ -466,7 +469,10 @@ export default {
         {menuLabel: '菜单', menuValue: '1'},
         {menuLabel: '按钮', menuValue: '2'}
       ],
-      menuStatus: false
+      menuStatus: false,
+      showAddr: true,
+      showPerms: true,
+      showIcons: true
     }
   },
   created () {
@@ -499,6 +505,7 @@ export default {
       if (type && type !== '') {
         this.modify = type
       }
+      this.showAddEditMenu(row)
       let modify = this.modify
       if (modify === 'add') {
         let pid = 0
@@ -518,10 +525,52 @@ export default {
         if (row.type === 0) this.menuType = '目录'
         else if (row.type === 1) this.menuType = '菜单'
         else if (row.type === 2) this.menuType = '按钮'
+        this.showUpdateEditMenu(row)
 
         this.formData = row
       }
+
       this.showMenuModel = true
+    },
+    showAddEditMenu(data) {
+      if (data && data !== ''){
+        if (data.type === 0) {
+          this.showAddr = true
+          this.showPerms = true
+          this.showIcons = true
+          this.menuType = '菜单'
+        }else if (data.type === 1) {
+          this.showAddr = false
+          this.showPerms = true
+          this.showIcons = false
+          this.menuType = '按钮'
+        }
+      }else {
+        this.showAddr = true
+        this.showPerms = true
+        this.showIcons = true
+        this.menuType = '目录'
+      }
+    },
+    showUpdateEditMenu(data) {
+      if (data && data !== ''){
+        if (data.type === 0) {
+          this.showAddr = true
+          this.showPerms = true
+          this.showIcons = true
+          this.menuType = '目录'
+        }else if (data.type === 1) {
+          this.showAddr = true
+          this.showPerms = true
+          this.showIcons = true
+          this.menuType = '菜单'
+        }else if (data.type === 2) {
+          this.showAddr = false
+          this.showPerms = true
+          this.showIcons = false
+          this.menuType = '菜单'
+        }
+      }
     },
     delMenu (row) {
       this.$confirm('此操作将删除该条数据, 是否继续?', '提示', {
