@@ -53,7 +53,7 @@
     </div>
     <el-dialog
       ref="menuDig"
-      title="编辑菜单"
+      :title="this.menuType"
       :visible.sync="showMenuModel"
       width="360px"
       center
@@ -158,9 +158,7 @@ export default {
   methods: {
     dialogCheck: function (selection, row) {
       this.$refs.tableF.clearSelection()
-      if (selection.length === 0) {
-        return
-      }
+      if (selection.length === 0) return
       this.radioData = row
       if (row) {
         this.$refs.tableF.toggleRowSelection(row, true)
@@ -214,7 +212,7 @@ export default {
       this.showMenuModel = true
     },
     showAddEditMenu(data) {
-      if (data && data !== ''){
+      if (data && data !== '') {
         if (data.type === 0) {
           this.showAddr = true
           this.showPerms = true
@@ -226,15 +224,10 @@ export default {
           this.showIcons = false
           this.menuType = '按钮'
         }
-      }else {
-        this.showAddr = true
-        this.showPerms = true
-        this.showIcons = true
-        this.menuType = '目录'
       }
     },
     showUpdateEditMenu(data) {
-      if (data && data !== ''){
+      if (data && data !== '') {
         switch (data.type) {
           case 0:
             this.showAddr = true
@@ -252,7 +245,7 @@ export default {
             this.showAddr = false
             this.showPerms = true
             this.showIcons = false
-            this.menuType = '菜单'
+            this.menuType = '按钮'
             break
         }
       }
