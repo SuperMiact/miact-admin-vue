@@ -45,131 +45,6 @@ const router = new Router({
       }
     },
     {
-      path: '/templateStudy',
-      name: 'templateStudy',
-      component: () => import('@/views/elementui/templateStudy'),
-      meta: {
-        info: '模板组件'
-      }
-    },
-    {
-      path: '/dateStudy',
-      name: 'dateStudy',
-      component: () => import('@/views/elementui/dateStudy'),
-      meta: {
-        info: '日期组件'
-      }
-    },
-    {
-      path: '/transferStudy',
-      name: 'transferStudy',
-      component: () => import('@/views/elementui/transferStudy'),
-      meta: {
-        info: '穿梭框组件'
-      }
-    },
-    {
-      path: '/radioStudy',
-      name: 'radioStudy',
-      component: () => import('@/views/elementui/radioStudy'),
-      meta: {
-        info: '单选框组件'
-      }
-    },
-    {
-      path: '/inputStudy',
-      name: 'inputStudy',
-      component: () => import('@/views/elementui/inputStudy'),
-      meta: {
-        info: '输入框组件'
-      }
-    },
-    {
-      path: '/inputNumberStudy',
-      name: 'inputNumberStudy',
-      component: () => import('@/views/elementui/inputNumberStudy'),
-      meta: {
-        info: '数字输入框组件'
-      }
-    },
-    {
-      path: '/selectStudy',
-      name: 'selectStudy',
-      component: () => import('@/views/elementui/selectStudy'),
-      meta: {
-        info: '下拉选择框组件'
-      }
-    },
-    {
-      path: '/uploadStudy',
-      name: 'uploadStudy',
-      component: () => import('@/views/elementui/uploadStudy'),
-      meta: {
-        info: '上传组件'
-      }
-    },
-    {
-      path: '/treeStudy',
-      name: 'treeStudy',
-      component: () => import('@/views/elementui/treeStudy'),
-      meta: {
-        info: '树形组件'
-      }
-    },
-    {
-      path: '/cardStudy',
-      name: 'cardStudy',
-      component: () => import('@/views/elementui/cardStudy'),
-      meta: {
-        info: '卡片组件'
-      }
-    },
-    {
-      path: '/formStudy',
-      name: 'formStudy',
-      component: () => import('@/views/elementui/formStudy'),
-      meta: {
-        info: '表单组件'
-      }
-    },
-    {
-      path: '/messageStudy',
-      name: 'messageStudy',
-      component: () => import('@/views/elementui/messageStudy'),
-      meta: {
-        infl: '消息组件'
-      }
-    },
-    {
-      path: '/routerStudy',
-      name: 'routerStudy',
-      component: () => import('@/views/elementui/routerStudy')
-    },
-    {
-      path: '/loadingStudy',
-      name: 'loadingStudy',
-      component: () => import('@/views/elementui/loadingStudy'),
-      meta: {
-        info: '加载组件'
-      }
-    },
-    {
-      path: '/tableStudy',
-      name: 'tableStudy',
-      component: () => import('@/views/elementui/tableStudy'),
-      meta: {
-        info: '表格组件'
-      }
-    },
-    {
-      path: '/timeLineStudy',
-      name: 'timeLineStudy',
-      component: () => import('@/views/elementui/timeLineStudy'),
-      meta: {
-        info: '时间线组件'
-      }
-    },
-    {
       path: '/menu',
       name: 'menu',
       component: () => import('@/views/system/menu/index'),
@@ -198,7 +73,7 @@ const router = new Router({
 
 // 拦截请求
 router.beforeEach((to, from, next) => {
-  NProcess.start(); //进度条开始
+  NProcess.start() // 进度条开始
   // 如果访问的是登录界面则直接放行
   if (to.path === '/login') return next()
   // 获取用户页面token信息
@@ -213,8 +88,8 @@ router.beforeEach((to, from, next) => {
 
   return next()
 })
-router.afterEach((to,from)=>{
-  NProcess.done();//页面跳转完成，关闭进度条
+router.afterEach((to,from) => {
+  NProcess.done()// 页面跳转完成，关闭进度条
 })
 
 export default router

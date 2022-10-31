@@ -4,7 +4,7 @@
         <el-form ref="form" class="pipForm" :model="userInfo" label-width="80px">
         <el-form-item label="头像">
             <a href="#"  @click="subAvatar">
-                <el-avatar v-if="userInfo.headPortraitUrl&&userInfo.headPortraitUrl!=undefined&&userInfo.headPortraitUrl!=''" class="avatarBG" :size="50" :src="userInfo.headPortraitUrl"/>
+                <el-avatar v-if="userInfo.headPortraitUrl&&userInfo.headPortraitUrl!==''" class="avatarBG" :size="50" :src="userInfo.headPortraitUrl"/>
                 <el-avatar v-else class="avatarBG" :size="50">
                     <span class="nickNameColor">{{userInfo.nickName}}</span>
                 </el-avatar>
@@ -33,7 +33,8 @@
             <div class="avatar-center">
                 <el-upload
                 class="avatar-uploader"
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="/api/api/users/savePersonImg"
+                :headers="myHeaders"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload">
@@ -50,59 +51,94 @@
 
 </template>
 <script>
-import {updateUser,userInfo} from '@/api/system/user/index'
+import {updateUser, userInfo} from '@/api/system/user/index'
 
-  export default {
-    name:'pagesonInfo',
-    inject: ["reload"],
-    data() {
-      return {
-        avatarOpen:false,
-        userInfo:{},
-      }
+export default {
+  name: 'pagesonInfo',
+  inject: ['reload'],
+  data () {
+    return {
+      avatarOpen: false,
+      userInfo: {},
+      myHeaders: {'token': sessionStorage.getItem('token')}
+    }
+  },
+  created () {
+    this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+  },
+  methods: {
+    handleAvatarSuccess (res, file) {
+      this.userInfo.headPortraitUrl = URL.createObjectURL(file.raw)
     },
-    created(){
-      this.userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
-    },
-    methods: {
-      handleAvatarSuccess(res, file) {
-        this.userInfo.headPortraitUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+    beforeAvatarUpload (file) {
+      const isPNF = file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
 
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      },
-      submitPersonInfo() {
-        updateUser(this.userInfo).then(res=>{
-          if(res.success==true){
-            this.$message.success(res.message)
-            this.getUserInfo()
-          }else{
-            this.$message.error(res.message)
-          }
-        })
-      },
-      getUserInfo(){
-        userInfo().then(res=>{
-          if(res.success==true){
-            window.sessionStorage.setItem('userInfo', JSON.stringify(res.results))
-            this.userInfo = res.results
-          }
-        })
-      },
-      subAvatar(){
-        this.$set(this,"avatarOpen",true)
+      if (!isPNF) {
+        this.$message.error('上传头像图片只能是 PNG 格式!')
+        return false
       }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+        return false
+      }
+      // 调用[限制图片尺寸]函数
+      return this.limitFileWH(50, 50, file).then((res) => {
+        file.isFlag = res
+        return file.isFlag ? true : reject(false)
+      })
+    },
+    // 限制图片尺寸
+    limitFileWH (limitWidth, limitHeight, file) {
+      const _this = this
+      let imgWidth = ''
+      let imgHight = ''
+      const isSize = new Promise(function (resolve, reject) {
+        const width = limitWidth
+        const height = limitHeight
+        const _URL = window.URL || window.webkitURL
+        const img = new Image()
+        img.onload = function () {
+          imgWidth = img.width
+          imgHight = img.height
+          const valid = img.width === width && img.height === height
+          valid ? resolve() : reject(new Error())
+        }
+        img.src = _URL.createObjectURL(file)
+      }).then(() => {
+        return true
+      }, () => {
+        _this.$message.warning({
+          message: '上传图片的尺寸应为' + limitWidth + '*' + limitHeight + '，当前上传图片的尺寸为：' + imgWidth + '*' + imgHight,
+          btn: false
+        })
+        return false
+      })
+      return isSize
+    },
+    submitPersonInfo () {
+      updateUser(this.userInfo).then(res => {
+        if (res.success === true) {
+          this.$message.success(res.message)
+          this.getUserInfo()
+        } else {
+          this.$message.error(res.message)
+        }
+      })
+    },
+    getUserInfo () {
+      userInfo().then(res => {
+        if (res.success === true) {
+          window.sessionStorage.setItem('userInfo', JSON.stringify(res.results))
+          this.userInfo = res.results
+        }
+      })
+    },
+    subAvatar () {
+      this.$set(this, 'avatarOpen', true)
     }
   }
+}
 </script>
 <style scoped>
  .personInfoPage{
@@ -142,8 +178,8 @@ import {updateUser,userInfo} from '@/api/system/user/index'
     text-align: center;
   }
   .avatar {
-    width: 178px;
-    height: 178px;
+    width: 50px;
+    height: 50px;
     display: block;
   }
   .avatar-center{

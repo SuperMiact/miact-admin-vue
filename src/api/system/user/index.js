@@ -4,48 +4,48 @@ import request from '@/utils/request'
 export const userInfo = () => request.get('/api/users/userInfo')
 
 // 查询所有用户
-export function queryUsers(params){
-    return request({
-        url: '/api/users/',
-        method: 'get',
-        params: params
-    })
+export function queryUsers (params) {
+  return request({
+    url: '/api/users/',
+    method: 'get',
+    params: params
+  })
 }
 
 // 添加用户
-export function addUser(data){
-    return request({
-        url: '/api/users/',
-        method: 'post',
-        data: data
-    })
+export function addUser (data) {
+  return request({
+    url: '/api/users/',
+    method: 'post',
+    data: data
+  })
 }
 
 // 修改用户
-export function updateUser(data){
-    return request({
-        url: '/api/users/'+data.id,
-        method: 'put',
-        data: data
-    })
+export function updateUser (data) {
+  return request({
+    url: '/api/users/' + data.id,
+    method: 'put',
+    data: data
+  })
 }
 
 // 删除用户
-export const delUser = (data) => request.delete('/api/users/'+data)
+export const delUser = (data) => request.delete('/api/users/' + data)
 
 // 绑定角色
-export function bindRole(data,roleId){
-    return request({
-        url: '/api/users/bindRole/'+data+'/'+roleId,
-        method:'post',
-    })
+export function bindRole (data, roleId) {
+  return request({
+    url: '/api/users/bindRole/' + data + '/' + roleId,
+    method: 'post'
+  })
 }
 
 // 导出用户数据
-export function exportUser(data){
-    return request({
-        url: '/api/users/export',
-        method: 'get',
-        params: data
-    })
+export function exportUser (data) {
+  return request({
+    url: '/api/users/export',
+    method: 'get',
+    params: data
+  })
 }
