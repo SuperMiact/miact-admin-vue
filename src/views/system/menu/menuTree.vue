@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'MenuTree',
+  name: 'menuTree',
   props: {
     menuList: {
       type: Array,
