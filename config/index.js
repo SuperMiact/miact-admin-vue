@@ -12,7 +12,7 @@ module.exports = {
     proxyTable: {
       // proxy all requests starting with /api to jsonplaceholder
       '/api': {
-        target: 'http://localhost:8090',
+        target: 'http://81.70.249.58:8090',
         changeOrigin: true,
         pathRewrite: {
           // 这里是追加链接,比如真是接口里包含了 /api,就需要这样配置.
@@ -29,7 +29,7 @@ module.exports = {
     },
 
     // Various Dev Server settings
-    host: 'localhost', // can be overwritten by process.env.HOST
+    host: '0.0.0.0', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
