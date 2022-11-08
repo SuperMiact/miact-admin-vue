@@ -3,8 +3,12 @@ const chalk = require('chalk')
 const semver = require('semver')
 const packageConfig = require('../package.json')
 const shell = require('shelljs')
+const os = require('os')
 
 function exec (cmd) {
+  if (os.type() === 'Linux') {
+    cmd = 'sudo '+ cmd
+  }
   return require('child_process').execSync(cmd).toString().trim()
 }
 
