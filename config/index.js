@@ -9,25 +9,24 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      // proxy all requests starting with /api to jsonplaceholder
-      '/api': {
-        ws: false,
-        target: 'http://81.70.249.58:8090',
-        changeOrigin: true,
-        pathRewrite: {
-          // 这里是追加链接,比如真是接口里包含了 /api,就需要这样配置.
-          '^/api': ''
-        }
-      },
-      '/api2': {
-        target: 'http://80.92.11.24:80',  //
-        changeOrigin: true,
-        pathRewrite: {
-            '^/api2': '' //这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/api/user/add’即可
-        }
-      }
-    },
+    // proxyTable: {
+    //   // proxy all requests starting with /api to jsonplaceholder
+    //   '/api': {
+    //     target: 'http://81.70.249.58:8090',
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       // 这里是追加链接,比如真是接口里包含了 /api,就需要这样配置.
+    //       '^/api': ''
+    //     }
+    //   },
+    //   '/api2': {
+    //     target: 'http://80.92.11.24:80',  //
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //         '^/api2': '' //这里理解成用‘/api’代替target里面的地址，后面组件中我们掉接口时直接用api代替 比如我要调用'http://40.00.100.100:3002/user/add'，直接写‘/api/user/add’即可
+    //     }
+    //   }
+    // },
 
     // Various Dev Server settings
     host: '0.0.0.0', // can be overwritten by process.env.HOST

@@ -4,7 +4,8 @@ import router from '../router'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: '/api', // 接口请求地址 设置跨域代理基本路径前缀
+  // baseURL: '/api', // 接口请求地址 设置跨域代理基本路径前缀
+  baseURL: '/', // 接口请求地址 设置跨域代理基本路径前缀
   timeout: 60000, // 请求超时时间
 })
 
