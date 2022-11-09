@@ -12,6 +12,7 @@ module.exports = {
     proxyTable: {
       // proxy all requests starting with /api to jsonplaceholder
       '/api': {
+        ws: false,
         target: 'http://81.70.249.58:8090',
         changeOrigin: true,
         pathRewrite: {
