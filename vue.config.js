@@ -7,6 +7,9 @@ function resolve(dir) {
 
 module.exports = {
     lintOnSave: true,
+    devServer: {
+      host: '81.70.249.58',
+    },
     chainWebpack: (config) => {
       config.resolve.alias
         .set('@', resolve('src'))
