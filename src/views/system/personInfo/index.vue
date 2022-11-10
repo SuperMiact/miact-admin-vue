@@ -33,7 +33,7 @@
             <div class="avatar-center">
                 <el-upload
                 class="avatar-uploader"
-                action="/api/api/users/savePersonImg"
+                action="/api/users/savePersonImg"
                 :headers="myHeaders"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
