@@ -22,15 +22,15 @@
 
 <script>
 export default {
-  name: 'menuTree',
+  name: "MenuTree",
   props: {
     menuList: {
       type: Array,
-      default: () => []
-    }
+      default: () => [],
+    },
   },
-  data () {
-    return {}
-  }
-}
+  data() {
+    return {};
+  },
+};
 </script>

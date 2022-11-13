@@ -32,7 +32,9 @@
             <el-button type="text" @click="allotRole(scope.row)"
               >权限</el-button
             >
-            <el-button type="text" @click="deleteRole(scope.row)">删除</el-button>
+            <el-button type="text" @click="deleteRole(scope.row)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -75,19 +77,36 @@
         ref="tree"
         highlight-current
         :props="defaultProps"
-        @check="currentChecked">
+        @check="currentChecked"
+      >
       </el-tree>
       <div>
-        <el-button @click="dialogPermsVisible=false" style="margin-left:200px;margin-right: 50px;">取 消</el-button>
-        <el-button type="primary" @click="submitPermsSelect" style="margin-right:50px">确 定</el-button>
+        <el-button
+          @click="dialogPermsVisible = false"
+          style="margin-left: 200px; margin-right: 50px"
+          >取 消</el-button
+        >
+        <el-button
+          type="primary"
+          @click="submitPermsSelect"
+          style="margin-right: 50px"
+          >确 定</el-button
+        >
       </div>
     </el-dialog>
   </div>
 </template>
 
   <script>
-import { addRole, delRole, queryRoles, updateRole,allotRolePerms,allotRolePermsByRoleId } from "@/api/system/role/index";
-import { getMenu } from "@/api/system/menu/index"
+import {
+  addRole,
+  delRole,
+  queryRoles,
+  updateRole,
+  allotRolePerms,
+  allotRolePermsByRoleId,
+} from "@/api/system/role/index";
+import { getMenu } from "@/api/system/menu/index";
 
 export default {
   name: "role",
@@ -102,14 +121,14 @@ export default {
       },
       tableData: [],
       modify: "",
-      dialogPermsVisible:false,
-      menuList:[],
+      dialogPermsVisible: false,
+      menuList: [],
       defaultProps: {
-          children: 'childNode',
-          label: 'name'
+        children: "childNode",
+        label: "name",
       },
-      checkPermsList:[],
-      roleId:"",
+      checkPermsList: [],
+      roleId: "",
     };
   },
   created() {
@@ -148,58 +167,58 @@ export default {
     },
     deleteRole(data) {
       delRole(data.roleId).then((res) => {
-        if(res.success == true){
-          this.$message.success(res.message)
-          this.reload()
-        }else{
-          this.$message.error(res.message)
+        if (res.success == true) {
+          this.$message.success(res.message);
+          this.reload();
+        } else {
+          this.$message.error(res.message);
         }
       });
     },
     allotRole(data) {
-      this.dialogPermsVisible = true
-      getMenu().then(res=>{
-        this.menuList = res.results
-      })
-      allotRolePermsByRoleId(data.roleId).then(res=>{
-        let data = res.results
-        this.$nextTick(()=>{
-          if(data&&data!=undefined&&data!=""){
-              if(data.length==0) this.$refs.tree.setCheckedKeys([])
-              const nodes = []
-              data.forEach((item)=>{
-                  const node = this.$refs.tree.getNode(item)
-                  // 过滤掉不是叶子节点的
-                  if(node.isLeaf){
-                    nodes.push(item)
-                  }
-              })
-              this.$refs.tree.setCheckedKeys(nodes,true)
-          }else{
-            this.$refs.tree.setCheckedKeys([])
+      this.dialogPermsVisible = true;
+      getMenu().then((res) => {
+        this.menuList = res.results;
+      });
+      allotRolePermsByRoleId(data.roleId).then((res) => {
+        let data = res.results;
+        this.$nextTick(() => {
+          if (data && data != undefined && data != "") {
+            if (data.length == 0) this.$refs.tree.setCheckedKeys([]);
+            const nodes = [];
+            data.forEach((item) => {
+              const node = this.$refs.tree.getNode(item);
+              // 过滤掉不是叶子节点的
+              if (node.isLeaf) {
+                nodes.push(item);
+              }
+            });
+            this.$refs.tree.setCheckedKeys(nodes, true);
+          } else {
+            this.$refs.tree.setCheckedKeys([]);
           }
-          this.checkPermsList= this.$refs.tree.getCheckedNodes(false,true)
-      })
-      })
-      this.roleId = data.roleId
+          this.checkPermsList = this.$refs.tree.getCheckedNodes(false, true);
+        });
+      });
+      this.roleId = data.roleId;
     },
-    submitPermsSelect(){
-      let checkPermsList = this.checkPermsList
-      let menuIds = []
-      checkPermsList.forEach(item=>{
-        menuIds.push(item.id)
-      })
+    submitPermsSelect() {
+      let checkPermsList = this.checkPermsList;
+      let menuIds = [];
+      checkPermsList.forEach((item) => {
+        menuIds.push(item.id);
+      });
       let query = {
         menuIds,
-        roleId:this.roleId
-      }
-      allotRolePerms(query).then((res)=>{
-        this.$message.success(res.message)
-      })
-      this.dialogPermsVisible = false
+        roleId: this.roleId,
+      };
+      allotRolePerms(query).then((res) => {
+        this.$message.success(res.message);
+      });
+      this.dialogPermsVisible = false;
     },
-    currentChecked (currentObj, treeStatus) {
-      this.checkPermsList= this.$refs.tree.getCheckedNodes(false,true)
+    currentChecked() {
+      this.checkPermsList = this.$refs.tree.getCheckedNodes(false, true);
     },
     submitForm() {
       let modify = this.modify;
@@ -215,14 +234,14 @@ export default {
             console.log(res);
           });
       } else if (modify == "update") {
-        console.log(this.roleTable)
+        console.log(this.roleTable);
         updateRole(this.roleTable)
           .then((res) => {
-            if(res.success==true){
-              this.$message.success(res.message)
+            if (res.success == true) {
+              this.$message.success(res.message);
               this.reload();
-            }else{
-              this.$message.error(res.message)
+            } else {
+              this.$message.error(res.message);
             }
           })
           .catch((res) => {

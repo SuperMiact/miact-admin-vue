@@ -1,23 +1,22 @@
-const path = require('path');
+const { defineConfig } = require('@vue/cli-service')
+module.exports = defineConfig({
+  transpileDependencies: true,
+  lintOnSave: false,         // 是否开启eslint检测
+  publicPath: '/', // 统一前缀
+  assetsDir: 'static',       // 生成静态资源(css,js..)目录
+  devServer: {
+    host: '0.0.0.0',
+    port: '8080',
+    open: false,
+    // proxy: {
+    //   ['/miact-admin']: {
+    //     target:`http://localhost:8090`,
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       ['^' + '/miact-admin']: ''
+    //     }
+    //   }
+    // },
 
-function resolve(dir) {
-  return path.join(__dirname, dir);
-}
-
-
-module.exports = {
-    lintOnSave: true,
-    devServer: {
-      host: '81.70.249.58',
-    },
-    chainWebpack: (config) => {
-      config.resolve.alias
-        .set('@', resolve('src'))
-        .set('@assets',resolve('src/assets'))
-        .set('@components',resolve('src/components'))
-        .set('@network',resolve('src/network'))
-        .set('@router',resolve('src/router'))
-        .set('@store',resolve('src/store'))
-        .set('@views',resolve('src/views'))
-    },
-}
+  },
+})

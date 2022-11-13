@@ -1,27 +1,32 @@
 <template>
   <div class="layout">
     <el-container v-if="!$route.meta.showNav" class="container">
-        <el-aside class="aside" :width="isCollapse ? '60px' : '17%'">
-          <div class="line" />
-          <el-menu
-            background-color="#122b3f"
-            text-color="#fff"
-            :collapse-transition="false"
-            :router="true"
-            :collapse="isCollapse"
-            :show-timeout="50"
-            :hide-timeout="50"
-          >
-            <div class="head" v-if="!isCollapse">
-              <span>Miact</span>
-            </div>
-              <MenuTree :menuList="menuList.length === 0?selectMainMenu():menuList" />
-          </el-menu>
-        </el-aside>
+      <el-aside class="aside" :width="isCollapse ? '60px' : '17%'">
+        <div class="line" />
+        <el-menu
+          background-color="#122b3f"
+          text-color="#fff"
+          :collapse-transition="false"
+          :router="true"
+          :collapse="isCollapse"
+          :show-timeout="50"
+          :hide-timeout="50"
+        >
+          <div class="head" v-if="!isCollapse">
+            <span>Miact</span>
+          </div>
+          <MenuTree
+            :menuList="menuList.length === 0 ? selectMainMenu() : menuList"
+          />
+        </el-menu>
+      </el-aside>
       <el-container class="content">
-        <Header @isCollapseOper="isCollapseChange" @clearMenuCache="clearMenuCache" />
+        <Header
+          @isCollapseOper="isCollapseChange"
+          @clearMenuCache="clearMenuCache"
+        />
         <div class="main">
-          <router-view v-if="isRouterAlive"/>
+          <router-view v-if="isRouterAlive" />
         </div>
         <Footer />
       </el-container>
@@ -32,59 +37,58 @@
   </div>
 </template>
 <script>
-import Header from '@/views/header.vue'
+import Header from "@/views/header.vue";
 // import Footer from '@/views/footer.vue';
-import MenuTree from '@/views/system/menu/menuTree.vue'
-import { getMenu } from '@/api/system/menu/index'
+import MenuTree from "@/views/system/menu/menuTree.vue";
+import { getMenu } from "@/api/system/menu/index";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     // Footer,
-    MenuTree
+    MenuTree,
   },
-  provide () {
+  provide() {
     return {
-      reload: this.reload
-    }
+      reload: this.reload,
+    };
   },
-  data () {
+  data() {
     return {
       isCollapse: false,
       menuList: [],
-      isRouterAlive: true
-    }
+      isRouterAlive: true,
+    };
   },
-  created () {
-  },
+  created() {},
   methods: {
-    reload () {
-      this.isRouterAlive = false
+    reload() {
+      this.isRouterAlive = false;
       this.$nextTick(() => {
-        this.isRouterAlive = true
-      })
+        this.isRouterAlive = true;
+      });
     },
-    isCollapseChange (isCollapse) {
-      this.isCollapse = isCollapse
-      console.log(this.menuList)
+    isCollapseChange(isCollapse) {
+      this.isCollapse = isCollapse;
+      console.log(this.menuList);
     },
-    selectMainMenu () {
+    selectMainMenu() {
       let query = {
-        menuType:'global'
-      }
-      getMenu(query).then(res=>{
-        if (res.success == true){
-          this.menuList = res.results
+        menuType: "global",
+      };
+      getMenu(query).then((res) => {
+        if (res.success == true) {
+          this.menuList = res.results;
         }
-      })
-      return this.menuList
+      });
+      return this.menuList;
     },
-    clearMenuCache(){
-      this.menuList = []
-    }
-  }
-}
+    clearMenuCache() {
+      this.menuList = [];
+    },
+  },
+};
 </script>
 <style scoped>
 .layout {
@@ -96,10 +100,10 @@ export default {
 }
 .aside {
   background-color: #122b3f;
-  box-shadow: 0 0 8px 3px rgba(0,0,0,0.3);
+  box-shadow: 0 0 8px 3px rgba(0, 0, 0, 0.3);
   width: 100%;
 }
-.aside::-webkit-scrollbar{
+.aside::-webkit-scrollbar {
   /*滚动条整体样式*/
   /*高宽分别对应横竖滚动条的尺寸*/
   width: 6px;
@@ -159,7 +163,7 @@ export default {
   overflow: auto;
   padding: 10px;
 }
-.main::-webkit-scrollbar{
+.main::-webkit-scrollbar {
   /*滚动条整体样式*/
   /*高宽分别对应横竖滚动条的尺寸*/
   width: 10px;
@@ -215,17 +219,17 @@ a {
   margin-left: 0;
   margin-right: 5px;
 }
-.el-menu--vertical>.el-menu--popup {
+.el-menu--vertical > .el-menu--popup {
   max-height: 100vh;
   overflow-y: auto;
 }
-.el-menu--vertical>.el-menu--popup::-webkit-scrollbar{
+.el-menu--vertical > .el-menu--popup::-webkit-scrollbar {
   /*滚动条整体样式*/
   /*高宽分别对应横竖滚动条的尺寸*/
   width: 6px;
   height: 6px;
 }
-.el-menu--vertical>.el-menu--popup::-webkit-scrollbar-thumb {
+.el-menu--vertical > .el-menu--popup::-webkit-scrollbar-thumb {
   /*滚动条里面小方块*/
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
@@ -233,7 +237,7 @@ a {
   background: rgba(251, 251, 252, 0.5);
 }
 
-.el-menu--vertical>.el-menu--popup::-webkit-scrollbar-track {
+.el-menu--vertical > .el-menu--popup::-webkit-scrollbar-track {
   /*滚动条里面轨道*/
   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
   box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);

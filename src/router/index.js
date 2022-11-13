@@ -79,16 +79,13 @@ router.beforeEach((to, from, next) => {
   // 获取用户页面token信息
   let token = window.sessionStorage.getItem('token')
 
-  if (!token) {
-    if (to.path !== '/home') {
-      Message.error('请重新登录！')
-    }
+  if (token===''&&token===undefined&&token===null) {
     return next('/login')
   }
 
   return next()
 })
-router.afterEach((to,from) => {
+router.afterEach(() => {
   NProcess.done()// 页面跳转完成，关闭进度条
 })
 

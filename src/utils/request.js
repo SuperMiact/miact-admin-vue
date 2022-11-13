@@ -1,11 +1,9 @@
 import axios from 'axios'
 import {Message, MessageBox} from 'element-ui'
-import router from '../router'
 
 // 创建axios实例
 const service = axios.create({
-  // baseURL: '/api', // 接口请求地址 设置跨域代理基本路径前缀
-  baseURL: '/', // 接口请求地址 设置跨域代理基本路径前缀
+  baseURL: '/miact-admin', // 接口请求地址 设置跨域代理基本路径前缀
   timeout: 60000, // 请求超时时间
 })
 
@@ -18,6 +16,7 @@ service.interceptors.request.use(
             // config.headers.common['Authorization'] = sessionStorage.getItem("token");
             config.headers.common['token'] = sessionStorage.getItem('token')
         }
+
         return config
   },
   error => {
@@ -39,13 +38,7 @@ service.interceptors.response.use(
    */
   response => {
     let res = response.data
-
     // 沒有操作权限
-    if (res.code === '2005') {
-      Message.error(res.message)
-    }
-
-    // token过期
     if(res.code === '2004'){
       MessageBox.confirm('用户登录过期请重新登录, 是否继续?', '提示', {
         confirmButtonText: '确定',
@@ -53,15 +46,12 @@ service.interceptors.response.use(
         type: 'warning'
       })
       .then(() => {
-        // router.push('/login')
         window.location.href = '/login'
       })
       .catch(() => {
         Message.error('操作失败')
       })
     }
-
-
     return res;
   },
   error => {

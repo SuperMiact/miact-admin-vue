@@ -4,7 +4,7 @@ import request from '@/utils/request'
 // export const getMenu = () => request.get('/mainMenu/getMenu')
 export function getMenu (data) {
   return request({
-    url: '/mainMenu/getMenu',
+    url: '/api/mainMenu/getMenu',
     method: 'get',
     params: data
   })
@@ -13,7 +13,7 @@ export function getMenu (data) {
 // 添加菜单
 export function addMenu (data) {
   return request({
-    url: '/mainMenu/addMenu',
+    url: '/api/mainMenu/addMenu',
     method: 'post',
     data: data
   })
@@ -22,7 +22,7 @@ export function addMenu (data) {
 // 修改菜单
 export function updateMenu (data) {
   return request({
-    url: '/mainMenu/updateMenu',
+    url: '/api/mainMenu/updateMenu',
     method: 'post',
     data: data
   })
@@ -31,10 +31,10 @@ export function updateMenu (data) {
 // 删除菜单
 export function delMenu (params) {
   return request({
-    url: '/mainMenu/delMenu',
+    url: '/api/mainMenu/delMenu',
     method: 'get',
     params: params
   })
 }
 
-export const getIcons = () => request.get(window.location.origin + '/static/iconData.json')
+export const getIcons = () => request.get(window.location.origin + '/miact-admin/public/iconData.json')

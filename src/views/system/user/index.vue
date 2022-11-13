@@ -82,13 +82,24 @@
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text" v-if="isPerms('user:update')" @click="editUser('update', scope.row)"
+            <el-button
+              type="text"
+              v-if="isPerms('user:update')"
+              @click="editUser('update', scope.row)"
               >修改</el-button
             >
-            <el-button type="text" v-if="isPerms('user:bind')" @click="bindRoles(scope.row, 'clickData')"
+            <el-button
+              type="text"
+              v-if="isPerms('user:bind')"
+              @click="bindRoles(scope.row, 'clickData')"
               >分配角色</el-button
             >
-            <el-button type="text" v-if="isPerms('user:delete')" @click="delUser(scope.row)">删除</el-button>
+            <el-button
+              type="text"
+              v-if="isPerms('user:delete')"
+              @click="delUser(scope.row)"
+              >删除</el-button
+            >
           </template>
         </el-table-column>
       </el-table>
@@ -199,7 +210,7 @@ import {
 
 import { queryRoles } from "@/api/system/role/index";
 import { getButtonPerms } from "@/utils/perms";
-import { download,getRemoteFile } from "@/utils/download"
+import { download, getRemoteFile } from "@/utils/download";
 
 export default {
   name: "role",
@@ -298,7 +309,6 @@ export default {
         type: "warning",
       })
         .then(() => {
-          debugger;
           if (data instanceof Array) {
             data.forEach((item) => {
               ids.push(item.id);
@@ -353,11 +363,11 @@ export default {
     handleSizeChange(data) {
       console.log("size:" + data);
     },
-    handleCurrentChange(data) {
+    handleCurrentChange() {
       this.getUserList();
     },
     // 上方按钮
-    userSelect(selection, row) {
+    userSelect(selection) {
       console.log(selection);
 
       if (selection.length == 0) {
@@ -404,15 +414,17 @@ export default {
       this.showRoleModel = false;
     },
     exportUsers() {
-      let filename = 'user-data.xlsx'
+      let filename = "user-data.xlsx";
       exportUser({ query: {}, filename: filename })
         .then((res) => {
-          if(res.success == true){
-            getRemoteFile(filename).then(res=>{
-              download(res,filename)
-            }).catch(res=>{
-              this.$message.error("下载失败")
-            })
+          if (res.success == true) {
+            getRemoteFile(filename)
+              .then((res) => {
+                download(res, filename);
+              })
+              .catch(() => {
+                this.$message.error("下载失败");
+              });
           }
         })
         .catch((res) => {
