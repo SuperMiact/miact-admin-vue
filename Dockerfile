@@ -5,4 +5,4 @@ COPY . /home/www/express
 RUN npm install
 EXPOSE 8080
 ENTRYPOINT ["npm", "run"]
-CMD ["start"]
+CMD ["serve"]
