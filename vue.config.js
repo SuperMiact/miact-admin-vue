@@ -20,6 +20,7 @@ module.exports = defineConfig({
     //     }
     //   }
     // },
-    disableHostCheck:true
+    historyApiFallback: true,
+    allowedHosts: 'all'
   },
 })
