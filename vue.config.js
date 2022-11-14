@@ -20,6 +20,6 @@ module.exports = defineConfig({
     //     }
     //   }
     // },
-
+    disableHostCheck:true
   },
 })
