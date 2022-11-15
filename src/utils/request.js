@@ -14,7 +14,7 @@ service.interceptors.request.use(
         // 判断是否存在token,如果存在将每个页面header添加token
         if (window.localStorage.getItem('token')) {
             // config.headers.common['Authorization'] = sessionStorage.getItem("token");
-            config.headers.common['token'] = window.location.getItem('token')
+            config.headers.common['token'] = window.localStorage.getItem('token')
         }
 
         return config
