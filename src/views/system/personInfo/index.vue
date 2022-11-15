@@ -81,11 +81,11 @@ export default {
     return {
       avatarOpen: false,
       userInfo: {},
-      myHeaders: { token: window.localStorage.getItem("token") },
+      myHeaders: { token: this.$cookies.get('token') },
     };
   },
   created() {
-    this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+    this.userInfo = JSON.parse(this.$cookies.get("userInfo"));
   },
   methods: {
     handleAvatarSuccess(res, file) {
@@ -161,9 +161,8 @@ export default {
     getUserInfo() {
       userInfo().then((res) => {
         if (res.success === true) {
-          window.localStorage.setItem(
-            "userInfo",
-            JSON.stringify(res.results)
+          this.$cookies.set(
+            "userInfo", JSON.stringify(res.results),{expires: '7D'}
           );
           this.userInfo = res.results;
         }

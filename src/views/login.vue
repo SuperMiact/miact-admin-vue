@@ -74,7 +74,7 @@ export default {
             .then((res) => {
               if (res.code === "200") {
                 this.$message.success(res.message);
-                window.localStorage.setItem("token", res.results);
+                this.$cookies.set("token", res.results, {expires: '7D'});
                 this.$router.push("/home");
               } else {
                 this.$message.error(res.message);

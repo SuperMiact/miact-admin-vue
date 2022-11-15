@@ -119,9 +119,8 @@ export default {
     getUserInfo() {
       userInfo().then((res) => {
         if (res.code === "200") {
-          window.localStorage.setItem(
-            "userInfo",
-            JSON.stringify(res.results)
+          this.$cookies.set(
+            "userInfo", JSON.stringify(res.results), {expires: '7D'}
           );
           this.$set(this.userInfo, "loginUserName", res.results.nickName);
           this.$set(
@@ -167,7 +166,7 @@ export default {
     userLogout() {
       logout().then((res) => {
         if (res.code === "200") {
-          window.localStorage.clear();
+          this.$cookies.remove("token");
           this.$message.success(res.message);
           this.$router.push("/login");
           this.$emit("clearMenuCache");

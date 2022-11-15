@@ -12,9 +12,9 @@ service.interceptors.request.use(
   config => {
         // 在发送请求之前做些什么
         // 判断是否存在token,如果存在将每个页面header添加token
-        if (window.localStorage.getItem('token')) {
+        if (this.$cookies.get('token')) {
             // config.headers.common['Authorization'] = sessionStorage.getItem("token");
-            config.headers.common['token'] = window.localStorage.getItem('token')
+            config.headers.common['token'] = this.$cookies.get('token')
         }
 
         return config
