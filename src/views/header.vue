@@ -119,7 +119,7 @@ export default {
     getUserInfo() {
       userInfo().then((res) => {
         if (res.code === "200") {
-          sessionStorage.setItem(
+          window.localStorage.setItem(
             "userInfo",
             JSON.stringify(res.results)
           );
@@ -167,7 +167,7 @@ export default {
     userLogout() {
       logout().then((res) => {
         if (res.code === "200") {
-          sessionStorage.clear();
+          window.localStorage.clear();
           this.$message.success(res.message);
           this.$router.push("/login");
           this.$emit("clearMenuCache");

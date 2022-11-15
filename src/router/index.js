@@ -77,7 +77,7 @@ router.beforeEach((to, from, next) => {
   // 如果访问的是登录界面则直接放行
   if (to.path === '/login') return next()
   // 获取用户页面token信息
-  let token = sessionStorage.getItem('token')
+  let token = window.localStorage.getItem('token')
 
   if (token===''&&token===undefined&&token===null) {
     return next('/login')

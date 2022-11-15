@@ -81,11 +81,11 @@ export default {
     return {
       avatarOpen: false,
       userInfo: {},
-      myHeaders: { token: sessionStorage.getItem("token") },
+      myHeaders: { token: window.localStorage.getItem("token") },
     };
   },
   created() {
-    this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+    this.userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
   },
   methods: {
     handleAvatarSuccess(res, file) {
@@ -161,7 +161,7 @@ export default {
     getUserInfo() {
       userInfo().then((res) => {
         if (res.success === true) {
-          sessionStorage.setItem(
+          window.localStorage.setItem(
             "userInfo",
             JSON.stringify(res.results)
           );
