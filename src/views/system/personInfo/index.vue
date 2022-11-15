@@ -85,7 +85,7 @@ export default {
     };
   },
   created() {
-    this.userInfo = JSON.parse(window.sessionStorage.getItem("userInfo"));
+    this.userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
   },
   methods: {
     handleAvatarSuccess(res, file) {
@@ -161,7 +161,7 @@ export default {
     getUserInfo() {
       userInfo().then((res) => {
         if (res.success === true) {
-          window.sessionStorage.setItem(
+          sessionStorage.setItem(
             "userInfo",
             JSON.stringify(res.results)
           );

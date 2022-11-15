@@ -10,4 +10,4 @@ export function login(data){
 }
 
 // 用户登出
-export const logout = () => request.get('/api/users/logout?token=' + window.sessionStorage.getItem('token'))
+export const logout = () => request.get('/api/users/logout?token=' + sessionStorage.getItem('token'))
