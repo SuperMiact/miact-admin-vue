@@ -3,7 +3,7 @@ import {Message, MessageBox} from 'element-ui'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: '/miact-admin', // 接口请求地址 设置跨域代理基本路径前缀
+  baseURL: '/admin', // 接口请求地址 设置跨域代理基本路径前缀
   timeout: 60000, // 请求超时时间
 })
 
