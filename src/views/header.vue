@@ -30,8 +30,8 @@
               <el-avatar
                 v-if="
                   userInfo.headPortraitUrl &&
-                  userInfo.headPortraitUrl != undefined &&
-                  userInfo.headPortraitUrl != ''
+                  userInfo.headPortraitUrl !== undefined &&
+                  userInfo.headPortraitUrl !== ''
                 "
                 :size="33"
                 :src="userInfo.headPortraitUrl"
@@ -84,7 +84,8 @@
 </template>
 
 <script>
-import { userInfo } from "@/api/system/user/index";
+import Cookies from "js-cookie";
+import { userInfo } from "@/api/system/user";
 import { logout } from "@/api/login";
 
 export default {
@@ -119,9 +120,6 @@ export default {
     getUserInfo() {
       userInfo().then((res) => {
         if (res.code === "200") {
-          this.$cookies.set(
-            "userInfo", JSON.stringify(res.results), {expires: '7D'}
-          );
           this.$set(this.userInfo, "loginUserName", res.results.nickName);
           this.$set(
             this.userInfo,
@@ -166,7 +164,7 @@ export default {
     userLogout() {
       logout().then((res) => {
         if (res.code === "200") {
-          this.$cookies.remove("token");
+          Cookies.remove("Auth-Token");
           this.$message.success(res.message);
           this.$router.push("/login");
           this.$emit("clearMenuCache");

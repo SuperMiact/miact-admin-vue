@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import { Message } from 'element-ui'
 import NProcess from 'nprogress'
 import 'nprogress/nprogress.css'
+import Cookies from 'js-cookie'
 
 import home from '@/views/home'
 import login from '@/views/login'
@@ -77,7 +77,7 @@ router.beforeEach((to, from, next) => {
   // 如果访问的是登录界面则直接放行
   if (to.path === '/login') return next()
   // 获取用户页面token信息
-  let token = this.$cookies.get('token')
+  let token = Cookies.get('Auth-Token')
 
   if (token===''&&token===undefined&&token===null) {
     return next('/login')

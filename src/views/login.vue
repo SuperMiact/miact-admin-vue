@@ -44,6 +44,7 @@
 
 <script>
 import { login } from "@/api/login";
+import Cookies from "js-cookie";
 
 export default {
   name: "Login",
@@ -74,7 +75,7 @@ export default {
             .then((res) => {
               if (res.code === "200") {
                 this.$message.success(res.message);
-                this.$cookies.set("token", res.results, {expires: '7D'});
+                Cookies.set("Auth-Token", res.results, {expires: 7});
                 this.$router.push("/home");
               } else {
                 this.$message.error(res.message);

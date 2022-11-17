@@ -5,10 +5,11 @@
         <el-form-item label="头像">
           <a href="#" @click="subAvatar">
             <el-avatar
-              v-if="userInfo.headPortraitUrl && userInfo.headPortraitUrl !== ''"
+              v-if="userInfo.headPortraitUrl && userInfo.headPortraitUrl !== ''||
+                    tempHeadPortraitUrl && tempHeadPortraitUrl !== ''"
               class="avatarBG"
               :size="50"
-              :src="userInfo.headPortraitUrl"
+              :src="tempHeadPortraitUrl?tempHeadPortraitUrl:userInfo.headPortraitUrl"
             />
             <el-avatar v-else class="avatarBG" :size="50">
               <span class="nickNameColor">{{ userInfo.nickName }}</span>
@@ -44,15 +45,15 @@
         <div class="avatar-center">
           <el-upload
             class="avatar-uploader"
-            action="/api/users/savePersonImg"
+            action="/admin/api/users/savePersonImg"
             :headers="myHeaders"
             :show-file-list="false"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
             <img
-              v-if="userInfo.headPortraitUrl"
-              :src="userInfo.headPortraitUrl"
+              v-if="tempHeadPortraitUrl||userInfo.headPortraitUrl"
+              :src="tempHeadPortraitUrl?tempHeadPortraitUrl:userInfo.headPortraitUrl"
               class="avatar"
             />
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
@@ -62,7 +63,7 @@
           <el-button
             style="margin-top: 20px; width: 60%"
             type="primary"
-            @click="avatarOpen = false"
+            @click="urlSucClick"
             plain
             >完成</el-button
           >
@@ -72,7 +73,8 @@
   </div>
 </template>
 <script>
-import { updateUser, userInfo } from "@/api/system/user/index";
+import Cookies from "js-cookie";
+import {updateUser, userInfo} from "@/api/system/user";
 
 export default {
   name: "pagesonInfo",
@@ -81,15 +83,16 @@ export default {
     return {
       avatarOpen: false,
       userInfo: {},
-      myHeaders: { token: this.$cookies.get('token') },
+      myHeaders: { token: Cookies.get('Auth-Token') },
+      tempHeadPortraitUrl:''
     };
   },
   created() {
-    this.userInfo = JSON.parse(this.$cookies.get("userInfo"));
+    this.getUserInfo()
   },
   methods: {
-    handleAvatarSuccess(res, file) {
-      this.userInfo.headPortraitUrl = URL.createObjectURL(file.raw);
+    handleAvatarSuccess(res,file) {
+      this.tempHeadPortraitUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
       const isPNF = file.type === "image/png";
@@ -106,7 +109,7 @@ export default {
       // 调用[限制图片尺寸]函数
       return this.limitFileWH(50, 50, file).then((res) => {
         file.isFlag = res;
-        return file.isFlag ? true : reject(false);
+        return file.isFlag;
       });
     },
     // 限制图片尺寸
@@ -114,7 +117,7 @@ export default {
       const _this = this;
       let imgWidth = "";
       let imgHight = "";
-      const isSize = new Promise(function (resolve, reject) {
+      return new Promise(function (resolve, reject) {
         const width = limitWidth;
         const height = limitHeight;
         const _URL = window.URL || window.webkitURL;
@@ -127,26 +130,25 @@ export default {
         };
         img.src = _URL.createObjectURL(file);
       }).then(
-        () => {
-          return true;
-        },
-        () => {
-          _this.$message.warning({
-            message:
-              "上传图片的尺寸应为" +
-              limitWidth +
-              "*" +
-              limitHeight +
-              "，当前上传图片的尺寸为：" +
-              imgWidth +
-              "*" +
-              imgHight,
-            btn: false,
-          });
-          return false;
-        }
+          () => {
+            return true;
+          },
+          () => {
+            _this.$message.warning({
+              message:
+                  "上传图片的尺寸应为" +
+                  limitWidth +
+                  "*" +
+                  limitHeight +
+                  "，当前上传图片的尺寸为：" +
+                  imgWidth +
+                  "*" +
+                  imgHight,
+              btn: false,
+            });
+            return false;
+          }
       );
-      return isSize;
     },
     submitPersonInfo() {
       updateUser(this.userInfo).then((res) => {
@@ -161,16 +163,17 @@ export default {
     getUserInfo() {
       userInfo().then((res) => {
         if (res.success === true) {
-          this.$cookies.set(
-            "userInfo", JSON.stringify(res.results),{expires: '7D'}
-          );
           this.userInfo = res.results;
         }
       });
     },
     subAvatar() {
-      this.$set(this, "avatarOpen", true);
+      this.avatarOpen = true
     },
+    urlSucClick() {
+      this.avatarOpen = false
+      this.getUserInfo()
+    }
   },
 };
 </script>
