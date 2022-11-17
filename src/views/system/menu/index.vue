@@ -117,7 +117,7 @@
   </div>
 </template>
 <script>
-import {addMenu, updateMenu, getMenu, delMenu, getIcons} from '@/api/system/menu/index'
+import {addMenu, updateMenu, getMenu, delMenu, getIcons} from '@/api/system/menu'
 export default {
   name: 'menuModel',
   components: {

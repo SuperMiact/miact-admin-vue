@@ -37,4 +37,4 @@ export function delMenu (params) {
   })
 }
 
-export const getIcons = () => request.get(window.location.origin + '/miact-admin/public/iconData.json')
+export const getIcons = () => request.get(window.location.origin + '/admin/public/iconData.json')
