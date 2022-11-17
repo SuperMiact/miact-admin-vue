@@ -120,6 +120,7 @@ export default {
     getUserInfo() {
       userInfo().then((res) => {
         if (res.code === "200") {
+          localStorage.setItem('userInfo',JSON.stringify(res.results))
           this.$set(this.userInfo, "loginUserName", res.results.nickName);
           this.$set(
             this.userInfo,

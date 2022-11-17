@@ -197,7 +197,7 @@
     </el-dialog>
   </div>
 </template>
-  
+
   <script>
 import {
   queryUsers,
@@ -208,7 +208,7 @@ import {
   bindRole,
 } from "@/api/system/user/index";
 
-import { queryRoles } from "@/api/system/role/index";
+import { queryRoles } from "@/api/system/role";
 import { getButtonPerms } from "@/utils/perms";
 import { download, getRemoteFile } from "@/utils/download";
 
