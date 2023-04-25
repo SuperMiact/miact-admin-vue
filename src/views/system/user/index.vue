@@ -33,8 +33,8 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-size="5"
+        :current-page.sync="queryPerms.pageNo"
+        :page-size="queryPerms.pageSize"
         layout="prev, pager, next, jumper"
         :total="pageTotal"
       >
@@ -68,8 +68,13 @@ export default {
   data() {
     return {
       tableData: [],
+      // 复选框选中的数据
       selectAllUser: [],
-      currentPage: 1,
+      queryPerms:{
+        pageNo: 1, // 当前页
+        pageSize:10, // 每页多少条
+      },
+      // 数据总条目
       pageTotal: 0,
       // 复选选中数量
       selectNum:0,
@@ -80,7 +85,7 @@ export default {
   },
   methods: {
     getUserList() {
-      queryUsers({pageNo:this.currentPage,pageSize:5}).then((res) => {
+      queryUsers(this.queryPerms).then((res) => {
         if (res.code === "200") {
           this.tableData = res.results.data;
           this.pageTotal = res.results.total;
@@ -101,9 +106,9 @@ export default {
       this.$refs.editUserModel.show(type,userTable)
     },
     // 保存用户
-    submitUser(result){
+    submitUser(result,message){
       if(result){
-        this.$message.success('操作成功!');
+        this.$message.success(message);
         this.reload();
       }
     },
@@ -129,14 +134,13 @@ export default {
     },
     // 显示分配角色界面
     showBindRoles(type,data) {
-      console.log(data)
       let roleData = type == 'newBindRole' ? {roleId: '', id: this.selectAllUser.map(v=> v.id)} : { roleId: data["roleId"], id: [data.id]}
       this.$refs.bindRolesModel.show(type,roleData);
     },
     // 保存分配角色
-    submitRole(result){
+    submitRole(result,message){
       if(result){
-        this.$message.success("操作成功!")
+        this.$message.success(message)
         this.reload()
       }
     },
@@ -158,7 +162,7 @@ export default {
     handleSizeChange(data) {
       console.log("size:" + data);
     },
-    handleCurrentChange() {
+    handleCurrentChange(data) {
       this.getUserList();
     },
   },

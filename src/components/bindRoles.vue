@@ -52,11 +52,13 @@ export default {
         },
         submitRoleForm(){
             let roleData = this.roleData
-            let result = false
             bindRole(roleData.id, roleData.roleId).then((res) => {
-                if(res.code == '200') result = true
+                if(res.code == '200') {
+                  this.$emit('submitRole',true,res.message)
+                }else{
+                  this.$message.error(res.message)
+                }
             })
-            this.$emit('submitRole',result)
             this.closeRoleForm()
         },
         closeRoleForm(){

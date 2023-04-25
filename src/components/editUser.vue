@@ -1,17 +1,6 @@
 <template>
-    <el-dialog
-      ref="userDig"
-      title="编辑用户"
-      :visible.sync="showUserModel"
-      width="20%"
-      center
-    >
-      <el-form
-        label-position="right"
-        label-width="80px"
-        :model="userTable"
-        style="margin: 20px"
-      >
+    <el-dialog ref="userDig" title="编辑用户" :visible.sync="showUserModel" width="20%" center>
+      <el-form label-position="right" label-width="80px" :model="userTable" style="margin: 20px">
         <div align="left">
           <el-form-item label="用户名称">
             <el-input v-model="userTable.username"></el-input>
@@ -27,8 +16,8 @@
           </el-form-item>
           <el-form-item label="状态">
             <el-switch
-              active-value="1"
-              inactive-value="0"
+              :active-value="1"
+              :inactive-value="0"
               v-model="userTable.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
@@ -65,19 +54,23 @@ export default {
           this.showUserModel = true
         },
         submitUserForm(){
-            this.userTable.status = !this.userTable.status?0:this.userTable.status
-            let result = false
-            this.type == "newUser" ? addUser(this.userTable).then(res=>{
-              if(res.code == '200') {
-                result = true
-              }
-            }): updateUser(this.userTable).then(res=>{
-              if(res.code == '200') {
-                result = true
-              }
-            })
-            this.$emit('submitUser',result)
-            this.closeUserForm()
+          this.userTable.status = !this.userTable.status?0:this.userTable.status
+          this.userTable.password = !this.userTable.password?'123456':this.userTable.password
+          this.type == "newUser" ? addUser(this.userTable).then(res=>{
+            if(res.code == '200') {
+              this.$emit('submitUser',true,res.message)
+            }else{
+              this.$message.error(res.message)
+            }
+          }): updateUser(this.userTable).then(res=>{
+            if(res.code == '200') {
+              this.$emit('submitUser',true,res.message)
+            }else{
+              this.$message.error(res.message)
+            }
+          })
+          
+          this.closeUserForm()
         },
         closeUserForm(){
             this.userTable = {}
