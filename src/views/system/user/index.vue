@@ -55,8 +55,8 @@ import {
 
 import { getButtonPerms } from "@/utils/perms";
 import { download, getRemoteFile } from "@/utils/download";
-import editUser from "@/components/editUser";
-import bindRoles from "@/components/bindRoles";
+import editUser from "./editUser";
+import bindRoles from "./bindRoles";
 
 export default {
   name: "userModel",
@@ -159,9 +159,11 @@ export default {
           console.log(res);
         });
     },
+    // 修改每页条数时 触发
     handleSizeChange(data) {
       console.log("size:" + data);
     },
+    // 修改当前页数时 触发
     handleCurrentChange(data) {
       this.getUserList();
     },
