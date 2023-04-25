@@ -62,6 +62,8 @@ export default{
             type:'',
             showMenuModel:false,
             formData:{},
+            showAddr:true,
+            showIcons:true,
             menuType:'',
             menuTypeList:[
                 {label:'目录',value:'0'},
