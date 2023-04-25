@@ -37,10 +37,10 @@
   </div>
 </template>
 <script>
-import Header from "@/views/header.vue";
-// import Footer from '@/views/footer.vue';
-import MenuTree from "@/views/system/menu/menuTree.vue";
-import { getMenu } from "@/api/system/menu/index";
+import Header from "@/views/header"
+// import Footer from '@/views/footer.vue'
+import MenuTree from "@/components/menuTree"
+import { getMenu } from "@/api/system/menu"
 
 export default {
   name: "App",
