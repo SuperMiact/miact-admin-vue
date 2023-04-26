@@ -4,16 +4,10 @@
       <el-form ref="form" class="pipForm" :model="userInfo" label-width="80px">
         <el-form-item label="头像">
           <a href="#" @click="subAvatar">
-            <el-avatar
-              v-if="userInfo.headPortraitUrl && userInfo.headPortraitUrl !== ''||
-                    tempHeadPortraitUrl && tempHeadPortraitUrl !== ''"
-              class="avatarBG"
-              :size="50"
-              :src="tempHeadPortraitUrl?tempHeadPortraitUrl:userInfo.headPortraitUrl"
-            />
-            <el-avatar v-else class="avatarBG" :size="50">
+            <el-avatar v-if="!userInfo.headPortraitUrl" class="avatarBG" :size="50">
               <span class="nickNameColor">{{ userInfo.nickName }}</span>
             </el-avatar>
+            <el-avatar v-else class="avatarBG" :size="50" :src="tempHeadPortraitUrl?tempHeadPortraitUrl:userInfo.headPortraitUrl"/>
           </a>
         </el-form-item>
         <el-form-item label="昵称">
@@ -26,16 +20,10 @@
           <el-input v-model="userInfo.phone"></el-input>
         </el-form-item>
         <el-form-item label="个人简介">
-          <el-input
-            type="textarea"
-            :rows="5"
-            v-model="userInfo.personInfo"
-          ></el-input>
+          <el-input type="textarea" :rows="5" v-model="userInfo.personInfo"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitPersonInfo"
-            >修改信息</el-button
-          >
+          <el-button type="primary" @click="submitPersonInfo">修改信息</el-button>
           <!--            <el-button>取消</el-button>-->
         </el-form-item>
       </el-form>
@@ -51,22 +39,13 @@
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img
-              v-if="tempHeadPortraitUrl||userInfo.headPortraitUrl"
-              :src="tempHeadPortraitUrl?tempHeadPortraitUrl:userInfo.headPortraitUrl"
-              class="avatar"
-            />
+            <img class="avatar" v-if="tempHeadPortraitUrl||userInfo.headPortraitUrl"
+              :src="tempHeadPortraitUrl?tempHeadPortraitUrl:userInfo.headPortraitUrl"/>
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
           </el-upload>
         </div>
         <div class="avatar-center">
-          <el-button
-            style="margin-top: 20px; width: 60%"
-            type="primary"
-            @click="urlSucClick"
-            plain
-            >完成</el-button
-          >
+          <el-button style="margin-top: 20px; width: 60%" type="primary" @click="urlSucClick" plain>完成</el-button>
         </div>
       </el-dialog>
     </div>
@@ -136,14 +115,8 @@ export default {
           () => {
             _this.$message.warning({
               message:
-                  "上传图片的尺寸应为" +
-                  limitWidth +
-                  "*" +
-                  limitHeight +
-                  "，当前上传图片的尺寸为：" +
-                  imgWidth +
-                  "*" +
-                  imgHight,
+                  "上传图片的尺寸应为" +limitWidth +"*" +limitHeight +
+                  "，当前上传图片的尺寸为：" +imgWidth +"*" +imgHight,
               btn: false,
             });
             return false;
