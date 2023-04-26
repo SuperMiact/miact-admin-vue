@@ -1,4 +1,10 @@
-[
+{
+  "menuTypeData":[
+    {"label":"目录","value":"0"},
+    {"label":"菜单","value":"1"},
+    {"label":"按钮","value":"2"}
+  ],
+  "iconData":[
     { "label": "el-icon-platform-eleme", "value": "el-icon-platform-eleme" },
     { "label": "el-icon-eleme", "value": "el-icon-eleme" },
     { "label": "el-icon-delete-solid", "value": "el-icon-delete-solid" },
@@ -280,3 +286,4 @@
     { "label": "el-icon-ice-cream-square","value": "el-icon-ice-cream-square"},
     { "label": "el-icon-ice-cream-round", "value": "el-icon-ice-cream-round" }
   ]
+}

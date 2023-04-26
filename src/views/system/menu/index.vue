@@ -33,15 +33,16 @@
         </el-table-column>
       </el-table>
     </div>
-    <editMenu ref="editMenuModel" @submitMenuForm="submitMenuForm"></editMenu>
+    <editMenu ref="editMenuModel" @submitMenuForm="submitMenuForm" :menuTypeList="menuTypeList"></editMenu>
   </div>
 </template>
 <script>
-import {getMenu, delMenu, getIcons} from '@/api/system/menu'
+import {getMenu, delMenu} from '@/api/system/menu'
 import editMenu from './editMenu'
+import menuJson from '@/api/system/menu/menu.json'
 
 export default {
-  name: 'menu',
+  name: 'menuModel',
   components: {
     editMenu,
   },
@@ -51,15 +52,12 @@ export default {
       tableData: [],
       radioData: {},
       iconList: [],
-      menuTypeList: [
-          {label:'目录',value:'0'},
-          {label:'菜单',value:'1'},
-          {label:'按钮',value:'2'},
-      ],
+      menuTypeList: [],
     }
   },
   created () {
     this.selectMainMenu()
+    this.getMenuTypeList()
   },
   methods: {
     dialogCheck: function (selection, row) {
@@ -70,14 +68,13 @@ export default {
         this.$refs.tableForm.toggleRowSelection(row, true)
       }
     },
+    // 获取菜单类型
+    getMenuTypeList(){
+      this.menuTypeList = menuJson.menuTypeData
+    },
     selectMainMenu () {
       getMenu().then((res) => {
-        if (res.success === true) {
-          this.tableData = res.results
-        }
-      })
-      getIcons().then(res => {
-        this.iconList = res
+        if (res.success === true) this.tableData = res.results
       })
     },
     // 显示菜单编辑界面
@@ -93,7 +90,7 @@ export default {
     },
     // 通过value获取label
     getLabelByValue(data){
-      return this.menuTypeList.map(v=>v.value == data).label
+      return this.menuTypeList.filter(v=>v.value == data)[0].label
     },
     delMenu (row) {
       this.$confirm('此操作将删除该条数据, 是否继续?', '提示', {

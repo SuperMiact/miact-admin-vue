@@ -1,16 +1,9 @@
 <template>
     <el-dialog ref="menuDig" :title="this.menuType" :visible.sync="showMenuModel" width="360px" center>
       <el-form label-position="right" label-width="80px" :model="formData" style="margin: 20px">
-        <div align="center">
+        <div align="left">
           <el-form-item label="菜单类型">
-            <el-select placeholder="请选择" v-model="formData.type" :disabled="true">
-              <el-option
-                v-for="mt in menuTypeList"
-                :key="mt.value"
-                :label="mt.label"
-                :value="mt.value"
-              ></el-option>
-            </el-select>
+            <span v-html="menuType"></span>
           </el-form-item>
           <el-form-item label="名称">
             <el-input v-model="formData.name"></el-input>
@@ -22,7 +15,9 @@
             <el-input v-model="formData.perms"></el-input>
           </el-form-item>
           <el-form-item label="图标" prop="icon" v-show="showIcons">
-            <el-select placeholder="请选择" v-model="formData.iconClass">
+            <i :class="formData.iconClass"/>
+            <!-- TODO 改成按钮选择 -->
+            <el-select style="width:50%" placeholder="请选择" v-model="formData.iconClass">
               <el-option
                 v-for="item in iconList"
                 :key="item.value"
@@ -53,7 +48,11 @@
     </el-dialog>
 </template>
 <script>
-import {addMenu, updateMenu} from '@/api/system/menu'
+import {
+  addMenu, 
+  updateMenu, 
+} from '@/api/system/menu'
+import menuJson from '@/api/system/menu/menu.json'
 export default{
     name:'editMenu',
     components:{},
@@ -64,47 +63,50 @@ export default{
             formData:{},
             showAddr:true,
             showIcons:true,
+            iconList:[],
             menuType:'',
-            menuTypeList:[
-                {label:'目录',value:'0'},
-                {label:'菜单',value:'1'},
-                {label:'按钮',value:'2'},
-            ],
         };
+    },
+    props: {
+      menuTypeList: {
+        type: Array,
+        default: () => [],
+      },
+    },
+    created(){
+      this.getIconList()
     },
     methods:{
         show(type,data){
-            this.type = type
-            this.getEditMenu(type,data)
-            this.showMenuModel = true
+          this.type = type
+          this.getEditMenu(type,data)
+          this.showMenuModel = true
+        },
+        // 获取图标列表
+        getIconList(){
+          this.iconList = menuJson.iconData
         },
         // 得到菜单数据
         getEditMenu(type,data){
-            if(!data) return
-            if(type == 'add'){
-                this.menuType = this.getLabelByValue(data.type+1)
-                this.showAddr = this.showIcons = data.type == 0 ? true : false
-                this.formData = {status: 0,pid: !data?0:data['id']}
-            }else{
-                this.menuType = this.getLabelByValue(data.type)
-                this.showAddr = this.showIcons = data.type != 2 ? true : false
-                this.formData = data
-            }
-            
+          if(type == 'add'){
+            this.menuType = !data?this.getLabelByValue(0):this.getLabelByValue(data.type+1)
+            this.showAddr = this.showIcons = !data || data.type == 0 ? true : false
+            this.formData = {status: 0,pid: !data?0:data['id']}
+          }else{
+            this.menuType = this.getLabelByValue(data.type)
+            this.showAddr = this.showIcons = data.type != 2 ? true : false
+            this.formData = data
+          }
         },
         // 通过value获取label
         getLabelByValue(data){
-            return this.menuTypeList.map(v=>v.value == data).label
+          return this.menuTypeList.filter(v=>v.value == data)[0].label
         },
         submitForm(){
             if (this.type === 'add') {
-                addMenu(this.formData).then((res) => {
-                    this.$message('submitMenuForm',res.success,res.message)
-                })
+                addMenu(this.formData).then((res) => this.$message('submitMenuForm',res.success,res.message))
             } else {
-                updateMenu(this.formData).then((res) => {
-                    this.$message('submitMenuForm',res.success,res.message)
-                })
+                updateMenu(this.formData).then((res) => this.$message('submitMenuForm',res.success,res.message))
             }
             this.cancelForm()
         },
