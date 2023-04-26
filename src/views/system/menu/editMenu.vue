@@ -1,9 +1,16 @@
 <template>
-    <el-dialog ref="menuDig" :title="this.menuType" :visible.sync="showMenuModel" width="360px" center>
+    <el-dialog ref="menuDig" title="编辑菜单" :visible.sync="showMenuModel" width="360px" center>
       <el-form label-position="right" label-width="80px" :model="formData" style="margin: 20px">
         <div align="left">
           <el-form-item label="菜单类型">
-            <span v-html="menuType"></span>
+            <el-select v-model="formData.type" :disabled="showType" @change="changeType">
+              <el-option 
+              v-for="menuType in menuTypeList"
+              :key="menuType.value"
+              :label="menuType.label"
+              :value="menuType.value"
+              ></el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="名称">
             <el-input v-model="formData.name"></el-input>
@@ -63,18 +70,13 @@ export default{
             formData:{},
             showAddr:true,
             showIcons:true,
+            showType:true,
             iconList:[],
-            menuType:'',
+            menuTypeList:[],
         };
     },
-    props: {
-      menuTypeList: {
-        type: Array,
-        default: () => [],
-      },
-    },
     created(){
-      this.getIconList()
+      this.getMenuIconList()
     },
     methods:{
         show(type,data){
@@ -82,25 +84,35 @@ export default{
           this.getEditMenu(type,data)
           this.showMenuModel = true
         },
-        // 获取图标列表
-        getIconList(){
+        // 获取菜单和图标列表
+        getMenuIconList(){
           this.iconList = menuJson.iconData
+          this.menuTypeList = menuJson.menuTypeData
         },
         // 得到菜单数据
         getEditMenu(type,data){
           if(type == 'add'){
-            this.menuType = !data?this.getLabelByValue(0):this.getLabelByValue(data.type+1)
-            this.showAddr = this.showIcons = !data || data.type == 0 ? true : false
-            this.formData = {status: 0,pid: !data?0:data['id']}
+            let type = !data?0:data.type+1
+            this.formData = {status: 0,pid: !data?0:data['id'],type:type}
+            this.showType = this.formData.type != 2 ? false : true
+            this.getAddShow(this.formData.type)
           }else{
-            this.menuType = this.getLabelByValue(data.type)
-            this.showAddr = this.showIcons = data.type != 2 ? true : false
             this.formData = data
+            this.showType = true
+            this.getUpdateShow(this.formData.type)
           }
         },
-        // 通过value获取label
-        getLabelByValue(data){
-          return this.menuTypeList.filter(v=>v.value == data)[0].label
+        // 修改菜单类型
+        changeType(data){
+          this.type == 'add' ? this.getAddShow(data) : this.getUpdateShow(data)
+        },
+        // 新增字段显示
+        getAddShow(dataType){
+          this.showAddr = this.showIcons = dataType == 0 ? true : false
+        },
+        // 修改字段显示
+        getUpdateShow(dataType){
+          this.showAddr = this.showIcons = dataType != 2 ? true : false
         },
         submitForm(){
             if (this.type === 'add') {
@@ -111,7 +123,6 @@ export default{
             this.cancelForm()
         },
         cancelForm(){
-            this.menuType = ''
             this.formData = {}
             this.showMenuModel = false
         },

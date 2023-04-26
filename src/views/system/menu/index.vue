@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <el-button style="margin-bottom: 10px" type="primary" plain @click="showEditMenu('add')" size="small">添加主菜单</el-button>
+      <el-button style="margin-bottom: 10px" type="primary" plain @click="showEditMenu('add')" size="small">添加一级菜单</el-button>
     </div>
     <div>
       <el-table ref="tableForm" :data="tableData" style="width: 100%" row-key="id" border lazy :tree-props="{ children: 'childNode', hasChildren: 'hasChildren' }" 
@@ -21,19 +21,16 @@
              {{scope.row.status===1?'已启用':'未启用'}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center">
+        <el-table-column label="操作" align="center" width="300px">
           <template slot-scope="scope">
-            <el-button type="text" @click="showEditMenu('add',scope.row)">
-              <span v-if="scope.row.type===0">添加菜单</span>
-              <span v-else-if="scope.row.type===1">添加按钮</span>
-            </el-button>
+            <el-button type="text" @click="showEditMenu('add',scope.row)" v-show="scope.row.type!=2">添加</el-button>
             <el-button type="text" @click="showEditMenu('update',scope.row)">修改</el-button>
             <el-button type="text" @click="delMenu(scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <editMenu ref="editMenuModel" @submitMenuForm="submitMenuForm" :menuTypeList="menuTypeList"></editMenu>
+    <editMenu ref="editMenuModel" @submitMenuForm="submitMenuForm"></editMenu>
   </div>
 </template>
 <script>
