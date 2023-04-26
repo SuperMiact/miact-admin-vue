@@ -22,9 +22,8 @@
             <el-input v-model="formData.perms"></el-input>
           </el-form-item>
           <el-form-item label="图标" prop="icon" v-show="showIcons">
-            <i :class="formData.iconClass"/>
-            <!-- TODO 改成按钮选择 -->
-            <el-select style="width:50%" placeholder="请选择" v-model="formData.iconClass">
+            <i style="margin-right:10px" :class="formData.iconClass"/>
+            <el-select style="width:35px" placeholder="请选择" v-model="formData.iconClass">
               <el-option
                 v-for="item in iconList"
                 :key="item.value"
@@ -108,7 +107,7 @@ export default{
         },
         // 新增字段显示
         getAddShow(dataType){
-          this.showAddr = this.showIcons = dataType == 0 ? true : false
+          this.showAddr = this.showIcons = dataType != 2 ? true : false
         },
         // 修改字段显示
         getUpdateShow(dataType){
