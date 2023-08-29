@@ -49,3 +49,12 @@ export function exportUser (data) {
     params: data
   })
 }
+
+// 修改用户密码
+export function editPasswd(data){
+  return request({
+    url: '/api/users/editPasswd',
+    method: 'put',
+    data: data
+  })
+}

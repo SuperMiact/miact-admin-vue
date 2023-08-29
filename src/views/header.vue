@@ -60,23 +60,20 @@
       </div>
     </div>
     <div>
-      <el-dialog :visible.sync="editPasswdOpen" title="修改密码" width="350px">
-        <div>
-          <span style="font-size: 16px">旧密码：</span>
-          <el-input style="width: 70%"></el-input>
-        </div>
-        <div>
-          <span style="font-size: 16px">新密码：</span>
-          <el-input style="width: 70%; margin-top: 20px"></el-input>
-        </div>
-        <div class="edit-passwd-center">
-          <el-button
-            el-button
-            style="margin-top: 20px; width: 35%"
-            type="primary"
-            plain
-            >修改密码</el-button
-          >
+      <el-dialog :visible.sync="editPasswdOpen" title="修改密码" width="390px">
+        <el-form label-position="right" label-width="80px" :model="userForm">
+          <el-form-item label="旧密码">
+            <el-input v-model="userForm.oldPassword"></el-input>
+          </el-form-item>
+          <el-form-item label="新密码">
+            <el-input v-model="userForm.newPassword"></el-input>
+          </el-form-item>
+        </el-form>
+        <div align="right">
+          <span slot="footer" class="dialog-footer">
+            <el-button type="primary" @click="submitEditPasswd">确 定</el-button>
+            <el-button @click="cancelEditPasswd">取 消</el-button>
+          </span>
         </div>
       </el-dialog>
     </div>
@@ -85,7 +82,7 @@
 
 <script>
 import Cookies from "js-cookie";
-import { userInfo } from "@/api/system/user";
+import { userInfo, editPasswd } from "@/api/system/user";
 import { logout } from "@/api/login";
 
 export default {
@@ -100,6 +97,7 @@ export default {
       breadList: [],
       isCollapse: false,
       editPasswdOpen: false,
+      userForm:{},
     };
   },
   created() {
@@ -174,6 +172,19 @@ export default {
         }
       });
     },
+    submitEditPasswd(){
+      console.log(this.userForm)
+      editPasswd(this.userForm).then(res=>{
+        console.log(res)
+      })
+    },
+    cancelEditPasswd(){
+      this.resetEditPasswd()
+      this.editPasswdOpen = false
+    },
+    resetEditPasswd(){
+      this.userForm = {}
+    }
   },
 };
 </script>
@@ -214,13 +225,5 @@ export default {
 }
 .avatarBG {
   background-color: #122b3f;
-}
-.edit-passwd-center {
-  display: flex;
-  display: -webkit-flex;
-  justify-content: center;
-  -webkit-justify-content: center;
-  align-items: center;
-  -webkit-align-items: center;
 }
 </style>
