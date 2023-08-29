@@ -1,6 +1,6 @@
 <template>
-    <el-dialog ref="userDig" title="编辑用户" :visible.sync="showUserModel" width="20%" center>
-      <el-form label-position="right" label-width="80px" :model="userTable" style="margin: 20px">
+    <el-dialog ref="userDig" title="编辑用户" :visible.sync="showUserModel" width="500px">
+      <el-form label-position="right" label-width="80px" :model="userTable">
         <div align="left">
           <el-form-item label="用户名称">
             <el-input v-model="userTable.username"></el-input>
@@ -26,10 +26,12 @@
           </el-form-item>
         </div>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="closeUserForm">取 消</el-button>
-        <el-button type="primary" @click="submitUserForm">确 定</el-button>
-      </span>
+      <div align="right">
+        <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="submitUserForm">确 定</el-button>
+          <el-button @click="closeUserForm">取 消</el-button>
+        </span>
+      </div>
     </el-dialog>
 </template>
 <script>
@@ -55,7 +57,7 @@ export default {
         },
         submitUserForm(){
           this.userTable.status = !this.userTable.status?0:this.userTable.status
-          this.userTable.password = !this.userTable.password?'123456':this.userTable.password
+          this.userTable.password = !this.userTable.password?'123456':undefined
           this.type == "newUser" ? addUser(this.userTable).then(res=>{
             if(res.code == '200') {
               this.$emit('submitUser',true,res.message)
