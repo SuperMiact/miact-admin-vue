@@ -1,6 +1,6 @@
 import axios from 'axios'
-import {Message, MessageBox} from 'element-ui'
 import Cookies from 'js-cookie'
+import {handleException} from '@/exception/globalExceptionHandle'
 
 // 创建axios实例
 const service = axios.create({
@@ -40,20 +40,7 @@ service.interceptors.response.use(
    */
   response => {
     let res = response.data
-    // 沒有操作权限
-    if(res.code === '2004'){
-      MessageBox.confirm('用户登录过期请重新登录, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      })
-      .then(() => {
-        window.location.href = '/login'
-      })
-      .catch(() => {
-        Message.error('操作失败')
-      })
-    }
+    handleException(res)
     return res;
   },
   error => {
