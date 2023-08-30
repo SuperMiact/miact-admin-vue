@@ -55,6 +55,6 @@ export function editPasswd(data){
   return request({
     url: '/api/users/editPasswd',
     method: 'put',
-    data: data
+    params: data
   })
 }

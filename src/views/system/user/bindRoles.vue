@@ -45,7 +45,7 @@ export default {
         },
         getRoleData(){
             queryRoles({pageNo:1,pageSize:100}).then((res) => {
-                if (res.code === "200"){
+                if (res.code === "0000"){
                     this.roleList = res.results.data
                 }
             });  
@@ -53,7 +53,7 @@ export default {
         submitRoleForm(){
             let roleData = this.roleData
             bindRole(roleData.id, roleData.roleId).then((res) => {
-                if(res.code == '200') {
+                if(res.code == '0000') {
                   this.$emit('submitRole',true,res.message)
                 }else{
                   this.$message.error(res.message)

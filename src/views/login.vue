@@ -73,7 +73,7 @@ export default {
         if (valid) {
           login(this.loginForm)
             .then((res) => {
-              if (res.code === "200") {
+              if (res.code === "0000") {
                 this.$message.success(res.message);
                 Cookies.set("Auth-Token", res.results, {expires: 7});
                 this.$router.push("/home");

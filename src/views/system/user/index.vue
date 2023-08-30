@@ -86,7 +86,7 @@ export default {
   methods: {
     getUserList() {
       queryUsers(this.queryPerms).then((res) => {
-        if (res.code === "200") {
+        if (res.code === "0000") {
           this.tableData = res.results.data;
           this.pageTotal = res.results.total;
         }
@@ -122,7 +122,7 @@ export default {
         .then(() => {  
           let ids = data instanceof Array ? data.map(v=>v.id):[data.id]
           delUser(ids).then((res) => {
-            if(res.code == '200'){
+            if(res.code == '0000'){
               this.$message.success(res.message)
               this.reload()
             }
