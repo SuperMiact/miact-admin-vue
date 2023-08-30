@@ -35,7 +35,7 @@
         @current-change="handleCurrentChange"
         :current-page.sync="queryPerms.pageNo"
         :page-size="queryPerms.pageSize"
-        layout="prev, pager, next, jumper"
+        layout="total, prev, pager, next, jumper"
         :total="pageTotal"
       >
       </el-pagination>

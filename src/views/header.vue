@@ -174,7 +174,7 @@ export default {
     },
     submitEditPasswd(){
       editPasswd(this.userForm).then(res=>{
-        if(res.code = '0000'){
+        if(res.code === '0000'){
           this.$message.success(res.message);
           this.cancelEditPasswd()
         }else{
