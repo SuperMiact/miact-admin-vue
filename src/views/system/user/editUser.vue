@@ -59,13 +59,13 @@ export default {
           this.userTable.status = !this.userTable.status?0:this.userTable.status
           this.userTable.password = !this.userTable.password?'123456':undefined
           this.type == "newUser" ? addUser(this.userTable).then(res=>{
-            if(res.code == '0000') {
+            if(res.code == '200') {
               this.$emit('submitUser',true,res.message)
             }else{
               this.$message.error(res.message)
             }
           }): updateUser(this.userTable).then(res=>{
-            if(res.code == '0000') {
+            if(res.code == '200') {
               this.$emit('submitUser',true,res.message)
             }else{
               this.$message.error(res.message)

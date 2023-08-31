@@ -117,7 +117,7 @@ export default {
     },
     getUserInfo() {
       userInfo().then((res) => {
-        if (res.code === "0000") {
+        if (res.code === "200") {
           localStorage.setItem('userInfo',JSON.stringify(res.results))
           this.$set(this.userInfo, "loginUserName", res.results.nickName);
           this.$set(
@@ -162,7 +162,7 @@ export default {
     },
     userLogout() {
       logout().then((res) => {
-        if (res.code === "0000") {
+        if (res.code === "200") {
           Cookies.remove("Auth-Token");
           this.$message.success(res.message);
           this.$router.push("/login");
@@ -174,7 +174,7 @@ export default {
     },
     submitEditPasswd(){
       editPasswd(this.userForm).then(res=>{
-        if(res.code === '0000'){
+        if(res.code === '200'){
           this.$message.success(res.message);
           this.cancelEditPasswd()
         }else{

@@ -34,8 +34,8 @@
           </el-col>
           <el-col :span="6">
             <el-form-item>
-              <el-button type="primary" @click="submitQuery">查询</el-button>
-              <el-button @click="resetQuery">重置</el-button>
+              <el-button type="primary" icon="el-icon-search" @click="submitQuery">查询</el-button>
+              <el-button icon="el-icon-refresh-right" @click="resetQuery">重置</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -139,7 +139,7 @@ export default {
     },
     getUserList() {
       queryUsers(this.queryPerms).then((res) => {
-        if (res.code === "0000") {
+        if (res.code === "200") {
           this.tableData = res.results.data;
           this.pageTotal = res.results.total;
         }
@@ -148,7 +148,7 @@ export default {
     },
     getRoleList(){
       queryAll().then(res=>{
-        if(res.code === "0000"){
+        if(res.code === "200"){
           this.roleList = res.results
         }
       })
@@ -183,7 +183,7 @@ export default {
         .then(() => {  
           let ids = data instanceof Array ? data.map(v=>v.id):[data.id]
           delUser(ids).then((res) => {
-            if(res.code == '0000'){
+            if(res.code == '200'){
               this.$message.success(res.message)
               this.reload()
             }

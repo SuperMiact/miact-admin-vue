@@ -47,7 +47,7 @@ export default {
   methods: {
     getRoleData() {
       queryRoles({pageNo:1,pageSize:5}).then((res) => {
-        if (res.code == "0000") {
+        if (res.code == "200") {
           this.tableData = res.results.data;
         }
       });
