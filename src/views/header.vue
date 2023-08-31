@@ -63,10 +63,10 @@
       <el-dialog :visible.sync="editPasswdOpen" title="修改密码" width="390px">
         <el-form label-position="right" label-width="80px" :model="userForm">
           <el-form-item label="旧密码">
-            <el-input v-model="userForm.oldPassword"></el-input>
+            <el-input show-password v-model="userForm.oldPassword"></el-input>
           </el-form-item>
           <el-form-item label="新密码">
-            <el-input v-model="userForm.newPassword"></el-input>
+            <el-input show-password v-model="userForm.newPassword"></el-input>
           </el-form-item>
         </el-form>
         <div align="right">

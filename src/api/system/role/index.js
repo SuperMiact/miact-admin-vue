@@ -27,6 +27,15 @@ export function queryRoles(params){
     })
 }
 
+// 查询角色-不分页
+export function queryAll(params){
+    return request({
+        url:'/api/roles/queryAll',
+        method:'get',
+        params:params
+    })
+}
+
 // 通过角色名查找角色
 export function queryRoleByRoleName(roleName){
     return request({

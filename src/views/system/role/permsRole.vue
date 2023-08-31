@@ -1,9 +1,9 @@
 <template>
-    <el-dialog title="权限分配" :visible.sync="dialogPermsVisible">
+    <el-dialog title="权限分配" :visible.sync="dialogPermsVisible" width="380px">
       <el-tree :data="menuList" show-checkbox default-expand-all node-key="id" ref="tree" highlight-current :props="{children: 'childNode',label: 'name'}" @check="currentChecked"></el-tree>
-      <div>
-        <el-button @click="cancelPerms" style="margin-left: 200px; margin-right: 50px">取 消</el-button>
-        <el-button type="primary" @click="submitPerms" style="margin-right: 50px">确 定</el-button>
+      <div align="right">
+        <el-button @click="cancelPerms">取 消</el-button>
+        <el-button type="primary" @click="submitPerms">确 定</el-button>
       </div>
     </el-dialog>
 </template>

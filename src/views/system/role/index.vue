@@ -54,8 +54,7 @@ export default {
     },
     // 显示编辑角色界面
     showEditRole(type, data) {
-      let roleTable = type == 'add' ? {} : data;
-      this.$refs.editRoleModel.show(type,roleTable)
+      this.$refs.editRoleModel.show(type,type == 'add' ? {} : JSON.parse(JSON.stringify(data)))
     },
     // 保存修改角色
     submitRoleForm(result,message) {

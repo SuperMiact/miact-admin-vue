@@ -1,11 +1,52 @@
 <template>
   <div>
     <div>
-      <el-button class="button-top" v-if="isPerms('user:add')" @click="showEditUser('newUser')" type="success" size="small" plain>新增用户</el-button>
-      <el-button class="button-top" v-if="isPerms('user:update')" @click="showEditUser('updateUser')" type="primary" :disabled="selectNum != 1" size="small" plain>修改</el-button>
-      <el-button class="button-top" v-if="isPerms('user:delete')" @click="delUser(selectAllUser)" type="danger" :disabled="selectNum == 0" size="small" plain>删除</el-button>
-      <el-button class="button-top" v-if="isPerms('user:bind')" @click="showBindRoles('newBindRole',selectAllUser)" type="success" size="small" :disabled="selectNum == 0" plain>分配角色</el-button>
-      <el-button class="button-top" v-if="isPerms('user:export')" @click="exportUsers" type="warning" size="small" plain>导出</el-button>
+      <el-form :inline="true" :model="queryPerms">
+        <el-row :gutter="20">
+          <el-col :span="6">
+            <el-form-item label="用户名称：">
+              <el-input v-model="queryPerms.username"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="角色：">
+              <el-select v-model="queryPerms.roleId" clearable>
+                <el-option
+                v-for="role in roleList"
+                :key="role.roleId"
+                :label="role.roleName"
+                :value="role.roleId"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="状态：">
+              <el-select v-model="queryPerms.status" clearable>
+                <el-option
+                v-for="role in statusList"
+                :key="role.value"
+                :label="role.label"
+                :value="role.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item>
+              <el-button type="primary" @click="submitQuery">查询</el-button>
+              <el-button @click="resetQuery">重置</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+    </div>
+    <div class="button-top">
+      <el-button v-if="isPerms('user:add')" @click="showEditUser('newUser')" type="success" size="small" plain>新增用户</el-button>
+      <el-button v-if="isPerms('user:update')" @click="showEditUser('updateUser')" type="primary" :disabled="selectNum != 1" size="small" plain>修改</el-button>
+      <el-button v-if="isPerms('user:delete')" @click="delUser(selectAllUser)" type="danger" :disabled="selectNum == 0" size="small" plain>删除</el-button>
+      <el-button v-if="isPerms('user:bind')" @click="showBindRoles('newBindRole',selectAllUser)" type="success" size="small" :disabled="selectNum == 0" plain>分配角色</el-button>
+      <el-button v-if="isPerms('user:export')" @click="exportUsers" type="warning" size="small" plain>导出</el-button>
     </div>
     <div>
       <el-table ref="tableF" :data="tableData" @select="userSelect" @select-all="userSelect" style="width: 100%" row-key="id" border lazy>
@@ -52,7 +93,7 @@ import {
   delUser,
   exportUser,
 } from "@/api/system/user";
-
+import { queryAll } from "@/api/system/role"
 import { getButtonPerms } from "@/utils/perms";
 import { download, getRemoteFile } from "@/utils/download";
 import editUser from "./editUser";
@@ -70,6 +111,7 @@ export default {
       tableData: [],
       // 复选框选中的数据
       selectAllUser: [],
+      // 查询参数
       queryPerms:{
         pageNo: 1, // 当前页
         pageSize:10, // 每页多少条
@@ -78,12 +120,23 @@ export default {
       pageTotal: 0,
       // 复选选中数量
       selectNum:0,
+      // 角色列表
+      roleList:[],
+      // 状态列表
+      statusList:[
+        {label:'启用',value:'1'},
+        {label:'未启用',value:'0'}
+      ],
     };
   },
   created() {
-    this.getUserList();
+    this.init()
   },
   methods: {
+    init(){
+      this.getUserList()
+      this.getRoleList()
+    },
     getUserList() {
       queryUsers(this.queryPerms).then((res) => {
         if (res.code === "0000") {
@@ -91,6 +144,14 @@ export default {
           this.pageTotal = res.results.total;
         }
       });
+      
+    },
+    getRoleList(){
+      queryAll().then(res=>{
+        if(res.code === "0000"){
+          this.roleList = res.results
+        }
+      })
     },
     isPerms(permsValue) {
       return getButtonPerms(permsValue);
@@ -165,8 +226,20 @@ export default {
     },
     // 修改当前页数时 触发
     handleCurrentChange(data) {
-      this.getUserList();
+      this.getUserList()
     },
+    // 提交查询
+    submitQuery(){
+      this.getUserList()
+    },
+    // 重置查询
+    resetQuery(){
+      this.queryPerms = {
+        pageNo: 1,
+        pageSize:10,
+      }
+      this.getUserList()
+    }
   },
 };
 </script>

@@ -1,14 +1,12 @@
 <template>
-    <el-dialog ref="roleDig" title="编辑角色" :visible.sync="showRoleModel" width="20%" center>
-      <el-form label-position="right" label-width="80px" :model="roleTable" style="margin: 20px">
-        <div align="center">
-          <el-form-item label="角色名称">
+    <el-dialog ref="roleDig" title="编辑角色" :visible.sync="showRoleModel" width="380px">
+      <el-form label-position="right" label-width="80px" :model="roleTable">
+        <el-form-item label="角色名称">
             <el-input v-model="roleTable.roleName"></el-input>
-          </el-form-item>
-          <el-form-item label="备注">
+        </el-form-item>
+        <el-form-item label="备注">
             <el-input v-model="roleTable.remark"></el-input>
-          </el-form-item>
-        </div>
+        </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelForm">取 消</el-button>
