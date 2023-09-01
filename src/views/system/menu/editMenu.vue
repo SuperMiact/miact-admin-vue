@@ -1,51 +1,71 @@
 <template>
-    <el-dialog ref="menuDig" title="编辑菜单" :visible.sync="showMenuModel" width="360px">
+    <el-dialog ref="menuDig" title="编辑菜单" :visible.sync="showMenuModel" width="600px">
       <el-form label-position="right" label-width="80px" :model="formData">
-        <div align="left">
-          <el-form-item label="菜单类型">
-            <el-select v-model="formData.type" :disabled="showType" @change="changeType">
-              <el-option 
-              v-for="menuType in menuTypeList"
-              :key="menuType.value"
-              :label="menuType.label"
-              :value="menuType.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="名称">
-            <el-input v-model="formData.name"></el-input>
-          </el-form-item>
-          <el-form-item label="地址" v-show="showAddr">
-            <el-input v-model="formData.url"></el-input>
-          </el-form-item>
-          <el-form-item label="权限">
-            <el-input v-model="formData.perms"></el-input>
-          </el-form-item>
-          <el-form-item label="图标" prop="icon" v-show="showIcons">
-            <i style="margin-right:10px" :class="formData.iconClass"/>
-            <el-select style="width:35px" placeholder="请选择" v-model="formData.iconClass">
-              <el-option
-                v-for="item in iconList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-                <i :class="item.label"></i>
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="排序" >
-            <el-input v-model="formData.sortOrder"></el-input>
-          </el-form-item>
-          <el-form-item label="状态">
-            <el-switch
-              v-model="formData.status"
-              :active-value="1"
-              :inactive-value="0"
-              active-color="#13ce66"
-              inactive-color="#ff4949">
-            </el-switch>
-          </el-form-item>
-        </div>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="菜单类型">
+              <el-select v-model="formData.type" :disabled="showType" @change="changeType">
+                <el-option 
+                v-for="menuType in menuTypeList"
+                :key="menuType.value"
+                :label="menuType.label"
+                :value="menuType.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="名称">
+              <el-input v-model="formData.name"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="地址" v-show="showAddr">
+              <el-input v-model="formData.url"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="权限">
+              <el-input v-model="formData.perms"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="图标" prop="icon" v-show="showIcons">
+              <i style="margin-right:10px" :class="formData.iconClass"/>
+              <el-select style="width:35px" placeholder="请选择" v-model="formData.iconClass">
+                <el-option
+                  v-for="item in iconList"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value">
+                  <i :class="item.label"></i>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="排序" >
+              <el-input v-model="formData.sortOrder"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form-item label="状态">
+              <el-switch
+                v-model="formData.status"
+                :active-value="1"
+                :inactive-value="0"
+                active-color="#13ce66"
+                inactive-color="#ff4949">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelForm">取 消</el-button>
