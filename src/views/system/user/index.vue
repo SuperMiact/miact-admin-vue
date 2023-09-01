@@ -58,7 +58,7 @@
         <el-table-column prop="roleName" label="角色" align="center"></el-table-column>
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
-            {{ scope.row.status === 0 ? "未启用" : "启用" }}
+            {{ scope.row.status === 0 ? "启用" : "未启用" }}
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center">
@@ -124,8 +124,8 @@ export default {
       roleList:[],
       // 状态列表
       statusList:[
-        {label:'启用',value:'1'},
-        {label:'未启用',value:'0'}
+        {label:'启用',value:'0'},
+        {label:'未启用',value:'1'}
       ],
     };
   },
@@ -163,8 +163,8 @@ export default {
     },
     // 显示编辑用户界面
     showEditUser(type,data) {
-      let userTable = type == 'newUser' ? {} : !data ? this.selectAllUser[0] : data
-      this.$refs.editUserModel.show(type,userTable)
+      let userForm = JSON.parse(JSON.stringify(type == 'newUser' ? {} : !data ? this.selectAllUser[0] : data))
+      this.$refs.editUserModel.show(type,userForm)
     },
     // 保存用户
     submitUser(result,message){

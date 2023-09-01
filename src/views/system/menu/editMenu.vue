@@ -1,6 +1,6 @@
 <template>
-    <el-dialog ref="menuDig" title="编辑菜单" :visible.sync="showMenuModel" width="360px" center>
-      <el-form label-position="right" label-width="80px" :model="formData" style="margin: 20px">
+    <el-dialog ref="menuDig" title="编辑菜单" :visible.sync="showMenuModel" width="360px">
+      <el-form label-position="right" label-width="80px" :model="formData">
         <div align="left">
           <el-form-item label="菜单类型">
             <el-select v-model="formData.type" :disabled="showType" @change="changeType">
@@ -92,7 +92,9 @@ export default{
         getEditMenu(type,data){
           if(type == 'add'){
             let type = !data?0:data.type+1
+            console.log(data)
             this.formData = {status: 0,pid: !data?0:data['id'],type:type}
+            console.log(this.formData)
             this.showType = this.formData.type != 2 ? false : true
             this.getAddShow(this.formData.type)
           }else{
@@ -115,9 +117,9 @@ export default{
         },
         submitForm(){
             if (this.type === 'add') {
-                addMenu(this.formData).then((res) => this.$message('submitMenuForm',res.success,res.message))
+                addMenu(this.formData).then((res) => this.$emit('submitMenuForm',res.success,res.message))
             } else {
-                updateMenu(this.formData).then((res) => this.$message('submitMenuForm',res.success,res.message))
+                updateMenu(this.formData).then((res) => this.$emit('submitMenuForm',res.success,res.message))
             }
             this.cancelForm()
         },

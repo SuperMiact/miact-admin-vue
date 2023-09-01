@@ -54,8 +54,9 @@ export default {
       });
     },
     submitRoleForm() {
-      let roleData = this.roleData;
-      bindRole(roleData.id, roleData.roleId).then((res) => {
+      let roleData = this.roleData
+      let roleId = roleData.roleId
+      bindRole(roleData.id.map(data => {return {id:data,roleId:roleId}})).then((res) => {
         if (res.code == "200") {
           this.$emit("submitRole", true, res.message);
         } else {

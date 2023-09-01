@@ -71,7 +71,6 @@ export default {
     },
     isCollapseChange(isCollapse) {
       this.isCollapse = isCollapse;
-      console.log(this.menuList);
     },
     selectMainMenu() {
       let query = {

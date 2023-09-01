@@ -23,7 +23,7 @@ export function addMenu (data) {
 export function updateMenu (data) {
   return request({
     url: '/api/mainMenu/updateMenu',
-    method: 'post',
+    method: 'put',
     data: data
   })
 }
@@ -32,7 +32,7 @@ export function updateMenu (data) {
 export function delMenu (params) {
   return request({
     url: '/api/mainMenu/delMenu',
-    method: 'get',
+    method: 'delete',
     params: params
   })
 }

@@ -76,7 +76,7 @@ export default {
     },
     // 显示菜单编辑界面
     showEditMenu (type, row) {
-      this.$refs.editMenuModel.show(type,row)
+      this.$refs.editMenuModel.show(type,!!row?JSON.parse(JSON.stringify(row)):null)
     },
     // 保存菜单
     submitMenuForm(result,message){
