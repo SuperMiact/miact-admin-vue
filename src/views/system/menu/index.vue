@@ -15,10 +15,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="url" label="地址" align="center"> </el-table-column>
+        <el-table-column prop="componentAddress" label="组件地址" align="center" show-overflow-tooltip> </el-table-column>
         <el-table-column prop="sortOrder" label="排序" align="center"> </el-table-column>
         <el-table-column label="状态" align="center">
           <template slot-scope="scope">
-             {{scope.row.status===1?'已启用':'未启用'}}
+             {{scope.row.status===0?'已启用':'未启用'}}
           </template>
         </el-table-column>
         <el-table-column label="操作" align="center" width="300px">

@@ -21,8 +21,8 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="地址" v-show="showAddr">
+          <el-col :span="12" v-show="showAddr">
+            <el-form-item label="地址">
               <el-input v-model="formData.url"></el-input>
             </el-form-item>
           </el-col>
@@ -33,8 +33,8 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="12">
-            <el-form-item label="图标" prop="icon" v-show="showIcons">
+          <el-col :span="12" v-show="showIcons">
+            <el-form-item label="图标" prop="icon" >
               <i style="margin-right:10px" :class="formData.iconClass"/>
               <el-select style="width:35px" placeholder="请选择" v-model="formData.iconClass">
                 <el-option
@@ -53,13 +53,20 @@
             </el-form-item>
           </el-col>
         </el-row>
+        <el-row :gutter="20" v-show="showAddr">
+          <el-col :span="12">
+            <el-form-item label="组件地址" >
+              <el-input v-model="formData.componentAddress"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="状态">
               <el-switch
                 v-model="formData.status"
-                :active-value="1"
-                :inactive-value="0"
+                :active-value="0"
+                :inactive-value="1"
                 active-color="#13ce66"
                 inactive-color="#ff4949">
               </el-switch>
@@ -112,9 +119,7 @@ export default{
         getEditMenu(type,data){
           if(type == 'add'){
             let type = !data?0:data.type+1
-            console.log(data)
             this.formData = {status: 0,pid: !data?0:data['id'],type:type}
-            console.log(this.formData)
             this.showType = this.formData.type != 2 ? false : true
             this.getAddShow(this.formData.type)
           }else{

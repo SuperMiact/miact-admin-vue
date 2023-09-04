@@ -39,7 +39,7 @@ const router = new Router({
     {
       path: '/personInfo',
       name: 'personInfo',
-      component: () => import('@/views/system/personInfo/index'),
+      component: () => import('@/views/system/personInfo'),
       meta: {
         info: '个人信息'
       }
@@ -47,7 +47,7 @@ const router = new Router({
     {
       path: '/menu',
       name: 'menu',
-      component: () => import('@/views/system/menu/index'),
+      component: () => import('@/views/system/menu'),
       meta: {
         info: '菜单配置'
       }
@@ -55,7 +55,7 @@ const router = new Router({
     {
       path: '/role',
       name: 'role',
-      component: () => import('@/views/system/role/index'),
+      component: () => import('@/views/system/role'),
       meta: {
         info: '角色配置'
       }
@@ -63,9 +63,17 @@ const router = new Router({
     {
       path: '/user',
       name: 'user',
-      component: () => import('@/views/system/user/index'),
+      component: () => import('@/views/system/user'),
       meta: {
         info: '用户配置'
+      }
+    },
+    {
+      path: '/dict',
+      name: 'dict',
+      component: () => import('@/views/system/dict'),
+      meta: {
+        info: '字典配置'
       }
     }
   ]
@@ -75,7 +83,9 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   NProcess.start() // 进度条开始
   // 如果访问的是登录界面则直接放行
-  if (to.path === '/login') return next()
+  if (to.path === '/login') {
+    return next()
+  }
   // 获取用户页面token信息
   let token = Cookies.get('Auth-Token')
 
