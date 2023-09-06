@@ -69,11 +69,19 @@ const router = new Router({
       }
     },
     {
-      path: '/dict',
-      name: 'dict',
+      path: '/dictType',
+      name: 'dictType',
       component: () => import('@/views/system/dict'),
       meta: {
         info: '字典配置'
+      }
+    },
+    {
+      path: '/dictItem',
+      name: 'dictItem',
+      component: () => import('@/views/system/dict/dictItem'),
+      meta: {
+        info: '字典项配置'
       }
     }
   ]

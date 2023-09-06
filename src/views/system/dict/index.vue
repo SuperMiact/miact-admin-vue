@@ -1,17 +1,20 @@
 <template>
   <div>
-    <div>
-      <el-button style="margin-bottom: 10px" type="primary" plain @click="addDictType" size="small">新增</el-button>
+    <div class="button-top">
+      <el-button type="success" plain @click="addDictType" size="small">新增</el-button>
+      <el-button type="primary" plain :disabled="selectionLength != 1" @click="updateDictType()" size="small">修改</el-button>
+      <el-button type="danger" plain :disabled="selectionLength <= 0" @click="deleteDictType()" size="small">删除</el-button>
     </div>
     <div>
-      <el-table ref="tableForm" :data="tableData" style="width: 100%" row-key="id" border lazy>
+      <el-table ref="tableForm" :data="tableData" @selection-change="handleSelectionChange" style="width: 100%" row-key="id" border lazy>
         <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="dictType" label="字典类型" align="center"></el-table-column>
         <el-table-column prop="dictTypeName" label="字典名称" align="center"></el-table-column>
+        <el-table-column prop="dictType" label="字典类型" align="center"></el-table-column>
         <el-table-column prop="remark" label="备注" align="center"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="updateDictType(scope.row)" type="text">修改</el-button>
+            <el-button @click="setDictItem(scope.row)" type="text">配置</el-button>
             <el-button @click="deleteDictType(scope.row)" type="text">删除</el-button>
           </template>
         </el-table-column>
@@ -55,6 +58,9 @@ export default {
       },
       // 数据总条目
       pageTotal: 0,
+      // 多选
+      selectionList:[],
+      selectionLength:0
     };
   },
   created() {
@@ -94,20 +100,23 @@ export default {
     },
     // 更新字典类型
     updateDictType(data){
-      this.$refs.editDict.show(!!data?JSON.parse(JSON.stringify(data)):null)
+      this.$refs.editDict.show(!!data ? JSON.parse(JSON.stringify(data)) : this.selectionLength > 0 ? this.selectionList[0] : null)
     },
     // 删除字典类型
     deleteDictType(data) {
-      this.$confirm("此操作将删除该条数据, 是否继续?", "提示", {
+      this.$confirm("此操作将删除数据, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       })
-        .then(() => {  
-          delDictType(data.id).then(res=>{
+        .then(() => {
+          let ids = !!data?[data.id]:this.selectionList.map(v=>v.id);
+          delDictType(ids).then(res=>{
             if(res.code == '200'){
               this.$message.success(res.message)
               this.getDictData()
+            }else{
+              this.$message.error(res.message)
             }
           })
         })
@@ -123,6 +132,23 @@ export default {
     handleCurrentChange(data) {
       this.getDictData()
     },
+    // 多选
+    handleSelectionChange(val) {
+      this.selectionList = val
+      this.selectionLength = val.length
+    },
+    // 配置字典
+    setDictItem(data){
+      this.$router.push({
+        path: '/dictItem', 
+        query: {dictType: data.dictType}
+      });
+    },
   },
 };
 </script>
+<style scoped>
+.button-top{
+  margin-bottom: 10px;
+}
+</style>
