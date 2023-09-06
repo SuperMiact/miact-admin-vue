@@ -7,14 +7,14 @@
       <el-table ref="tableForm" :data="tableData" style="width: 100%" row-key="id" border lazy :tree-props="{ children: 'childNode', hasChildren: 'hasChildren' }" 
       @select-all="dialogCheck" @select="dialogCheck">
         <el-table-column type="selection" align="center"></el-table-column>
-        <el-table-column prop="name" label="名称" align="left"> </el-table-column>
-        <el-table-column prop="perms" label="菜单权限" align="center"></el-table-column>
+        <el-table-column prop="name" label="名称" align="left" width="200" show-overflow-tooltip> </el-table-column>
+        <el-table-column prop="perms" label="菜单权限" align="center" show-overflow-tooltip></el-table-column>
         <el-table-column label="菜单类型" align="center">
           <template slot-scope="scope">
             <span v-html="getLabelByValue(scope.row.type)"></span>
           </template>
         </el-table-column>
-        <el-table-column prop="url" label="地址" align="center"> </el-table-column>
+        <el-table-column prop="url" label="地址" align="center" show-overflow-tooltip> </el-table-column>
         <el-table-column prop="componentAddress" label="组件地址" align="center" show-overflow-tooltip> </el-table-column>
         <el-table-column prop="sortOrder" label="排序" align="center"> </el-table-column>
         <el-table-column label="状态" align="center">

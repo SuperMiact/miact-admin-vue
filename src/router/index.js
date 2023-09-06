@@ -97,7 +97,7 @@ router.beforeEach((to, from, next) => {
   // 获取用户页面token信息
   let token = Cookies.get('Auth-Token')
 
-  if (token===''&&token===undefined&&token===null) {
+  if (!token) {
     return next('/login')
   }
 
