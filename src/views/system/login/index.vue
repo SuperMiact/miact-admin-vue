@@ -47,7 +47,7 @@ import { login } from "@/api/login";
 import Cookies from "js-cookie";
 
 export default {
-  name: "Login",
+  name: "login",
   components: {},
   data() {
     return {

@@ -77,7 +77,7 @@ const router = new Router({
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/login'),
+      component: () => import('@/views/system/login'),
       meta: {
         showNav: true
       }
