@@ -56,25 +56,34 @@ const router = new Router({
   ]
 })
 
-// 动态生成路由
-getMenuAll().then(response =>{ 
-  let tempRoutes = response.results;  // 后端返回的路由数据
-  const routes = !!tempRoutes && tempRoutes.length > 0 ? tempRoutes.filter(v=>!!v.url&&!!v.componentAddress) : []
+function setRoutes() {
+    // 动态生成路由
+    getMenuAll()
+    .then(response => {
+      let tempRoutes = response.results;  // 后端返回的路由数据
+      const routes = !!tempRoutes && tempRoutes.length > 0 ? tempRoutes.filter(v=>!!v.url&&!!v.componentAddress) : []
 
-  // 动态生成路由
-  routes.forEach(route => {
-    const { url, name, componentAddress } = route;
-    const routeConfig = {
-      path:url,
-      name,
-      component: () => import(`@/views/${componentAddress}`)  // 根据组件名称动态加载组件
-    };
-    router.addRoute(routeConfig);
-  });
-})
-.catch(error => {
-  console.error(error);
-});
+      // 动态生成路由
+      routes.forEach(route => {
+        const { url, name, componentAddress } = route;
+        const routeConfig = {
+          path:url,
+          name,
+          component: () => import(`@/views/${componentAddress}`),  // 根据组件名称动态加载组件
+          meta: {
+            info: name
+          }
+        };
+        router.addRoute(routeConfig);
+      });
+      localStorage.setItem('menuRouters',router)
+    })
+    .catch(error => {
+      console.error(error);
+    });
+}
+
+setRoutes()
 
 // 拦截请求
 router.beforeEach((to, from, next) => {
