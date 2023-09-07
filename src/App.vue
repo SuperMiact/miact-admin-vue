@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <Main v-if="!$route.meta.showNav"/>
-    <el-container class="container">
+    <el-container v-else class="container">
       <router-view />
     </el-container>
   </div>

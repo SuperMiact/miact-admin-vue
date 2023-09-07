@@ -92,38 +92,6 @@ const router = new Router({
       }
     },
     {
-      path: '/menu',
-      name: 'menu',
-      component: () => import('@/views/system/menu'),
-      meta: {
-        info: '菜单配置'
-      }
-    },
-    {
-      path: '/role',
-      name: 'role',
-      component: () => import('@/views/system/role'),
-      meta: {
-        info: '角色配置'
-      }
-    },
-    {
-      path: '/user',
-      name: 'user',
-      component: () => import('@/views/system/user'),
-      meta: {
-        info: '用户配置'
-      }
-    },
-    {
-      path: '/dictType',
-      name: 'dictType',
-      component: () => import('@/views/system/dict'),
-      meta: {
-        info: '字典配置'
-      }
-    },
-    {
       path: '/dictItem',
       name: 'dictItem',
       component: () => import('@/views/system/dict/dictItem'),
@@ -135,25 +103,25 @@ const router = new Router({
 })
 
 // 动态生成路由
-// getMenuAll().then(response =>{ 
-//   let tempRoutes = response.results;  // 后端返回的路由数据
-//   const routes = !!tempRoutes && tempRoutes.length > 0 ? tempRoutes.filter(v=>!!v.url) : []
+getMenuAll().then(response =>{ 
+  let tempRoutes = response.results;  // 后端返回的路由数据
+  const routes = !!tempRoutes && tempRoutes.length > 0 ? tempRoutes.filter(v=>!!v.url&&!!v.componentAddress) : []
 
-//   // 动态生成路由
-//   routes.forEach(route => {
-//     const { url, name, componentAddress } = route;
-//     const routeConfig = {
-//       path:url,
-//       name,
-//       component: () => import(`@/views/${componentAddress}.vue`)  // 根据组件名称动态加载组件
-//     };
-//     console.log(routeConfig)
-//     router.addRoute(routeConfig);
-//   });
-// })
-// .catch(error => {
-//   console.error(error);
-// });
+  // 动态生成路由
+  routes.forEach(route => {
+    const { url, name, componentAddress } = route;
+    const routeConfig = {
+      path:url,
+      name,
+      component: () => import(`@/views/${componentAddress}`)  // 根据组件名称动态加载组件
+    };
+    console.log(routeConfig)
+    router.addRoute(routeConfig);
+  });
+})
+.catch(error => {
+  console.error(error);
+});
 
 
 // 拦截请求
