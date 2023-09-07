@@ -13,52 +13,6 @@ Vue.use(Router)
 /**
  * 静态路由
  */
-// export const constantRoutes = [{
-//   path: '/redirect',
-//   component: Layout,
-//   hidden: true,
-//   children: [{
-//     path: '/redirect/:path(.*)',
-//     component: () => import('@/views/redirect/index')
-//   }]
-// },
-// {
-//   path: '/login',
-//   component: () => import('@/views/login/index'),
-//   hidden: true
-// },
-// {
-//   path: '/auth-redirect',
-//   component: () => import('@/views/login/auth-redirect'),
-//   hidden: true
-// },
-// {
-//   path: '/404',
-//   component: () => import('@/views/error-page/404'),
-//   hidden: true
-// },
-// {
-//   path: '/401',
-//   component: () => import('@/views/error-page/401'),
-//   hidden: true
-// },
-// {
-//   path: '/',
-//   component: Layout,
-//   redirect: '/dashboard',
-//   children: [{
-//     path: 'dashboard',
-//     component: () => import('@/views/dashboard/index'),
-//     name: 'Dashboard',
-//     meta: {
-//       title: '仪表板',
-//       icon: 'dashboard',
-//       affix: true
-//     }
-//   }]
-// },
-// ]
-
 const router = new Router({
   mode: 'history',
   routes: [
@@ -70,7 +24,7 @@ const router = new Router({
     {
       path: '/home',
       name: 'home',
-      component:() => import('@/views/home'),
+      component:() => import('@/views/dashboard'),
       meta: {
         info: '首页'
       }
@@ -115,14 +69,12 @@ getMenuAll().then(response =>{
       name,
       component: () => import(`@/views/${componentAddress}`)  // 根据组件名称动态加载组件
     };
-    console.log(routeConfig)
     router.addRoute(routeConfig);
   });
 })
 .catch(error => {
   console.error(error);
 });
-
 
 // 拦截请求
 router.beforeEach((to, from, next) => {
