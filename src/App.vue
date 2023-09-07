@@ -8,7 +8,7 @@
 </template>
 <script>
 
-import Main from "@/views/pages/main"
+import Main from "@/views/main-page/main"
 
 export default {
   name: "App",

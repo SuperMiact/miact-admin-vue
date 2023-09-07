@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import NProcess from 'nprogress'
 import 'nprogress/nprogress.css'
 import Cookies from 'js-cookie'
+import {getMenuAll} from '@/api/system/menu'
 
 // 去掉右上角的圆圈
 NProcess.configure({showSpinner:false})
@@ -132,6 +133,28 @@ const router = new Router({
     }
   ]
 })
+
+// 动态生成路由
+// getMenuAll().then(response =>{ 
+//   let tempRoutes = response.results;  // 后端返回的路由数据
+//   const routes = !!tempRoutes && tempRoutes.length > 0 ? tempRoutes.filter(v=>!!v.url) : []
+
+//   // 动态生成路由
+//   routes.forEach(route => {
+//     const { url, name, componentAddress } = route;
+//     const routeConfig = {
+//       path:url,
+//       name,
+//       component: () => import(`@/views/${componentAddress}.vue`)  // 根据组件名称动态加载组件
+//     };
+//     console.log(routeConfig)
+//     router.addRoute(routeConfig);
+//   });
+// })
+// .catch(error => {
+//   console.error(error);
+// });
+
 
 // 拦截请求
 router.beforeEach((to, from, next) => {

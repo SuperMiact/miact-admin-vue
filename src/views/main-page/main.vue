@@ -34,8 +34,8 @@
 <script>
 import { getMenu } from "@/api/system/menu"
 import MenuTree from "@/components/menuTree"
-import Header from "@/views/pages/header"
-// import Footer from '@/views/pages/footer'
+import Header from "@/views/main-page/header"
+// import Footer from '@/views/main-page/footer'
 export default {
   name: "mainPage",
   components:{

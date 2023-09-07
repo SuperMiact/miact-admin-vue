@@ -81,10 +81,6 @@
     </el-dialog>
 </template>
 <script>
-import {
-  addMenu, 
-  updateMenu, 
-} from '@/api/system/menu'
 import menuJson from '@/api/system/menu/menu.json'
 export default{
     name:'editMenu',
@@ -141,11 +137,7 @@ export default{
           this.showAddr = this.showIcons = dataType != 2 ? true : false
         },
         submitForm(){
-            if (this.type === 'add') {
-                addMenu(this.formData).then((res) => this.$emit('submitMenuForm',res.success,res.message))
-            } else {
-                updateMenu(this.formData).then((res) => this.$emit('submitMenuForm',res.success,res.message))
-            }
+            this.$emit('submitMenuForm',this.formData)
             this.cancelForm()
         },
         cancelForm(){

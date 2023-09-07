@@ -10,6 +10,15 @@ export function getMenu (data) {
   })
 }
 
+// 获取菜单
+export function getMenuAll (data) {
+  return request({
+    url: '/api/mainMenu/getMenuAll',
+    method: 'get',
+    params: data
+  })
+}
+
 // 添加菜单
 export function addMenu (data) {
   return request({

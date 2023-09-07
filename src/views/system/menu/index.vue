@@ -35,10 +35,9 @@
   </div>
 </template>
 <script>
-import {getMenu, delMenu} from '@/api/system/menu'
+import {getMenu, delMenu, addMenu, updateMenu} from '@/api/system/menu'
 import editMenu from './editMenu'
 import menuJson from '@/api/system/menu/menu.json'
-
 export default {
   name: 'menuModel',
   components: {
@@ -80,10 +79,23 @@ export default {
       this.$refs.editMenuModel.show(type,!!row?JSON.parse(JSON.stringify(row)):null)
     },
     // 保存菜单
-    submitMenuForm(result,message){
-      if(result){
-        this.$message.success(message)
-        this.reload()
+    submitMenuForm(data){
+      if(!!data){
+        if(data.id){
+          updateMenu(data).then(res=>{
+            if(res.code == '200'){
+              this.$message.success(res.message)
+              this.selectMainMenu()
+            }
+          })
+        }else{
+          addMenu(data).then(res=>{
+            if(res.code == '200'){
+              this.$message.success(res.message)
+              this.selectMainMenu()
+            }
+          })
+        }
       }
     },
     // 通过value获取label
