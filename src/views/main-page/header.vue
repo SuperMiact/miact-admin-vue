@@ -129,9 +129,10 @@ export default {
       });
     },
     getBreadList() {
-      let currentPath = this.$route.path;
-      let routes = this.$router.options.routes;
-      return this.breadListSearch(routes, currentPath);
+        let currentPath = this.$route.path;
+        // let routes = this.$router.options.routes;
+        let routes = this.$route.matched;
+        return this.breadListSearch(routes, currentPath);
     },
     breadListSearch(routes, currentPath) {
       let breadList = this.breadList || [];
