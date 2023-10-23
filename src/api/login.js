@@ -11,4 +11,4 @@ export function login(data){
 }
 
 // 用户登出
-export const logout = () => request.get('/api/users/logout?token=' + Cookies.get('Auth-Token'))
+export const logout = () => request.get('/api/users/logout')

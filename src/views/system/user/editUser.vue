@@ -16,8 +16,8 @@
           </el-form-item>
           <el-form-item label="状态">
             <el-switch
-              :active-value="1"
-              :inactive-value="0"
+              :active-value="0"
+              :inactive-value="1"
               v-model="userTable.status"
               active-color="#13ce66"
               inactive-color="#ff4949"
@@ -35,10 +35,6 @@
     </el-dialog>
 </template>
 <script>
-import {
-  addUser,
-  updateUser,
-} from "@/api/system/user";
 export default {
     name: "editUser",
     components: {},
@@ -58,20 +54,7 @@ export default {
         submitUserForm(){
           this.userTable.status = !this.userTable.status?0:this.userTable.status
           this.userTable.password = !this.userTable.password?'123456':undefined
-          this.type == "newUser" ? addUser(this.userTable).then(res=>{
-            if(res.code == '200') {
-              this.$emit('submitUser',true,res.message)
-            }else{
-              this.$message.error(res.message)
-            }
-          }): updateUser(this.userTable).then(res=>{
-            if(res.code == '200') {
-              this.$emit('submitUser',true,res.message)
-            }else{
-              this.$message.error(res.message)
-            }
-          })
-          
+          this.$emit('submitUser',this.userTable)
           this.closeUserForm()
         },
         closeUserForm(){

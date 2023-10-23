@@ -57,7 +57,6 @@ import {updateUser, userInfo} from "@/api/system/user";
 
 export default {
   name: "pagesonInfo",
-  inject: ["reload"],
   data() {
     return {
       avatarOpen: false,

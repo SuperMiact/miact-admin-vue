@@ -25,7 +25,6 @@
 </template>
 <script>
 import { queryRoles } from "@/api/system/role";
-import { bindRole } from "@/api/system/user";
 export default {
   name: "bindRoles",
   components: {},
@@ -56,13 +55,8 @@ export default {
     submitRoleForm() {
       let roleData = this.roleData
       let roleId = roleData.roleId
-      bindRole(roleData.id.map(data => {return {id:data,roleId:roleId}})).then((res) => {
-        if (res.code == "200") {
-          this.$emit("submitRole", true, res.message);
-        } else {
-          this.$message.error(res.message);
-        }
-      });
+      let submitData = roleData.id.map(data => {return {id:data,roleId:roleId}})
+      this.$emit("submitRole", submitData);
       this.closeRoleForm();
     },
     closeRoleForm() {

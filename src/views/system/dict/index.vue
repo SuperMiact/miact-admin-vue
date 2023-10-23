@@ -48,7 +48,6 @@ export default {
   components: {
     editDict,
   },
-  inject: ["reload"],
   data() {
     return {
       tableData: [],

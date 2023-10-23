@@ -24,7 +24,7 @@
 </template>
 
   <script>
-import { delRole,queryRoles } from "@/api/system/role";
+import { delRole,queryRoles,addRole,updateRole } from "@/api/system/role";
 import editRole from "./editRole"
 import permsRole from "./permsRole";
 
@@ -34,7 +34,6 @@ export default {
     editRole,
     permsRole,
   },
-  inject: ["reload"],
   data() {
     return {
       tableData: [],
@@ -57,11 +56,23 @@ export default {
       this.$refs.editRoleModel.show(type,type == 'add' ? {} : JSON.parse(JSON.stringify(data)))
     },
     // 保存修改角色
-    submitRoleForm(result,message) {
-      if(result){
-        this.$message.success(message)
-        this.reload()
-      }
+    submitRoleForm(data) {
+      !data.roleId?
+        addRole(data).then((res) => {
+            if (res.success == true) {
+                this.$message.success(res.message)
+                this.getRoleData()
+            }else{
+                this.$message.error(res.message)
+            }
+        }):updateRole(data).then((res) => {
+            if (res.success == true) {
+              this.$message.success(res.message)
+              this.getRoleData()
+            } else {
+                this.$message.error(res.message);
+            }
+        })
     },
     // 显示编辑权限界面
     showAllotRole(data) {
@@ -71,7 +82,7 @@ export default {
     submitPermsSelect(result,message) {
       if(result){
         this.$message.success(message)
-        this.reload()
+        this.getRoleData()
       }
     },
     // 删除角色
@@ -85,7 +96,7 @@ export default {
           delRole(data.roleId).then((res) => {
             if (res.success == true) {
               this.$message.success(res.message);
-              this.reload();
+              this.getRoleData();
             } else {
               this.$message.error(res.message);
             }

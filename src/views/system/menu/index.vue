@@ -43,7 +43,6 @@ export default {
   components: {
     editMenu,
   },
-  inject: ['reload'],
   data () {
     return {
       tableData: [],
@@ -115,7 +114,7 @@ export default {
           delMenu(row).then(res => {
             if (res.success === true) {
               this.$message.success('删除' + res.results + '条数据成功')
-              this.reload()
+              this.selectMainMenu()
             } else {
               this.$message.error(res.message)
             }

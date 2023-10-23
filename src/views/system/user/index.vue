@@ -92,6 +92,9 @@ import {
   queryUsers,
   delUser,
   exportUser,
+  addUser,
+  updateUser,
+  bindRole,
 } from "@/api/system/user";
 import { queryAll } from "@/api/system/role"
 import { getButtonPerms } from "@/utils/perms";
@@ -105,7 +108,6 @@ export default {
     editUser,
     bindRoles,
   },
-  inject: ["reload"],
   data() {
     return {
       tableData: [],
@@ -144,7 +146,6 @@ export default {
           this.pageTotal = res.results.total;
         }
       });
-      
     },
     getRoleList(){
       queryAll().then(res=>{
@@ -167,11 +168,22 @@ export default {
       this.$refs.editUserModel.show(type,userForm)
     },
     // 保存用户
-    submitUser(result,message){
-      if(result){
-        this.$message.success(message);
-        this.reload();
-      }
+    submitUser(data){
+      !data.id ? addUser(data).then(res=>{
+        if(res.code == '200') {
+          this.$message.success(res.message)
+          this.getUserList()
+        }else{
+          this.$message.error(res.message)
+        }
+      }): updateUser(data).then(res=>{
+        if(res.code == '200') {
+          this.$message.success(res.message)
+          this.getUserList()
+        }else{
+          this.$message.error(res.message)
+        }
+      })
     },
     // 删除用户
     delUser(data) {
@@ -185,7 +197,7 @@ export default {
           delUser(ids).then((res) => {
             if(res.code == '200'){
               this.$message.success(res.message)
-              this.reload()
+              this.getUserList();
             }
           });
         })
@@ -199,11 +211,15 @@ export default {
       this.$refs.bindRolesModel.show(type,roleData);
     },
     // 保存分配角色
-    submitRole(result,message){
-      if(result){
-        this.$message.success(message)
-        this.reload()
-      }
+    submitRole(data){
+      bindRole(data).then((res) => {
+        if (res.code == "200") {
+          this.$message.success(res.message)
+          this.getUserList()
+        } else {
+          this.$message.error(res.message);
+        }
+      });
     },
     // 用户导出
     exportUsers() {

@@ -15,7 +15,7 @@
     </el-dialog>
 </template>
 <script>
-import {addRole,updateRole} from "@/api/system/role"
+
 export default{
     name:'editRole',
     components:{},
@@ -33,23 +33,7 @@ export default{
             this.showRoleModel = true
         },
         submitForm(){
-            if (this.type == "add") {
-                addRole(this.roleTable).then((res) => {
-                    if (res.success == true) {
-                        this.$emit('submitRoleForm',true,res.message)
-                    }else{
-                        this.$message.error(res.message)
-                    }
-                })
-            } else {
-                updateRole(this.roleTable).then((res) => {
-                    if (res.success == true) {
-                        this.$emit('submitRoleForm',true,res.message)
-                    } else {
-                        this.$message.error(res.message);
-                    }
-                })
-            }
+            this.$emit('submitRoleForm',this.roleTable)
             this.cancelForm()
         },
         cancelForm(){

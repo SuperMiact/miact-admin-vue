@@ -15,7 +15,7 @@
           <div class="head" v-if="!isCollapse">
             <span>Miact</span>
           </div>
-          <MenuTree :menuList="menuList.length === 0 ? selectMainMenu() : menuList"/>
+          <MenuTree :menuList="menuList"/>
         </el-menu>
       </el-aside>
       <el-container class="content">
@@ -43,6 +43,9 @@ export default {
     Header,
     // Footer
   },
+  created() {
+    this.selectMainMenu()
+  },
   data () {
     return {
         isCollapse: false,
@@ -61,15 +64,11 @@ export default {
       this.isCollapse = isCollapse;
     },
     selectMainMenu() {
-      let query = {
-        menuType: "global",
-      };
-      getMenu(query).then((res) => {
+      getMenu({menuType: "global"}).then((res) => {
         if (res.success == true) {
-          this.menuList = res.results;
+          this.$set(this,"menuList",res.results);
         }
       });
-      return this.menuList;
     },
     clearMenuCache() {
       this.menuList = [];
