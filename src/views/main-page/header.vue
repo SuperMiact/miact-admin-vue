@@ -28,11 +28,7 @@
           <template slot="reference">
             <div class="author">
               <el-avatar
-                v-if="
-                  userInfo.headPortraitUrl &&
-                  userInfo.headPortraitUrl !== undefined &&
-                  userInfo.headPortraitUrl !== ''
-                "
+                v-if="!!userInfo.headPortraitUrl"
                 :size="33"
                 :src="userInfo.headPortraitUrl"
               />
